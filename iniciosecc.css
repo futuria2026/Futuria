@@ -1,0 +1,186 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue: #83AEE3;
+  --pink: #dbb6ee;
+  --navy: #152069;
+  --orange: #FE6A00;
+  --red-orange: #EB5727;
+  --purple: #4b1c71;
+}
+
+html, body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--navy);
+  background: linear-gradient(135deg, #83AEE3 0%, #dbb6ee 100%);
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  position: relative;
+}
+
+/* animated background blobs */
+.bg-blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: float 12s ease-in-out infinite;
+}
+.blob-1 { width: 380px; height: 380px; background: var(--orange); top: -80px; left: -100px; }
+.blob-2 { width: 320px; height: 320px; background: var(--purple); bottom: -80px; right: -80px; animation-delay: -4s; }
+.blob-3 { width: 260px; height: 260px; background: var(--red-orange); top: 40%; left: 60%; animation-delay: -8s; opacity: 0.35; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50%      { transform: translate(30px,-40px) scale(1.08); }
+}
+
+/* card */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 24px;
+  padding: 40px 32px 32px;
+  box-shadow:
+    0 20px 60px -20px rgba(75, 28, 113, 0.35),
+    0 8px 24px -12px rgba(21, 32, 105, 0.25);
+  animation: rise 0.7s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: -90px;
+  margin-bottom: 8px;
+}
+.logo {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 10px 30px -10px rgba(254, 106, 0, 0.6);
+  border: 3px solid var(--orange);
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.75rem;
+  color: var(--purple);
+  margin-top: 12px;
+}
+.subtitle {
+  text-align: center;
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+.brand { color: var(--orange); font-weight: 700; }
+
+.field { margin-bottom: 14px; }
+.field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: var(--navy);
+  transition: all 0.2s ease;
+  outline: none;
+}
+.field input::placeholder { color: #9aa4b8; }
+.field input:focus {
+  border-color: var(--orange);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(254, 106, 0, 0.15);
+}
+.field input.invalid {
+  border-color: var(--red-orange);
+  box-shadow: 0 0 0 4px rgba(235, 87, 39, 0.15);
+}
+.error {
+  display: block;
+  min-height: 16px;
+  color: var(--red-orange);
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--orange), var(--red-orange));
+  box-shadow: 0 10px 24px -8px rgba(254, 106, 0, 0.55);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s;
+  letter-spacing: 0.3px;
+}
+.submit-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.submit-btn:active { transform: translateY(0); }
+
+.login-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: #444;
+}
+.login-link a {
+  color: var(--purple);
+  font-weight: 700;
+  text-decoration: none;
+}
+.login-link a:hover { color: var(--orange); }
+
+.success-banner {
+  background: linear-gradient(135deg, var(--purple), var(--navy));
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .card { padding: 32px 22px 24px; }
+  .logo { width: 110px; height: 110px; }
+  h1 { font-size: 1.45rem; }
+}
+
+
+
+

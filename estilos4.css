@@ -1,0 +1,556 @@
+/* =========================================================
+   FUTURIA - Hoja de estilos de la PÁGINA 4 (Productos)
+   Paleta: #2d2c57 #83AEE3 #4b1c71 #dbb6e8 #EB5727 #FE6A00 #FCFCFB
+   ========================================================= */
+
+/* Si tienes los archivos originales, ponlos en /fonts y descomenta:
+@font-face { font-family:"AvantGardeBook";   src:url("fonts/AvantGardeBookBT.woff2") format("woff2"); font-display:swap; }
+@font-face { font-family:"AvantGardeDemi";   src:url("fonts/AvantGardeDemiBT.woff2") format("woff2"); font-display:swap; }
+@font-face { font-family:"AvantGardeDemiOb"; src:url("fonts/AvantGardeDemiObliqueBT.woff2") format("woff2"); font-style:italic; font-display:swap; }
+@font-face { font-family:"Ringtall";         src:url("fonts/Ringtall.woff2") format("woff2"); font-display:swap; }
+*/
+
+:root{
+  --azul-noche:#2d2c57;
+  --azul-cielo:#83AEE3;
+  --morado:#4b1c71;
+  --lila:#dbb6e8;
+  --naranja:#EB5727;
+  --naranja-vivo:#FE6A00;
+  --hueso:#FCFCFB;
+
+  --degradado-hero:linear-gradient(100deg,#2d2c57 0%,#4b1c71 45%,#EB5727 100%);
+  --sombra:0 18px 50px -20px rgba(45,44,87,.45);
+
+  --fuente-titulo:"Ringtall","AvantGardeDemi","Jost","Century Gothic",sans-serif;
+  --fuente-demi:"AvantGardeDemi","Jost","Century Gothic",sans-serif;
+  --fuente-book:"AvantGardeBook","Jost","Century Gothic",sans-serif;
+}
+
+.hi-hero {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(115deg, #2d2c57 0%, #4b1c71 45%, #EB5727 100%);
+      color: #FCFCFB;
+      font-family: 'Avant Garde Demi BT', 'Century Gothic', 'Trebuchet MS', sans-serif;
+      padding: 84px 22px 100px;
+      overflow: hidden; /* oculta las luces decorativas y evita desbordes */
+    }
+    .hi-hero::before,
+    .hi-hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 65%);
+      pointer-events: none;
+    }
+    .hi-hero::before { width: 420px; height: 420px; right: -120px; top: -120px; }
+    .hi-hero::after  { width: 340px; height: 340px; left: -110px; bottom: -130px; }
+
+    .hi-interior {
+      position: relative;
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      align-items: center;
+      gap: 48px;
+    }
+    .hi-etiqueta {
+      display: inline-block;
+      font-size: 0.82rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      padding: 8px 16px;
+      border-radius: 999px;
+      margin: 0 0 18px;
+    }
+    .hi-titulo {
+      font-family: 'Ringtall Sans Serif Personal Use', 'Avant Garde Demi BT', 'Century Gothic', sans-serif;
+      font-size: clamp(3.2rem, 8vw, 5.6rem);
+      line-height: 1.02;
+      margin: 0;
+      letter-spacing: 4px;
+      font-weight: 800;
+    }
+    .hi-lema {
+      font-family: 'Avant Garde Demi Oblique BT', 'Avant Garde Demi BT', 'Century Gothic', sans-serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.6vw, 1.65rem);
+      color: #DBB6E0;
+      margin: 6px 0 18px;
+      letter-spacing: 1px;
+    }
+    .hi-desc {
+      max-width: 540px;
+      margin: 0 0 30px;
+      font-size: 1.1rem;
+      opacity: 0.95;
+      font-family: 'Avant Garde Book BT', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    }
+    .hi-boton {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #FE6A00, #EB5727);
+      color: #FCFCFB;
+      font-size: 1.12rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 16px 30px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 18px 38px -12px rgba(45, 44, 87, 0.6);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .hi-boton:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 24px 48px -12px rgba(45, 44, 87, 0.7); }
+    .hi-boton svg { transition: transform 0.35s; }
+    .hi-boton:hover svg { transform: translate(3px, -4px) rotate(8deg); }
+
+    /* Círculo blanco con el logo (sin cuadro blanco visible) */
+    .hi-circulo {
+      justify-self: end;
+      position: relative;
+      width: min(320px, 64vw);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: #FCFCFB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-shadow: 0 34px 70px -24px rgba(45, 44, 87, 0.7);
+      animation: hi-flotar 5s ease-in-out infinite;
+    }
+    .hi-circulo::before {
+      content: '';
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      border: 3px dashed rgba(255, 255, 255, 0.55);
+      animation: hi-girar 22s linear infinite;
+    }
+    .hi-circulo img {
+      width: 92%;
+      border-radius: 50%;  /* redondea la foto aunque sea cuadrada */
+      object-fit: contain;
+    }
+    @keyframes hi-flotar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes hi-girar {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 920px) {
+      .hi-interior { grid-template-columns: 1fr; text-align: center; gap: 46px; }
+      .hi-circulo { justify-self: center; }
+      .hi-etiqueta { margin: 0 auto 18px; }
+      .hi-desc { margin: 0 auto 30px; }
+    }
+    @media (max-width: 480px) {
+      .hi-hero { padding: 60px 18px 80px; }
+    }
+
+/* ==========================================================
+   FUTURIA · estilos4.css (versión limpia y corregida)
+   ----------------------------------------------------------
+   Incluye: variables de color + HERO + BANNER de navegación.
+   Este archivo NO tiene etiquetas <style>/</style>.
+   Si agregas tus estilos de Productos, ponlos al final.
+   ========================================================== */
+
+:root {
+  --azul-noche: #2d2c57;
+  --azul-cielo: #83AEE3;
+  --morado: #4b1c71;
+  --lila: #dbb6e8;
+  --naranja: #EB5727;
+  --naranja-vivo: #FE6A00;
+  --hueso: #FCFCFB;
+
+  --degradado-hero: linear-gradient(100deg, #2d2c57 0%, #4b1c71 45%, #EB5727 100%);
+  --sombra: 0 18px 50px -20px rgba(45, 44, 87, 0.45);
+
+  --fuente-titulo: "Ringtall", "AvantGardeDemi", "Jost", "Century Gothic", sans-serif;
+  --fuente-demi: "AvantGardeDemi", "Jost", "Century Gothic", sans-serif;
+  --fuente-book: "AvantGardeBook", "Jost", "Century Gothic", sans-serif;
+}
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+.hi-hero {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(115deg, #2d2c57 0%, #4b1c71 45%, #EB5727 100%);
+  color: #FCFCFB;
+  font-family: 'Avant Garde Demi BT', 'Century Gothic', 'Trebuchet MS', sans-serif;
+  padding: 84px 22px 100px;
+  overflow: hidden; /* oculta las luces decorativas y evita desbordes */
+}
+.hi-hero::before,
+.hi-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 65%);
+  pointer-events: none;
+}
+.hi-hero::before { width: 420px; height: 420px; right: -120px; top: -120px; }
+.hi-hero::after  { width: 340px; height: 340px; left: -110px; bottom: -130px; }
+
+.hi-interior {
+  position: relative;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  align-items: center;
+  gap: 48px;
+}
+.hi-etiqueta {
+  display: inline-block;
+  font-size: 0.82rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  padding: 8px 16px;
+  border-radius: 999px;
+  margin: 0 0 18px;
+}
+.hi-titulo {
+  font-family: 'Ringtall Sans Serif Personal Use', 'Avant Garde Demi BT', 'Century Gothic', sans-serif;
+  font-size: clamp(3.2rem, 8vw, 5.6rem);
+  line-height: 1.02;
+  margin: 0;
+  letter-spacing: 4px;
+  font-weight: 800;
+}
+.hi-lema {
+  font-family: 'Avant Garde Demi Oblique BT', 'Avant Garde Demi BT', 'Century Gothic', sans-serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.6vw, 1.65rem);
+  color: #DBB6E0;
+  margin: 6px 0 18px;
+  letter-spacing: 1px;
+}
+.hi-desc {
+  max-width: 540px;
+  margin: 0 0 30px;
+  font-size: 1.1rem;
+  opacity: 0.95;
+  font-family: 'Avant Garde Book BT', 'Century Gothic', 'Trebuchet MS', sans-serif;
+}
+.hi-boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #FE6A00, #EB5727);
+  color: #FCFCFB;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 16px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 18px 38px -12px rgba(45, 44, 87, 0.6);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.hi-boton:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 24px 48px -12px rgba(45, 44, 87, 0.7); }
+.hi-boton svg { transition: transform 0.35s; }
+.hi-boton:hover svg { transform: translate(3px, -4px) rotate(8deg); }
+
+/* Círculo blanco con el logo (sin cuadro blanco visible) */
+.hi-circulo {
+  justify-self: end;
+  position: relative;
+  width: min(320px, 64vw);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: #FCFCFB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 34px 70px -24px rgba(45, 44, 87, 0.7);
+  animation: hi-flotar 5s ease-in-out infinite;
+}
+.hi-circulo::before {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+  border: 3px dashed rgba(255, 255, 255, 0.55);
+  animation: hi-girar 22s linear infinite;
+}
+.hi-circulo img {
+  width: 92%;
+  border-radius: 50%;  /* redondea la foto aunque sea cuadrada */
+  object-fit: contain;
+}
+@keyframes hi-flotar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes hi-girar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive del hero */
+@media (max-width: 920px) {
+  .hi-interior { grid-template-columns: 1fr; text-align: center; gap: 46px; }
+  .hi-circulo { justify-self: center; }
+  .hi-etiqueta { margin: 0 auto 18px; }
+  .hi-desc { margin: 0 auto 30px; }
+}
+@media (max-width: 480px) {
+  .hi-hero { padding: 60px 18px 80px; }
+}
+
+/* ==========================================================
+   BANNER / BARRA DE NAVEGACIÓN
+   ========================================================== */
+.nb {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #DBB6E0;              /* color del banner (#dbb6e) */
+  color: #FCFCFB;                   /* texto blanco */
+  font-family: 'Avant Garde Demi BT', 'Century Gothic', 'Trebuchet MS', sans-serif;
+  box-shadow: 0 6px 24px -10px rgba(45, 44, 87, 0.35);
+}
+.nb-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.nb-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #FCFCFB;
+  text-decoration: none;
+}
+.nb-logo img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  padding: 4px;
+}
+.nb-logo span {
+  font-size: 1.35rem;
+  letter-spacing: 3px;
+  font-weight: 800;
+  text-shadow: 0 2px 6px rgba(45, 44, 87, 0.4);
+}
+.nb-items {
+  display: flex;
+  list-style: none;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.nb-items a {
+  display: inline-block;
+  padding: 9px 13px;
+  border-radius: 999px;
+  color: #FCFCFB;
+  font-size: 0.95rem;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  transition: background 0.25s, transform 0.25s;
+}
+.nb-items a:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
+/* En cada página mueve "nb-activo" al enlace de esa página */
+.nb-items a.nb-activo {
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.55);
+}
+.nb-btn {
+  display: none;
+  background: transparent;
+  border: 2px solid #FCFCFB;
+  border-radius: 12px;
+  padding: 8px 10px;
+  color: #FCFCFB;
+}
+@media (max-width: 920px) {
+  .nb-btn { display: inline-flex; }
+  .nb-items {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 8px 0 14px;
+    align-items: stretch;
+    text-align: center;
+  }
+  .nb-items.nb-abierto { display: flex; }
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--fuente-book);
+  background:var(--hueso);
+  color:var(--azul-noche);
+  line-height:1.6;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none}
+ul{list-style:none}
+
+.contenedor{width:min(1120px,92%);margin-inline:auto}
+.seccion{padding:5rem 0;position:relative;overflow:hidden}
+.seccion--morada{background:var(--morado)}
+
+/* ---------- Estrellas ---------- */
+.estrellas{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.estrella{
+  position:absolute;
+  clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);
+  animation:brillo 3.5s ease-in-out infinite;
+}
+@keyframes brillo{
+  0%,100%{opacity:.25;transform:scale(.8)}
+  50%{opacity:1;transform:scale(1.15)}
+}
+
+/* ---------- HERO ---------- */
+.hero{background-image:var(--degradado-hero);position:relative;overflow:hidden}
+.hero__grid{display:grid;gap:2.5rem;align-items:center;padding:5rem 0;position:relative;z-index:1}
+@media(min-width:900px){.hero__grid{grid-template-columns:1fr 1fr;padding:7rem 0}}
+.hero__titulo{font-family:var(--fuente-titulo);font-size:clamp(3rem,8vw,4.5rem);color:var(--hueso);line-height:1.05}
+.hero__lema{font-family:var(--fuente-demi);font-style:italic;font-size:1.5rem;color:var(--lila);margin-top:.5rem}
+.hero__parrafo{max-width:30rem;margin-top:2rem;font-size:1.1rem;color:rgba(252,252,251,.86)}
+.btn-cohete{
+  display:inline-flex;align-items:center;gap:.7rem;margin-top:2.5rem;
+  padding:1rem 2rem;border-radius:999px;
+  background:var(--naranja-vivo);color:var(--hueso);
+  font-family:var(--fuente-demi);font-size:1.05rem;
+  box-shadow:var(--sombra);transition:filter .25s,transform .25s;
+}
+.btn-cohete:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.hero__logo{display:flex;justify-content:center}
+.hero__circulo{
+  width:min(20rem,80vw);aspect-ratio:1;border-radius:50%;
+  background:#fff;display:grid;place-items:center;padding:1.5rem;box-shadow:var(--sombra);
+}
+.hero__circulo img{mix-blend-mode:multiply}
+
+/* ---------- NAV ---------- */
+.nav{position:sticky;top:0;z-index:50;background:var(--morado);box-shadow:var(--sombra)}
+.nav__inner{display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem;padding:.75rem 0}
+.nav__marca{display:flex;align-items:center;gap:.6rem;color:var(--hueso);font-family:var(--fuente-demi);font-size:1.25rem}
+.nav__marca img{width:38px;height:38px;border-radius:50%;background:var(--hueso);object-fit:contain;padding:2px}
+.nav__lista{display:flex;flex-wrap:wrap;gap:1.25rem}
+.nav__lista a{font-family:var(--fuente-demi);font-size:.92rem;color:var(--hueso);transition:color .2s}
+.nav__lista a:hover{color:var(--lila)}
+.nav__toggle{display:none;margin-left:auto;background:none;border:0;color:var(--hueso);font-size:1.6rem;cursor:pointer}
+@media(max-width:820px){
+  .nav__toggle{display:block}
+  .nav__lista{flex-direction:column;width:100%;display:none;padding-bottom:.75rem}
+  .nav__lista.abierto{display:flex}
+}
+
+/* ---------- Títulos / texto ---------- */
+.intro{text-align:center;position:relative;z-index:1}
+.titulo{font-family:var(--fuente-titulo);font-size:clamp(2rem,5vw,3rem);letter-spacing:.12em;color:var(--morado);text-align:center}
+.titulo--claro{color:var(--hueso)}
+.subrayado{display:block;width:6rem;height:4px;border-radius:999px;background:var(--naranja-vivo);margin:1rem auto 0}
+.texto{margin-top:1.75rem;color:rgba(45,44,87,.85)}
+.texto--claro{color:rgba(252,252,251,.85)}
+
+/* ---------- PRODUCTOS ---------- */
+.productos{position:relative;z-index:1;margin-top:3.5rem;display:grid;gap:4.5rem}
+
+.producto{
+  display:grid;gap:2rem;align-items:center;
+  background:rgba(252,252,251,.06);
+  border:1px solid rgba(219,182,232,.28);
+  border-radius:2rem;padding:1.75rem;
+  box-shadow:var(--sombra);
+}
+@media(min-width:900px){
+  .producto{grid-template-columns:1fr 1fr;gap:3rem;padding:2.5rem}
+  /* Se intercala la posición: en los pares el texto va a la izquierda */
+  .producto--invertido .producto__carrusel{order:2}
+  .producto--invertido .producto__info{order:1}
+}
+
+.producto__info{color:var(--hueso)}
+.producto__nombre{font-family:var(--fuente-titulo);font-size:clamp(1.6rem,3.6vw,2.4rem);letter-spacing:.06em;color:var(--hueso)}
+.producto__eslogan{font-family:var(--fuente-demi);font-style:italic;color:var(--lila);margin-top:.35rem}
+.producto__descripcion{margin-top:1.25rem;color:rgba(252,252,251,.86)}
+.producto__lista{margin-top:1rem;display:grid;gap:.4rem}
+.producto__lista li{position:relative;padding-left:1.4rem;color:rgba(252,252,251,.8);font-size:.95rem}
+.producto__lista li::before{content:"★";position:absolute;left:0;color:var(--naranja-vivo)}
+.producto__precio{
+  display:inline-flex;align-items:center;gap:.6rem;margin-top:1.75rem;
+  padding:.9rem 1.8rem;border-radius:999px;border:0;cursor:pointer;
+  background:var(--naranja-vivo);color:var(--hueso);
+  font-family:var(--fuente-demi);font-size:1.05rem;
+  box-shadow:var(--sombra);transition:filter .25s,transform .25s;
+}
+.producto__precio:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.producto__precio.agregado{background:var(--azul-cielo);color:var(--azul-noche)}
+
+/* ---------- Carrusel ---------- */
+.carrusel{
+  position:relative;border-radius:1.5rem;overflow:hidden;
+  border:5px solid var(--lila);background:var(--azul-noche);
+  box-shadow:var(--sombra);
+}
+.carrusel__pista{position:relative;aspect-ratio:4/3}
+.carrusel__img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.04);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.carrusel__img.activa{opacity:1;transform:scale(1)}
+.carrusel__flecha{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;
+  display:grid;place-items:center;font-size:1.3rem;
+  background:rgba(45,44,87,.65);color:var(--hueso);
+  transition:background .2s,transform .2s;
+}
+.carrusel__flecha:hover{background:var(--naranja-vivo)}
+.carrusel__flecha--prev{left:.6rem}
+.carrusel__flecha--next{right:.6rem}
+.carrusel__puntos{
+  position:absolute;left:0;right:0;bottom:.7rem;
+  display:flex;justify-content:center;gap:.45rem;
+}
+.carrusel__punto{
+  width:10px;height:10px;border-radius:50%;border:0;cursor:pointer;padding:0;
+  background:rgba(252,252,251,.45);transition:background .2s,transform .2s;
+}
+.carrusel__punto.activo{background:var(--naranja-vivo);transform:scale(1.25)}
+
+/* ---------- FOOTER ---------- */
+.footer{background-image:var(--degradado-hero);position:relative;overflow:hidden;padding:3.5rem 0}
+.footer__inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:1.5rem;text-align:center}
+.footer__logo{width:64px;height:64px;border-radius:50%;background:var(--hueso);object-fit:contain;padding:4px}
+.footer__redes{display:flex;gap:1rem}
+.footer__redes a{
+  display:grid;place-items:center;width:44px;height:44px;border-radius:50%;
+  background:rgba(252,252,251,.12);color:var(--hueso);transition:background .2s,transform .2s;
+}
+.footer__redes a:hover{background:var(--naranja-vivo);transform:translateY(-2px)}
+.footer__legal{font-size:.9rem;color:rgba(252,252,251,.75)}

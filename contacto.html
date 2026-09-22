@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contáctanos | Futuria</title>
+  <meta name="description" content="Escríbele a Futuria para resolver tus dudas sobre orientación vocacional y gestión del tiempo.">
+  <meta property="og:title" content="Contáctanos | Futuria">
+  <meta property="og:description" content="Escríbele a Futuria sobre orientación vocacional y gestión del tiempo.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="img/logo-futuria.jpeg" type="image/jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <section class="seccion">
+    <div class="contenedor quienes" style="max-width:38rem">
+      <h1 class="titulo">CONTÁCTANOS</h1>
+      <span class="subrayado"></span>
+
+      <p class="texto" id="aviso" hidden></p>
+
+      <form id="form-contacto" method="post" action="contacto.php" style="display:grid;gap:1rem;margin-top:2rem;text-align:left">
+        <label>Nombre
+          <input name="nombre" required style="width:100%;padding:.8rem;border:2px solid #dbb6e8;border-radius:.75rem">
+        </label>
+        <label>Correo
+          <input type="email" name="correo" required style="width:100%;padding:.8rem;border:2px solid #dbb6e8;border-radius:.75rem">
+        </label>
+        <label>Mensaje
+          <textarea name="mensaje" rows="5" required style="width:100%;padding:.8rem;border:2px solid #dbb6e8;border-radius:.75rem"></textarea>
+        </label>
+        <button class="btn-cohete" type="submit">Enviar mensaje</button>
+      </form>
+
+      <p class="texto" style="margin-top:2rem"><a href="index.html">&larr; Volver al inicio</a></p>
+    </div>
+  </section>
+  <script src="contacto.js"></script>
+</body>
+</html>
