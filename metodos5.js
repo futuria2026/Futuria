@@ -152,26 +152,33 @@
     document.body.style.overflow = 'hidden';
   }
 
+  var enlacePendiente = null; // URL de la herramienta real, para cuando cierres el modal con "¡A darle!"
+
   document.querySelectorAll('.btn-usar').forEach(function (btn) {
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (e) {
       var guia = btn.getAttribute('data-guia');
-      var scroll = btn.getAttribute('data-scroll');
+      var href = btn.getAttribute('href');
+
       if (guia && GUIA[guia]) {
+        e.preventDefault();
+        enlacePendiente = href || null;
         abrirModal(guia);
-      } else if (scroll) {
-        var zona = document.getElementById(scroll);
-        if (zona) zona.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-        var cajaMetodo = btn.closest('.metodo');
-        if (cajaMetodo) cajaMetodo.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+      // Si no tiene guía (ej. el botón "Usar Calendario" -> agenda.html),
+      // se deja el enlace normal del <a> para que navegue directo.
     });
   });
 
   var modalCerrar = document.getElementById('modalCerrar');
   var modalInicio = document.getElementById('modalInicio');
   if (modalCerrar) modalCerrar.addEventListener('click', cerrarModal);
-  if (modalInicio) modalInicio.addEventListener('click', cerrarModal);
+  if (modalInicio) modalInicio.addEventListener('click', function () {
+    if (enlacePendiente) {
+      window.location.href = enlacePendiente;
+    } else {
+      cerrarModal();
+    }
+  });
   if (overlay) overlay.addEventListener('click', function (e) {
     if (e.target === overlay) cerrarModal();
   });

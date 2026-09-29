@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pomodoro | Futuria</title>
+  <meta name="description" content="Temporizador Pomodoro de Futuria: concentración de 25 minutos con descansos cortos y largos, y seguimiento de tus sesiones.">
+  <link rel="icon" href="img/logo-futuria.jpeg" type="image/jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="herramientas.css">
+  <link rel="stylesheet" href="pomodoro.css">
+</head>
+<body>
+
+  <header class="nb">
+    <div class="nb-inner">
+      <a class="nb-logo" href="index.html#inicio">
+        <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+        <span>FUTURIA</span>
+      </a>
+      <button class="nb-btn" id="nbBtn" aria-label="Abrir menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+      <nav aria-label="Menú principal">
+        <ul class="nb-items" id="nbItems">
+          <li><a href="index.html">Quiénes somos</a></li>
+          <li><a href="pagina2.html">Integrantes</a></li>
+          <li><a href="#">Test vocacional</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="metodos5.html">Métodos</a></li>
+          <li><a href="#">Entrevistas</a></li>
+          <li><a href="ia.html">IA</a></li>
+          <li><a href="contacto.html">Contáctanos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="ht-encabezado">
+    <p class="ht-etiqueta">Futuria · Método Pomodoro</p>
+    <h1 class="ht-titulo">Concentración total</h1>
+    <p class="ht-desc">Bloques de estudio enfocado con descansos programados. Trabaja 25 minutos, descansa 5, y cada 4 rondas date un descanso largo.</p>
+  </div>
+
+  <main class="ht-contenedor pm-layout">
+
+    <section class="ht-tarjeta">
+      <div class="pm-modos">
+        <button type="button" class="pm-modo activo" data-modo="trabajo">Concentración</button>
+        <button type="button" class="pm-modo" data-modo="corto">Descanso corto</button>
+        <button type="button" class="pm-modo" data-modo="largo">Descanso largo</button>
+      </div>
+
+      <div class="pm-reloj-caja">
+        <p class="pm-etiqueta-modo" id="pmEtiquetaModo">Concentración</p>
+        <div class="pm-anillo">
+          <svg viewBox="0 0 260 260">
+            <circle class="pm-fondo" cx="130" cy="130" r="120"></circle>
+            <circle class="pm-progreso" id="pmProgreso" cx="130" cy="130" r="120"></circle>
+          </svg>
+          <div class="pm-tiempo" id="pmTiempo">25:00</div>
+        </div>
+        <div class="pm-controles">
+          <button class="ht-boton" id="pmIniciar" type="button">▶ Iniciar</button>
+          <button class="ht-boton ht-boton--secundario" id="pmPausar" type="button" disabled>❚❚ Pausar</button>
+          <button class="ht-boton ht-boton--secundario" id="pmReiniciar" type="button">⟲ Reiniciar</button>
+        </div>
+      </div>
+
+      <div class="pm-ajustes">
+        <div class="pm-ajuste">
+          <label for="pmDurTrabajo">Concentración (min)</label>
+          <input class="ht-entrada" type="number" id="pmDurTrabajo" min="1" max="180" value="25">
+        </div>
+        <div class="pm-ajuste">
+          <label for="pmDurCorto">Descanso corto (min)</label>
+          <input class="ht-entrada" type="number" id="pmDurCorto" min="1" max="60" value="5">
+        </div>
+        <div class="pm-ajuste">
+          <label for="pmDurLargo">Descanso largo (min)</label>
+          <input class="ht-entrada" type="number" id="pmDurLargo" min="1" max="60" value="15">
+        </div>
+      </div>
+    </section>
+
+    <aside class="ht-tarjeta pm-stats">
+      <h2 style="color:var(--morado);font-size:1.15rem">Tu progreso</h2>
+      <div class="pm-stat-fila">
+        <div class="pm-stat"><b id="pmStatHoy">0</b><span>Hoy</span></div>
+        <div class="pm-stat"><b id="pmStatRacha">0 días</b><span>Racha</span></div>
+        <div class="pm-stat"><b id="pmStatTotal">0</b><span>Total</span></div>
+      </div>
+      <h3 style="color:var(--morado);font-size:.95rem;margin-top:.6rem">Últimos 7 días</h3>
+      <div class="pm-historial" id="pmHistorial"></div>
+    </aside>
+
+    <div style="grid-column:1/-1">
+      <a class="ht-volver" href="metodos5.html">&larr; Volver a Métodos</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+    <p><strong>FUTURIA</strong></p>
+    <p>© <span id="anio"></span> Futuria · Todos los derechos reservados.</p>
+  </footer>
+
+  <script>document.getElementById('anio').textContent = new Date().getFullYear();</script>
+  <script src="pomodoro.js"></script>
+</body>
+</html>

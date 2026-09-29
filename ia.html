@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IA | Futuria</title>
+  <meta name="description" content="Habla con Futuria, la asistente con IA que te acompaña en tu orientación vocacional, tus métodos de estudio y la organización de tu tiempo.">
+  <link rel="icon" href="img/logo-futuria.jpeg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="herramientas.css">
+  <link rel="stylesheet" href="ia.css">
+</head>
+<body>
+
+  <header class="nb">
+    <div class="nb-inner">
+      <a class="nb-logo" href="index.html#inicio">
+        <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+        <span>FUTURIA</span>
+      </a>
+
+      <button class="nb-btn" id="nbBtn" aria-label="Abrir menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+
+      <nav aria-label="Menú principal">
+        <ul class="nb-items" id="nbItems">
+          <li><a href="index.html">Quiénes somos</a></li>
+          <li><a href="pagina2.html">Integrantes</a></li>
+          <li><a href="#">Test vocacional</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="metodos5.html">Métodos</a></li>
+          <li><a href="#">Entrevistas</a></li>
+          <li><a href="ia.html" class="nb-activo">IA</a></li>
+          <li><a href="contacto.html">Contáctanos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="ht-encabezado">
+    <p class="ht-etiqueta">Futuria · Asistente con IA</p>
+    <h1 class="ht-titulo">Habla con Futuria</h1>
+    <p class="ht-desc">
+      Tu guía consciente de todo lo que ofrece este sitio: orientación
+      vocacional, métodos de estudio y organización del tiempo. Pregúntame
+      lo que necesites.
+    </p>
+  </div>
+
+  <main class="ht-contenedor">
+    <div class="ht-tarjeta ia-chat">
+
+      <div class="ia-sugerencias" id="iaChips">
+        <button type="button" class="ia-chip">¿Cómo uso el método Pomodoro?</button>
+        <button type="button" class="ia-chip">No sé qué carrera estudiar</button>
+        <button type="button" class="ia-chip">Ayúdame a organizar mi semana</button>
+        <button type="button" class="ia-chip">¿Cómo hago un mapa mental?</button>
+      </div>
+
+      <div class="ia-mensajes" id="iaMensajes">
+        <div class="ia-fila">
+          <div class="ia-avatar">F</div>
+          <div class="ia-burbuja ia-burbuja--futuria">
+            ¡Hola! Soy Futuria 🌙 Estoy aquí para acompañarte en tu orientación
+            vocacional, tus métodos de estudio (Pomodoro, Flashcards, Mapas
+            mentales, Agenda) y la organización de tu tiempo. ¿En qué te ayudo hoy?
+          </div>
+        </div>
+      </div>
+
+      <form class="ia-form" id="iaForm">
+        <textarea id="iaEntrada" placeholder="Escríbele a Futuria… (Enter para enviar)" required></textarea>
+        <button class="ht-boton" id="iaEnviar" type="submit">Enviar</button>
+      </form>
+    </div>
+
+    <a class="ht-volver" href="index.html">&larr; Volver al inicio</a>
+  </main>
+
+  <footer class="footer">
+    <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+    <p><strong>FUTURIA</strong></p>
+    <p>© <span id="anio"></span> Futuria · Todos los derechos reservados.</p>
+  </footer>
+
+  <script>document.getElementById('anio').textContent = new Date().getFullYear();</script>
+  <script src="ia.js"></script>
+</body>
+</html>

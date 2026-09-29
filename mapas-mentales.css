@@ -1,0 +1,36 @@
+/* =========================================================
+   FUTURIA - Mapas mentales - estilos específicos
+   ========================================================= */
+.mm-barra{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:1rem}
+.mm-barra input[type="text"]{flex:1;min-width:160px}
+.mm-colores{display:flex;gap:.4rem}
+.mm-color{
+  width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px rgba(75,28,113,.2);
+  cursor:pointer;
+}
+.mm-color.activo{box-shadow:0 0 0 3px var(--naranja-vivo)}
+
+.mm-lienzo-caja{
+  position:relative;width:100%;height:min(560px,65vh);
+  background:
+    radial-gradient(circle at 1px 1px, rgba(75,28,113,.12) 1px, transparent 0) 0 0/22px 22px,
+    var(--hueso);
+  border-radius:1.2rem;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(75,28,113,.08);
+  touch-action:none;
+}
+.mm-lienzo-caja svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.mm-lienzo-caja svg line{stroke:var(--lila);stroke-width:2.5}
+
+.mm-nodo{
+  position:absolute;transform:translate(-50%,-50%);
+  padding:.55rem 1rem;border-radius:999px;color:#fff;font-weight:700;
+  font-size:.9rem;cursor:grab;user-select:none;box-shadow:0 8px 18px -8px rgba(45,44,87,.5);
+  max-width:180px;text-align:center;word-break:break-word;line-height:1.2;
+  border:3px solid rgba(255,255,255,.5);
+}
+.mm-nodo:active{cursor:grabbing}
+.mm-nodo.seleccionado{outline:3px solid var(--naranja-vivo);outline-offset:2px}
+.mm-nodo.raiz{font-size:1.05rem;padding:.8rem 1.3rem}
+
+.mm-ayuda{font-size:.85rem;color:rgba(45,44,87,.7);margin-top:.8rem}
+.mm-acciones{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}

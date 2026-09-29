@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapas mentales | Futuria</title>
+  <meta name="description" content="Crea mapas mentales interactivos con Futuria: un tema central y ramas de ideas conectadas.">
+  <link rel="icon" href="img/logo-futuria.jpeg" type="image/jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="herramientas.css">
+  <link rel="stylesheet" href="mapas-mentales.css">
+</head>
+<body>
+
+  <header class="nb">
+    <div class="nb-inner">
+      <a class="nb-logo" href="index.html#inicio">
+        <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+        <span>FUTURIA</span>
+      </a>
+      <button class="nb-btn" id="nbBtn" aria-label="Abrir menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+      <nav aria-label="Menú principal">
+        <ul class="nb-items" id="nbItems">
+          <li><a href="index.html">Quiénes somos</a></li>
+          <li><a href="pagina2.html">Integrantes</a></li>
+          <li><a href="#">Test vocacional</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="metodos5.html">Métodos</a></li>
+          <li><a href="#">Entrevistas</a></li>
+          <li><a href="ia.html">IA</a></li>
+          <li><a href="contacto.html">Contáctanos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="ht-encabezado">
+    <p class="ht-etiqueta">Futuria · Mapas mentales</p>
+    <h1 class="ht-titulo">Ideas conectadas</h1>
+    <p class="ht-desc">Escribe tu idea, selecciona un nodo y agrégale ramas. Arrastra los nodos para acomodarlos como quieras.</p>
+  </div>
+
+  <main class="ht-contenedor">
+    <section class="ht-tarjeta">
+      <div class="mm-barra">
+        <input class="ht-entrada" type="text" id="mmTexto" placeholder="Escribe una idea o rama…" maxlength="120">
+        <button class="ht-boton" id="mmAgregar" type="button">+ Agregar</button>
+        <div class="mm-colores" id="mmColores"></div>
+      </div>
+
+      <div class="mm-lienzo-caja" id="mmLienzo">
+        <svg id="mmLineas"></svg>
+      </div>
+
+      <p class="mm-ayuda">
+        Selecciona un nodo (clic) antes de agregar para crear una rama desde ahí · Doble clic para editar el texto ·
+        Arrastra para mover.
+      </p>
+
+      <div class="mm-acciones">
+        <button class="ht-boton ht-boton--peligro" id="mmEliminar" type="button" disabled>🗑 Eliminar nodo seleccionado</button>
+        <button class="ht-boton ht-boton--secundario" id="mmCentro" type="button">🎯 Centrar mapa</button>
+      </div>
+    </section>
+
+    <a class="ht-volver" href="metodos5.html">&larr; Volver a Métodos</a>
+  </main>
+
+  <footer class="footer">
+    <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+    <p><strong>FUTURIA</strong></p>
+    <p>© <span id="anio"></span> Futuria · Todos los derechos reservados.</p>
+  </footer>
+
+  <script>document.getElementById('anio').textContent = new Date().getFullYear();</script>
+  <script src="mapas-mentales.js"></script>
+</body>
+</html>

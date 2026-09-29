@@ -1,0 +1,113 @@
+/* =========================================================
+   FUTURIA - Base compartida para las herramientas
+   (IA, Pomodoro, Flashcards, Mapas mentales, Agenda)
+   Paleta: #2d2c57  #83AEE3  #4b1c71  #dbb6e8  #EB5727  #FE6A00  #FCFCFB
+   ========================================================= */
+:root{
+  --azul-noche:#2d2c57;
+  --azul-cielo:#83AEE3;
+  --morado:#4b1c71;
+  --lila:#dbb6e8;
+  --naranja:#EB5727;
+  --naranja-vivo:#FE6A00;
+  --hueso:#FCFCFB;
+  --degradado-hero:linear-gradient(115deg,#2d2c57 0%,#4b1c71 45%,#EB5727 100%);
+  --sombra:0 18px 50px -20px rgba(45,44,87,.45);
+  --fuente:'Jost','Century Gothic','Trebuchet MS',sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--fuente);
+  background:var(--hueso);
+  color:var(--azul-noche);
+  line-height:1.6;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+button{font-family:inherit}
+
+/* ---------------- Encabezado con degradado ---------------- */
+.ht-encabezado{
+  background:var(--degradado-hero);
+  color:var(--hueso);
+  padding:56px 22px 74px;
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+}
+.ht-encabezado::before,.ht-encabezado::after{
+  content:'';position:absolute;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.25) 0%,rgba(255,255,255,0) 65%);
+  pointer-events:none;
+}
+.ht-encabezado::before{width:340px;height:340px;right:-100px;top:-110px}
+.ht-encabezado::after{width:280px;height:280px;left:-100px;bottom:-110px}
+.ht-etiqueta{
+  display:inline-block;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);
+  padding:8px 16px;border-radius:999px;margin:0 0 16px;position:relative;z-index:1;
+}
+.ht-titulo{
+  font-size:clamp(2.1rem,5.5vw,3.2rem);font-weight:800;letter-spacing:1px;
+  position:relative;z-index:1;
+}
+.ht-desc{
+  max-width:640px;margin:14px auto 0;opacity:.95;font-size:1.05rem;position:relative;z-index:1;
+}
+
+/* ---------------- Navbar (igual que el resto del sitio) ---------------- */
+.nb{position:sticky;top:0;z-index:50;background:#DBB6E0;color:#FCFCFB;box-shadow:0 6px 24px -10px rgba(45,44,87,.35)}
+.nb-inner{max-width:1280px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.nb-logo{display:flex;align-items:center;gap:10px;color:#FCFCFB}
+.nb-logo img{width:42px;height:42px;object-fit:contain;border-radius:50%;background:rgba(255,255,255,.35);padding:4px}
+.nb-logo span{font-size:1.35rem;letter-spacing:3px;font-weight:800;text-shadow:0 2px 6px rgba(45,44,87,.4)}
+.nb-items{display:flex;list-style:none;gap:4px;margin:0;padding:0;flex-wrap:wrap;justify-content:flex-end}
+.nb-items a{display:inline-block;padding:9px 13px;border-radius:999px;color:#FCFCFB;font-size:.95rem;letter-spacing:.4px;transition:background .25s,transform .25s}
+.nb-items a:hover{background:rgba(255,255,255,.3);transform:translateY(-2px)}
+.nb-items a.nb-activo{background:rgba(255,255,255,.42);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+.nb-btn{display:none;background:transparent;border:2px solid #FCFCFB;border-radius:12px;padding:8px 10px;color:#FCFCFB;cursor:pointer}
+@media (max-width:920px){
+  .nb-btn{display:inline-flex}
+  .nb-items{display:none;flex-direction:column;width:100%;padding:8px 0 14px;align-items:stretch;text-align:center}
+  .nb-items.nb-abierto{display:flex}
+}
+
+/* ---------------- Contenedores y tarjetas genéricas ---------------- */
+.ht-contenedor{width:min(1080px,92%);margin:-40px auto 0;position:relative;z-index:2;padding-bottom:70px}
+.ht-tarjeta{
+  background:#fff;border-radius:1.5rem;box-shadow:var(--sombra);
+  border:1px solid rgba(75,28,113,.1);padding:2rem;
+}
+.ht-boton{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#FE6A00,#EB5727);color:var(--hueso);
+  font-weight:700;letter-spacing:.4px;padding:12px 22px;border-radius:999px;
+  border:0;cursor:pointer;box-shadow:0 14px 30px -12px rgba(45,44,87,.55);
+  transition:transform .25s,box-shadow .25s;font-size:.95rem;
+}
+.ht-boton:hover{transform:translateY(-2px);box-shadow:0 18px 36px -12px rgba(45,44,87,.65)}
+.ht-boton--secundario{background:var(--hueso);color:var(--morado);box-shadow:inset 0 0 0 2px var(--lila)}
+.ht-boton--peligro{background:linear-gradient(135deg,#c94b32,#8f2f1c)}
+.ht-boton:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.ht-entrada{
+  width:100%;padding:.8rem 1rem;border:2px solid var(--lila);border-radius:.9rem;
+  font-family:inherit;font-size:1rem;color:var(--azul-noche);background:#fff;
+}
+.ht-entrada:focus{outline:none;border-color:var(--naranja-vivo)}
+.ht-aviso{margin-top:1rem;font-size:.95rem}
+.ht-aviso--error{color:var(--naranja)}
+.ht-aviso--ok{color:#1c8a4b}
+.ht-volver{display:inline-block;margin-top:1.4rem;color:var(--morado);font-weight:600}
+.ht-volver:hover{color:var(--naranja-vivo)}
+
+/* ---------------- Footer ---------------- */
+.footer{background-image:var(--degradado-hero);padding:3rem 0;color:var(--hueso);text-align:center}
+.footer p{opacity:.85;font-size:.9rem;margin-top:.4rem}
+.footer img{width:56px;height:56px;border-radius:50%;background:var(--hueso);object-fit:contain;padding:4px;margin:0 auto}
+
+@media (max-width:640px){
+  .ht-tarjeta{padding:1.4rem}
+}

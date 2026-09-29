@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flashcards | Futuria</title>
+  <meta name="description" content="Crea tus propias flashcards y repásalas en modo de estudio con Futuria.">
+  <link rel="icon" href="img/logo-futuria.jpeg" type="image/jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="herramientas.css">
+  <link rel="stylesheet" href="flashcards.css">
+</head>
+<body>
+
+  <header class="nb">
+    <div class="nb-inner">
+      <a class="nb-logo" href="index.html#inicio">
+        <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+        <span>FUTURIA</span>
+      </a>
+      <button class="nb-btn" id="nbBtn" aria-label="Abrir menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+      <nav aria-label="Menú principal">
+        <ul class="nb-items" id="nbItems">
+          <li><a href="index.html">Quiénes somos</a></li>
+          <li><a href="pagina2.html">Integrantes</a></li>
+          <li><a href="#">Test vocacional</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="metodos5.html">Métodos</a></li>
+          <li><a href="#">Entrevistas</a></li>
+          <li><a href="ia.html">IA</a></li>
+          <li><a href="contacto.html">Contáctanos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="ht-encabezado">
+    <p class="ht-etiqueta">Futuria · Flashcards</p>
+    <h1 class="ht-titulo">Memoria activa</h1>
+    <p class="ht-desc">Escribe una pregunta y su respuesta, repásalas volteando la tarjeta y marca como dominadas las que ya sabes de memoria.</p>
+  </div>
+
+  <main class="ht-contenedor fc-layout">
+
+    <section class="ht-tarjeta">
+      <h2 style="color:var(--morado);font-size:1.15rem;margin-bottom:1rem">Crear tarjeta</h2>
+      <form class="fc-form" id="fcForm">
+        <label>Pregunta
+          <textarea class="ht-entrada" id="fcPregunta" placeholder="Ej: ¿Qué es un mapa mental?" required></textarea>
+        </label>
+        <label>Respuesta
+          <textarea class="ht-entrada" id="fcRespuesta" placeholder="Ej: Un esquema visual que conecta ideas desde un tema central." required></textarea>
+        </label>
+        <button class="ht-boton" type="submit">+ Agregar tarjeta</button>
+        <p class="ht-aviso" id="fcAviso" hidden></p>
+      </form>
+
+      <h3 style="color:var(--morado);font-size:.95rem;margin-top:1.4rem">Tu mazo</h3>
+      <div class="fc-lista-mini" id="fcListaMini"></div>
+    </section>
+
+    <section class="ht-tarjeta fc-estudio">
+      <h2 style="color:var(--morado);font-size:1.15rem;align-self:flex-start">Modo estudio</h2>
+
+      <p class="fc-vacio" id="fcVacio">Crea al menos una tarjeta para empezar a estudiar.</p>
+
+      <div id="fcEstudioBox" hidden style="display:flex;flex-direction:column;align-items:center;gap:1.2rem">
+        <p class="fc-contador" id="fcContador"></p>
+        <div class="fc-tarjeta" id="fcTarjeta">
+          <div class="fc-tarjeta-interior">
+            <div class="fc-cara fc-cara--frente" id="fcFrente">Pregunta</div>
+            <div class="fc-cara fc-cara--reverso" id="fcReverso">Respuesta</div>
+          </div>
+        </div>
+        <small style="color:rgba(45,44,87,.65)">Toca la tarjeta para voltearla</small>
+        <div class="fc-acciones-estudio">
+          <button class="ht-boton" id="fcSiguiente" type="button">Siguiente ➜</button>
+          <button class="ht-boton ht-boton--secundario" id="fcDominada" type="button">✅ La domino</button>
+          <button class="ht-boton ht-boton--secundario" id="fcMezclar" type="button">🔀 Mezclar</button>
+        </div>
+      </div>
+    </section>
+
+    <div style="grid-column:1/-1">
+      <a class="ht-volver" href="metodos5.html">&larr; Volver a Métodos</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+    <p><strong>FUTURIA</strong></p>
+    <p>© <span id="anio"></span> Futuria · Todos los derechos reservados.</p>
+  </footer>
+
+  <script>document.getElementById('anio').textContent = new Date().getFullYear();</script>
+  <script src="flashcards.js"></script>
+</body>
+</html>

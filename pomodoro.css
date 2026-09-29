@@ -1,0 +1,37 @@
+/* =========================================================
+   FUTURIA - Pomodoro - estilos específicos
+   ========================================================= */
+.pm-layout{display:grid;gap:2rem}
+@media (min-width:900px){ .pm-layout{grid-template-columns:1.1fr .9fr} }
+
+.pm-modos{display:flex;gap:.5rem;margin-bottom:1.6rem;flex-wrap:wrap}
+.pm-modo{
+  flex:1;min-width:120px;border:2px solid var(--lila);background:#fff;
+  color:var(--morado);padding:.6rem 1rem;border-radius:.9rem;cursor:pointer;
+  font-weight:700;transition:background .2s,color .2s;
+}
+.pm-modo.activo{background:var(--morado);color:var(--hueso);border-color:var(--morado)}
+
+.pm-reloj-caja{display:flex;flex-direction:column;align-items:center;gap:1.4rem;padding:1rem 0 1.6rem}
+.pm-anillo{position:relative;width:min(280px,70vw);aspect-ratio:1/1}
+.pm-anillo svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pm-anillo circle{fill:none;stroke-width:10}
+.pm-anillo .pm-fondo{stroke:rgba(75,28,113,.12)}
+.pm-anillo .pm-progreso{stroke:var(--naranja-vivo);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.pm-tiempo{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(2.2rem,7vw,3.2rem);font-weight:800;color:var(--azul-noche);
+}
+.pm-etiqueta-modo{text-align:center;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--morado);font-size:.9rem}
+.pm-controles{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.pm-ajustes{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1.6rem}
+.pm-ajuste label{display:block;font-size:.82rem;color:var(--morado);font-weight:600;margin-bottom:.35rem}
+.pm-ajuste input{width:100%;padding:.55rem;border:2px solid var(--lila);border-radius:.7rem;font-family:inherit}
+
+.pm-stats{display:grid;gap:1rem}
+.pm-stat-fila{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;text-align:center}
+.pm-stat{background:var(--hueso);border-radius:1rem;padding:1rem;box-shadow:inset 0 0 0 2px rgba(75,28,113,.08)}
+.pm-stat b{display:block;font-size:1.7rem;color:var(--morado)}
+.pm-stat span{font-size:.8rem;color:rgba(45,44,87,.7)}
+.pm-historial{display:flex;flex-direction:column;gap:.4rem;margin-top:.5rem}
+.pm-historial-fila{display:flex;justify-content:space-between;font-size:.9rem;padding:.4rem .6rem;border-radius:.6rem;background:var(--hueso)}
