@@ -12,7 +12,7 @@ var INTEGRANTES_RESPALDO = [
     descripcion:'Diseñadora gráfica, diseña los personajes y la estructura visual y gráfica de la guía, juego, etc…',
     animal:{ nombre:'Pipo', imagen:'img/pipo.jpeg',
       descripcion:'Astuta y visionaria, siempre encuentra el camino corto hacia una buena idea. Representa la chispa creativa que abre cada proyecto de Futuria.' } },
-  { nombre:'Maria R.', imagen:'img/maria.jpg',
+  { nombre:'Maria R.', imagen:'img/maria.jpeg',
     descripcion:'Redactado, revisa la adecuada estructura escrita en las cosas respecto al proyecto tales como la guía y otros textos oficiales del mismo.',
     animal:{ nombre:'Ellie', imagen:'img/0.png',
       descripcion:'Observador y paciente, analiza antes de decidir. Simboliza la investigación cuidadosa detrás de cada recomendación vocacional.' } },
