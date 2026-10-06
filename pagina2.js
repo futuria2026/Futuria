@@ -26,7 +26,7 @@ var INTEGRANTES_RESPALDO = [
       descripcion:'Comunicativo y alegre, se entiende con todos. Es la voz cercana de Futuria en cada mensaje y comentario.' } },
   { nombre:'Mariana V.', imagen:'img/mariana.jpeg',
     descripcion:'Líder del equipo y programadora.',
-    animal:{ nombre:'Mini', imagen:'img/mini.jpg',
+    animal:{ nombre:'Mini', imagen:'img/mini.jpeg',
       descripcion:'Rápido y preciso, aprovecha cada segundo sin agotarse. Encarna la buena administración del tiempo que propone Futuria.' } },
   { nombre:'Paulina L.', imagen:'img/p.png',
     descripcion:'Constructora de ideas, organiza y recopila la información, brinda ideas y aportes para una mejor construcción del proyecto, programadora.',
