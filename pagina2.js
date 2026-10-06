@@ -20,7 +20,7 @@ var INTEGRANTES_RESPALDO = [
     descripcion:'Publicitaria, se encarga de la gestión de las redes y la parte de publicidad y marketing respecto a la marca.',
     animal:{ nombre:'Willow', imagen:'img/willow.jpeg',
       descripcion:'Ordenada y constante, cuida cada detalle del panal. Representa el trabajo minucioso que hace que lo impreso quede perfecto.' } },
-  { nombre:'Carolina P.', imagen:'img/caro.jpeg',
+  { nombre:'Carolina P.', imagen:'img/caro.jpg',
     descripcion:'Investigadora, se dedica a buscar la información necesaria que ayude a complementar las ideas para una mejor construcción de la marca.',
     animal:{ nombre:'Copito', imagen:'img/copito.jpeg',
       descripcion:'Comunicativo y alegre, se entiende con todos. Es la voz cercana de Futuria en cada mensaje y comentario.' } },
