@@ -36,7 +36,7 @@ var INTEGRANTES_RESPALDO = [
     descripcion:'Diseñadora Ilustrativa, diseña las gráficas, imágenes y toda la parte del diseño gráfico del proyecto, programadora fronted.',
     animal:{ nombre:'Pequitas', imagen:'img/pequitas.jpeg',
       descripcion:'Atenta y preguntona, se acerca a lo desconocido sin miedo. Simboliza la curiosidad que da vida a cada entrevista.' } },
-  { nombre:'Juan C.', imagen:'img/0.png',
+  { nombre:'Juan C.', imagen:'img/juan.jpeg',
     descripcion:'Programador, aplica los lenguajes de programación en la creación de los distintos aplicativos web del proyecto.',
     animal:{ nombre:'Luka', imagen:'img/luka.jpeg',
       descripcion:'Resistente y trabajador en equipo, sostiene la manada. Representa la parte técnica que mantiene Futuria funcionando.' } }
