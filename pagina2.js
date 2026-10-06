@@ -28,7 +28,7 @@ var INTEGRANTES_RESPALDO = [
     descripcion:'Líder del equipo y programadora.',
     animal:{ nombre:'Mini', imagen:'img/mini.jpeg',
       descripcion:'Rápido y preciso, aprovecha cada segundo sin agotarse. Encarna la buena administración del tiempo que propone Futuria.' } },
-  { nombre:'Paulina L.', imagen:'img/p.png',
+  { nombre:'Paulina L.', imagen:'img/pau.jpeg',
     descripcion:'Constructora de ideas, organiza y recopila la información, brinda ideas y aportes para una mejor construcción del proyecto, programadora.',
     animal:{ nombre:'Alix', imagen:'img/alix.jpeg',
       descripcion:'Guarda y organiza todo para el momento justo. Representa los métodos que convierten el repaso en un hábito sencillo.' } },
