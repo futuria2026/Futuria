@@ -8,7 +8,7 @@
 /* Datos de respaldo: si el sitio se abre sin servidor PHP, la página
    sigue funcionando con esta misma información. */
 var INTEGRANTES_RESPALDO = [
-  { nombre:'Isabela M.', imagen:'img/0.png',
+  { nombre:'Isabela M.', imagen:'img/isabela.jpeg',
     descripcion:'Diseñadora gráfica, diseña los personajes y la estructura visual y gráfica de la guía, juego, etc…',
     animal:{ nombre:'Pipo', imagen:'img/pipo.jpeg',
       descripcion:'Astuta y visionaria, siempre encuentra el camino corto hacia una buena idea. Representa la chispa creativa que abre cada proyecto de Futuria.' } },
