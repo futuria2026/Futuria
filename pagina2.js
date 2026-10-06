@@ -22,7 +22,7 @@ var INTEGRANTES_RESPALDO = [
       descripcion:'Ordenada y constante, cuida cada detalle del panal. Representa el trabajo minucioso que hace que lo impreso quede perfecto.' } },
   { nombre:'Carolina P.', imagen:'img/caro.jpeg',
     descripcion:'Investigadora, se dedica a buscar la información necesaria que ayude a complementar las ideas para una mejor construcción de la marca.',
-    animal:{ nombre:'Copito', imagen:'img/copito.jpeg',
+    animal:{ nombre:'Copitoooo', imagen:'img/copito.jpeg',
       descripcion:'Comunicativo y alegre, se entiende con todos. Es la voz cercana de Futuria en cada mensaje y comentario.' } },
   { nombre:'Mariana V.', imagen:'img/mariana.jpeg',
     descripcion:'Líder del equipo y programadora.',
