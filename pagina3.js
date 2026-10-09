@@ -48,6 +48,22 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   };
 
+         {
+        id: 'hol',
+        nombre: 'Test de Holland (RIASEC)',
+        etiqueta: 'Personalidad profesional',
+        descripcion:
+          'El test de Holland clasifica tu personalidad profesional en seis tipos (Realista, ' +
+          'Investigador, Artístico, Social, Emprendedor y Convencional). Conoce cuál es tu ' +
+          'código RIASEC y descubre las carreras y ocupaciones que mejor combinan con tu forma de ser.',
+        etiquetas: ['6 tipos', 'RIASEC', 'Carreras', '~10 min'],
+        boton: 'Hacer el test de Holland',
+        enlace: 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
+        imagen: 'img/test-vocacional-2.jpg'
+      }
+    ]
+  };
+
   fetch('test-vocacional.php')
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((d) => {
