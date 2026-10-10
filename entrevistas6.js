@@ -3,7 +3,7 @@ var ENTREVISTAS_RESPALDO = [
 
   {area:'Entretenimiento - Stremer',nombre:'Juan Felipe Restrepo (Ñe)',profesion:'Stremer - Estudiante',imagen:'img/stremer.jpg',audio:'audio/ñe.mp3',orientacion:'.',carrera:'La verdad es muy complejo, pero también trato de asimilarlo mucho con las personas que trabajan y estudian al mismo tiempo ya que la creación de contenido es como un trabajo y se le tiene que dedicar mucho tiempo para que pueda ser rentable.'},
 
-  {area:'Social y humanidades - Abogado',nombre:'Santiago Mejía',profesion:'Abogado',imagen:'img/abogado.jpg',audio:'audio/sebastian.ogg',orientacion:'SIIIII.',carrera:'Si vas a estudiar derecho, dedícate completamente, lee más de lo que te dan en clases, estudia muchos libros, busca prácticas adicionales, no te quedes con lo mínimo'},
+  {area:'Social y humanidades - Abogado',nombre:'Santiago Mejía',profesion:'Abogado',imagen:'img/abogado.jpg',audio:'audio/sebastian.mp3',orientacion:'SIIIII.',carrera:'Si vas a estudiar derecho, dedícate completamente, lee más de lo que te dan en clases, estudia muchos libros, busca prácticas adicionales, no te quedes con lo mínimo'},
 
 ];
 
