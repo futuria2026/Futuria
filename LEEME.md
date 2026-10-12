@@ -68,3 +68,26 @@ que la página funcione sin configuración. Para conectarla a un modelo real:
   `inc/datos.php` para usar el usuario logueado en lugar de la sesión.
 - Todos los archivos siguen el mismo estilo que ya usabas en `contacto.php`
   (PHP puro, `declare(strict_types=1)`, respuestas en JSON).
+
+
+---
+
+## Estructura de carpetas (reorganizada)
+
+```
+build/
+├── index.html, pagina2.html, productos.html, metodos5.html, contacto.html
+├── iniciosecc.html → registro de usuarios (php/iniciosecc.php guarda en datos/users.json)
+├── ia.html, pomodoro.html, flashcards.html, mapas-mentales.html, agenda.html
+├── css/      → todas las hojas de estilo
+├── js/       → todos los scripts del navegador
+├── php/      → todos los endpoints PHP (los js los llaman con fetch('php/...'))
+├── inc/      → datos.php (almacenamiento compartido)
+├── datos/    → JSON generados por el servidor (protegida con .htaccess)
+├── img/      → imágenes del sitio
+├── fonts/    → coloca aquí las fuentes .woff2 (ver LEEME-FUENTES.txt)
+├── partials/ → íconos SVG de redes
+
+```
+
+Las páginas HTML se quedan en la raíz; para probar localmente: `php -S localhost:8000` dentro de `build/`.
