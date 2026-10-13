@@ -1,0 +1,6 @@
+/* ===== Logo del menú: solo el logo interno (el círculo no cambia) ===== */
+.nb-logo img,
+.nav-logo img {
+  object-fit: cover;   /* el logo llena el círculo en vez de verse pequeño */
+  padding: 3px;
+}
