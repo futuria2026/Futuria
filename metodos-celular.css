@@ -10,3 +10,14 @@ main {
   #metodos-lista::before { left: -40px; }
   #metodos-lista::after  { right: -40px; }
 }
+
+/* Calendario: los campos del formulario se salían de la tarjeta en el celular
+   (el campo de fecha tenía un ancho mínimo mayor que el espacio disponible). */
+.cal-form input {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.cal-form button {
+  max-width: 100%;
+}
