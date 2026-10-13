@@ -733,16 +733,46 @@ img { max-width: 100%; display: block; }
 .modal-cerrar:hover { transform: rotate(90deg) scale(1.1); }
 
 /* ---------- FOOTER ---------- */
+/* Orden visual (de arriba a abajo): logo → marca → redes → copyright.
+   Se controla con `order`, así el HTML puede quedar en cualquier orden. */
 .footer {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
   background: var(--morado-oscuro);
   color: var(--blanco);
   text-align: center;
   padding: 56px 22px 30px;
   margin-top: 30px;
 }
-.footer-social { display: flex; justify-content: center; gap: 18px; margin-bottom: 26px; }
+
+.footer-logo {
+  order: 1;
+  width: 110px;
+  margin: 0;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
+  opacity: 0.95;
+}
+
+.footer .marca {
+  order: 2;
+  margin: 0;
+  font-family: var(--fuente-logo);
+  letter-spacing: 4px;
+  font-size: 1.3rem;
+}
+
+.footer-social {
+  order: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  margin: 10px 0 6px;
+}
 .footer-social a {
   width: 54px;
   height: 54px;
@@ -755,15 +785,27 @@ img { max-width: 100%; display: block; }
   transition: transform 0.3s, box-shadow 0.3s;
   box-shadow: 0 10px 22px -8px rgba(235, 87, 39, 0.6);
 }
-.footer-social a:hover { transform: translateY(-6px) rotate(-6deg); box-shadow: 0 16px 30px -8px rgba(235, 87, 39, 0.75); }
-.footer-logo {
-  width: 110px;
-  margin: 0 auto 12px;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
-  opacity: 0.95;
+.footer-social a:hover {
+  transform: translateY(-6px) rotate(-6deg);
+  box-shadow: 0 16px 30px -8px rgba(235, 87, 39, 0.75);
 }
-.footer .marca { font-family: var(--fuente-logo); letter-spacing: 4px; font-size: 1.3rem; }
-.footer .copy { font-size: 0.85rem; opacity: 0.75; margin: 10px 0 0; }
+
+.footer .copy {
+  order: 4;
+  width: 100%;
+  max-width: 520px;
+  margin: 10px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(252, 252, 251, 0.18);
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+@media (max-width: 480px) {
+  .footer { padding: 44px 18px 26px; }
+  .footer-social { gap: 14px; }
+  .footer-social a { width: 48px; height: 48px; }
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 920px) {
