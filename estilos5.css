@@ -397,24 +397,39 @@ img { max-width: 100%; display: block; }
 }
 .animalito img.mascota.mostrar { display: block; }
 
-/* ---------- Tarjetas de Método ---------- */
+/* ==========================================================
+   TARJETAS DE MÉTODO
+   Cada método es una tarjeta de 2 columnas (información + imagen).
+   Las tarjetas pares invierten el orden para dar ritmo.
+   Todo el color sale de la paleta; --accento lo define cada método.
+   ========================================================== */
+
+/* La lista apila las tarjetas con el mismo espacio entre todas
+   y numera los métodos (Método 01, 02, 03…) sin tocar el HTML. */
+#metodos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  counter-reset: metodo;
+}
+
 .metodo {
   position: relative;
   z-index: 2;
+  counter-increment: metodo;
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  gap: 34px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 40px;
   align-items: center;
-  margin-bottom: 56px;
-  padding: 40px 38px;
+  padding: 38px 40px;
   border-radius: var(--radio);
   background: var(--blanco);
   border-left: 10px solid var(--accento);
   box-shadow: var(--sombra-suave);
-  transition: transform 0.38s cubic-bezier(0.34, 1.3, 0.5, 1), box-shadow 0.38s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .metodo:hover {
-  transform: scale(1.035);
+  transform: translateY(-4px);
   box-shadow: var(--sombra-hover);
 }
 .metodo.pomodoro { --accento: var(--naranja); }
@@ -422,10 +437,33 @@ img { max-width: 100%; display: block; }
 .metodo.tarjetas { --accento: var(--violeta); }
 .metodo.calendario { --accento: var(--morado-oscuro); }
 
-.metodo-info { display: flex; flex-direction: column; gap: 16px; }
+/* Ritmo en escritorio: 1.ª y 3.ª con la información a la izquierda,
+   2.ª y 4.ª con la imagen a la izquierda. */
+@media (min-width: 921px) {
+  .metodo:nth-child(even) { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .metodo:nth-child(even) .metodo-info { order: 2; }
+  .metodo:nth-child(even) .metodo-visual { order: 1; }
+}
+
+/* ----- Columna de información ----- */
+.metodo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+.metodo-info::before {
+  content: "Método " counter(metodo, decimal-leading-zero);
+  font-family: var(--fuente-titulo);
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accento);
+}
 .encabezado-metodo { display: flex; align-items: center; gap: 16px; }
 .encabezado-metodo .animalito { width: 70px; height: 70px; flex-shrink: 0; }
-.encabezado-metodo h3 { margin: 0; font-size: 1.7rem; }
+.encabezado-metodo .etiqueta { font-size: 0.58rem; letter-spacing: 1px; } /* que "Pingüino" quepa en el círculo */
+.encabezado-metodo h3 { margin: 0; font-size: 1.7rem; line-height: 1.15; }
 .encabezado-metodo .metodo-palabra {
   font-family: var(--fuente-italica);
   color: var(--accento);
@@ -435,11 +473,12 @@ img { max-width: 100%; display: block; }
 
 /* Globo de diálogo (cómic) */
 .globo-dialogo {
+  --globo-fondo: color-mix(in srgb, var(--accento) 6%, var(--blanco));
   position: relative;
-  background: var(--blanco);
+  background: var(--globo-fondo);
   border: 3px solid var(--morado-oscuro);
   border-radius: 20px;
-  padding: 18px 20px;
+  padding: 18px 22px;
 }
 .globo-dialogo::before {
   content: '';
@@ -448,7 +487,7 @@ img { max-width: 100%; display: block; }
   left: 38px;
   width: 22px;
   height: 22px;
-  background: var(--blanco);
+  background: var(--globo-fondo);
   border-right: 3px solid var(--morado-oscuro);
   border-bottom: 3px solid var(--morado-oscuro);
   transform: rotate(45deg);
@@ -469,7 +508,8 @@ img { max-width: 100%; display: block; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, var(--accento), var(--accento));
+  margin-top: 6px;
+  background: var(--accento);
   color: var(--blanco);
   font-family: var(--fuente-titulo);
   font-weight: 800;
@@ -483,40 +523,35 @@ img { max-width: 100%; display: block; }
 }
 .btn-usar:hover { transform: translateY(-3px); filter: brightness(1.08); box-shadow: 0 16px 30px -10px var(--accento); }
 
-/* Lado visual: globo de pensamiento con la imagen */
-.metodo-visual { position: relative; touch-action: manipulation; }
+/* ----- Columna visual: globo con la imagen (o el calendario) ----- */
+.metodo-visual {
+  position: relative;
+  min-width: 0;
+  padding-bottom: 36px; /* espacio para la mascota que se asoma abajo */
+  touch-action: manipulation;
+}
 .burbuja-pensamiento {
   position: relative;
   background: var(--blanco);
   border: 3px solid var(--morado-oscuro);
-  border-radius: 48% 48% 46% 44% / 60% 56% 44% 40%;
-  padding: 18px;
+  border-radius: 32px; /* esquinas limpias: el contenido ya no se sale del borde */
+  padding: 16px;
   box-shadow: 0 16px 34px -16px rgba(45, 44, 87, 0.5);
-  animation: flotar 5s ease-in-out infinite;
 }
-.burbuja-pensamiento::before,
-.burbuja-pensamiento::after {
-  content: '';
-  position: absolute;
-  background: var(--blanco);
-  border: 3px solid var(--morado-oscuro);
-  border-radius: 50%;
-}
-/* burbujita pequeña del globo */
-.burbuja-pensamiento::before { width: 22px; height: 22px; right: 26px; bottom: -18px; border-width: 3px; }
-.burbuja-pensamiento::after { width: 12px; height: 12px; right: 8px; bottom: -28px; border-width: 3px; }
+.metodo.calendario .burbuja-pensamiento { padding: 20px; }
 
 .caja-imagen {
   position: relative;
   border-radius: 18px;
   overflow: hidden;
-  min-height: 240px;
+  aspect-ratio: 4 / 3;     /* todas las imágenes del mismo tamaño */
+  min-height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 3px dashed color-mix(in srgb, var(--accento) 55%, transparent);
   background: linear-gradient(150deg, color-mix(in srgb, var(--accento) 16%, #ffffff), color-mix(in srgb, var(--azul) 12%, #ffffff));
-  padding: 26px;
+  padding: 24px;
   text-align: center;
 }
 .caja-imagen .ph { z-index: 2; }
@@ -535,14 +570,15 @@ img { max-width: 100%; display: block; }
 }
 .caja-imagen img.real.mostrar { display: block; }
 
-/* El segundo animal del lado visual, asomándose al globo */
+/* El segundo animal se asoma por la esquina inferior del globo,
+   sin tapar el contenido (la imagen o el calendario). */
 .mascota-globo {
   position: absolute;
-  right: -26px;
-  bottom: -30px;
+  right: 12px;
+  bottom: -22px;
   z-index: 6;
-  width: 92px;
-  height: 92px;
+  width: 80px;
+  height: 80px;
 }
 
 /* ---------- CALENDARIO ---------- */
@@ -834,13 +870,14 @@ img { max-width: 100%; display: block; }
   .animal-lateral.tocado .burbuja-info { transform: translateX(-50%) translateY(0) scale(1); }
   .animal-lateral.izq .burbuja-info::after,
   .animal-lateral.der .burbuja-info::after { display: none; }
-  .metodo { grid-template-columns: 1fr; padding: 30px 22px; }
-  .mascota-globo { right: 6px; bottom: -26px; }
+  #metodos-lista { gap: 30px; }
+  .metodo { grid-template-columns: 1fr; gap: 28px; padding: 28px 22px; }
   .seccion { padding: 54px 18px; }
 }
 @media (max-width: 480px) {
   .hero { padding: 60px 18px 80px; }
   .burbuja-info { font-size: 0.85rem; }
-  .metodo { padding: 26px 16px; }
+  .metodo { padding: 24px 16px; }
   .caja-imagen { min-height: 190px; }
+  .mascota-globo { width: 68px; height: 68px; right: 8px; }
 }
