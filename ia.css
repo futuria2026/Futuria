@@ -46,3 +46,32 @@
   transition:background .2s,color .2s;
 }
 .ia-chip:hover{background:var(--lila);color:var(--morado)}
+
+/* =========================================================
+   FOOTER (nuevo)
+   ========================================================= */
+.footer .contenedor{
+  width:100%;max-width:1100px;margin:0 auto;padding:0 1rem;
+}
+.footer__inner{
+  display:flex;flex-direction:column;align-items:center;
+  gap:1rem;text-align:center;
+}
+.footer__logo{
+  width:64px;height:64px;border-radius:50%;
+  object-fit:cover;background:#fff;padding:3px;
+}
+.footer__redes{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;
+}
+.footer__redes a{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.12);color:#fff;
+  transition:background .2s,transform .2s;
+}
+.footer__redes a:hover{
+  background:rgba(255,255,255,.25);transform:translateY(-2px);
+}
+.footer__legal{margin:0;font-size:.9rem;opacity:.85}
