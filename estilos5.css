@@ -749,12 +749,16 @@ img { max-width: 100%; display: block; }
   margin-top: 30px;
 }
 
+/* Logo en círculo blanco, igual que en las otras páginas */
 .footer-logo {
   order: 1;
-  width: 110px;
+  width: 64px;
+  height: 64px;
   margin: 0;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
-  opacity: 0.95;
+  border-radius: 50%;
+  background: var(--blanco);
+  object-fit: contain;
+  padding: 4px;
 }
 
 .footer .marca {
@@ -770,25 +774,21 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 18px;
+  gap: 16px;
   margin: 10px 0 6px;
 }
+/* Botones de redes: círculo suave (sin el naranja de fondo), como en las otras páginas */
 .footer-social a {
-  width: 54px;
-  height: 54px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(145deg, var(--naranja-claro), var(--naranja));
+  display: grid;
+  place-items: center;
+  background: rgba(252, 252, 251, 0.12);
   color: var(--blanco);
-  transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 10px 22px -8px rgba(235, 87, 39, 0.6);
+  transition: background 0.2s;
 }
-.footer-social a:hover {
-  transform: translateY(-6px) rotate(-6deg);
-  box-shadow: 0 16px 30px -8px rgba(235, 87, 39, 0.75);
-}
+.footer-social a:hover { background: var(--naranja-claro); }
 
 .footer .copy {
   order: 4;
@@ -804,7 +804,6 @@ img { max-width: 100%; display: block; }
 @media (max-width: 480px) {
   .footer { padding: 44px 18px 26px; }
   .footer-social { gap: 14px; }
-  .footer-social a { width: 48px; height: 48px; }
 }
 
 /* ---------- Responsive ---------- */
