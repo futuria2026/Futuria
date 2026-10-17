@@ -72,22 +72,27 @@ que la página funcione sin configuración. Para conectarla a un modelo real:
 
 ---
 
-## Estructura de carpetas (reorganizada)
+## Estructura de carpetas
 
 ```
-build/
-├── index.html, pagina2.html, productos.html, metodos5.html, contacto.html
-├── iniciosecc.html → registro de usuarios (php/iniciosecc.php guarda en datos/users.json)
-├── ia.html, pomodoro.html, flashcards.html, mapas-mentales.html, agenda.html
-├── css/      → todas las hojas de estilo
-├── js/       → todos los scripts del navegador
-├── php/      → todos los endpoints PHP (los js los llaman con fetch('php/...'))
-├── inc/      → datos.php (almacenamiento compartido)
-├── datos/    → JSON generados por el servidor (protegida con .htaccess)
-├── img/      → imágenes del sitio
-├── fonts/    → coloca aquí las fuentes .woff2 (ver LEEME-FUENTES.txt)
-├── partials/ → íconos SVG de redes
-
+Futuria/
+├── index.html, pagina2.html, pagina3.html, productos.html, metodos5.html,
+│   entrevistas.html, contacto.html, iniciosecc.html,
+│   ia.html, pomodoro.html, flashcards.html, mapas-mentales.html, agenda.html
+├── css/       → todas las hojas de estilo
+├── js/        → todos los scripts del navegador
+├── php/       → todos los endpoints PHP (los js los llaman con fetch('php/...'))
+├── database/  → futuria.sql (volcado de la base de datos MySQL/MariaDB)
+├── inc/       → datos.php (almacenamiento compartido) — FALTA, ver nota abajo
+├── datos/     → JSON generados por el servidor (se crea sola, no se sube a git)
+├── img/       → imágenes del sitio
+├── audio/     → audios de las entrevistas
+├── fonts/     → coloca aquí las fuentes .woff2 (los CSS las buscan en ../fonts/)
+└── partials/  → íconos SVG de redes
 ```
 
-Las páginas HTML se quedan en la raíz; para probar localmente: `php -S localhost:8000` dentro de `build/`.
+Las páginas HTML se quedan en la raíz para no cambiar sus URLs.
+Para probar localmente: `php -S localhost:8000` dentro de la carpeta del proyecto.
+
+> **Pendiente:** `inc/datos.php` no está en el repositorio, por eso Pomodoro,
+> Flashcards, Mapas mentales, Agenda y la IA responden error 500 en el servidor.

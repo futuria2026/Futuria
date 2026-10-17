@@ -1,0 +1,181 @@
+/**
+ *
+ * los estilos propios de la página de productos: la introducción, las tarjetas
+ * del catálogo y el carrusel de fotos de cada producto
+ *
+ * se carga después de comun.css y cambia algunas de sus reglas solo para esta
+ * página
+ *
+ */
+
+/**
+ *
+ * la introducción "Nuestros productos", centrada y por encima de las estrellas
+ *
+ */
+.intro{text-align:center;position:relative;z-index:1}
+
+/**
+ *
+ * en esta página los títulos usan la fuente de títulos (Ringtall si está
+ * instalada) y van centrados
+ *
+ */
+.titulo{font-family:var(--fuente-titulo);text-align:center}
+
+/**
+ *
+ * la lista de tarjetas de productos, una debajo de la otra
+ *
+ */
+.productos{position:relative;z-index:1;margin-top:3.5rem;display:grid;gap:4.5rem}
+
+/**
+ *
+ * la tarjeta de un producto: fondo apenas más claro que el morado, borde lila
+ * transparente y esquinas muy redondeadas
+ *
+ * desde 900px de ancho tiene dos columnas (fotos e información); en las
+ * tarjetas .producto--invertido las fotos pasan a la derecha
+ *
+ */
+.producto{
+  display:grid;gap:2rem;align-items:center;
+  background:rgba(252,252,251,.06);
+  border:1px solid rgba(219,182,232,.28);
+  border-radius:2rem;padding:1.75rem;
+  box-shadow:var(--sombra);
+}
+@media (min-width:900px) {
+  .producto{grid-template-columns:1fr 1fr;gap:3rem;padding:2.5rem}
+  .producto--invertido .producto__carrusel{order:2}
+  .producto--invertido .producto__info{order:1}
+}
+
+/**
+ *
+ * la columna de información, con el texto blanco
+ *
+ */
+.producto__info{color:var(--hueso)}
+
+/**
+ *
+ * el nombre del producto, grande y con la fuente de títulos
+ *
+ */
+.producto__nombre{font-family:var(--fuente-titulo);font-size:clamp(1.6rem,3.6vw,2.4rem);letter-spacing:.06em;color:var(--hueso)}
+
+/**
+ *
+ * el eslogan en cursiva y lila debajo del nombre
+ *
+ */
+.producto__eslogan{font-family:var(--fuente-demi);font-style:italic;color:var(--lila);margin-top:.35rem}
+
+/**
+ *
+ * la descripción del producto
+ *
+ */
+.producto__descripcion{margin-top:1.25rem;color:rgba(252,252,251,.86)}
+
+/**
+ *
+ * la lista de características, cada una con una estrellita ★ naranja a la
+ * izquierda
+ *
+ */
+.producto__lista{margin-top:1rem;display:grid;gap:.4rem}
+.producto__lista li{position:relative;padding-left:1.4rem;color:rgba(252,252,251,.8);font-size:.95rem}
+.producto__lista li::before{content:"★";position:absolute;left:0;color:var(--naranja-vivo)}
+
+/**
+ *
+ * el botón naranja con el precio; al pasar el mouse se aclara y sube 2px
+ *
+ * con la clase .agregado (por 1,8 segundos después del clic) se pone azul
+ * cielo
+ *
+ */
+.producto__precio{
+  display:inline-flex;align-items:center;gap:.6rem;margin-top:1.75rem;
+  padding:.9rem 1.8rem;border-radius:999px;border:0;cursor:pointer;
+  background:var(--naranja-vivo);color:var(--hueso);
+  font-family:var(--fuente-demi);font-size:1.05rem;
+  box-shadow:var(--sombra);transition:filter .25s,transform .25s;
+}
+.producto__precio:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.producto__precio.agregado{background:var(--azul-cielo);color:var(--azul-noche)}
+
+/**
+ *
+ * el marco del carrusel de fotos de un producto: borde lila de 5px, esquinas
+ * redondeadas y fondo azul noche
+ *
+ */
+.carrusel{
+  position:relative;border-radius:1.5rem;overflow:hidden;
+  border:5px solid var(--lila);background:var(--azul-noche);
+  box-shadow:var(--sombra);
+}
+
+/**
+ *
+ * la caja de las fotos, en proporción 4:3
+ *
+ */
+.carrusel__pista{position:relative;aspect-ratio:4/3}
+
+/**
+ *
+ * cada foto, puesta encima de las otras y transparente; solo la que tiene
+ * .activa se ve
+ *
+ * al cambiar de foto, la nueva aparece y se acomoda de un tamaño un poco más
+ * grande al normal en 0,6 segundos
+ *
+ */
+.carrusel__img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.04);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.carrusel__img.activa{opacity:1;transform:scale(1)}
+
+/**
+ *
+ * las flechas redondas a los lados; se ponen naranjas al pasar el mouse
+ *
+ */
+.carrusel__flecha{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;
+  display:grid;place-items:center;font-size:1.3rem;
+  background:rgba(45,44,87,.65);color:var(--hueso);
+  transition:background .2s,transform .2s;
+}
+.carrusel__flecha:hover{background:var(--naranja-vivo)}
+.carrusel__flecha--prev{left:.6rem}
+.carrusel__flecha--next{right:.6rem}
+
+/**
+ *
+ * la fila de puntitos abajo de las fotos
+ *
+ */
+.carrusel__puntos{
+  position:absolute;left:0;right:0;bottom:.7rem;
+  display:flex;justify-content:center;gap:.45rem;
+}
+
+/**
+ *
+ * cada puntito; el de la foto actual (.activo) se pone naranja y crece
+ *
+ */
+.carrusel__punto{
+  width:10px;height:10px;border-radius:50%;border:0;cursor:pointer;padding:0;
+  background:rgba(252,252,251,.45);transition:background .2s,transform .2s;
+}
+.carrusel__punto.activo{background:var(--naranja-vivo);transform:scale(1.25)}

@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña, la
+  descripción que muestran los buscadores y las redes al compartir, el ícono,
+  la fuente Jost de Google Fonts y las hojas de estilo
+
+-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,19 +17,32 @@
   <meta property="og:description" content="Orientación vocacional, agenda inteligente y métodos de estudio para estudiantes.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="img/logo-futuria.jpeg" type="image/jpeg">
+  <link rel="icon" href="assets/img/logo-futuria.jpeg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Jost = sustituto libre de Avant Garde. Si tienes los .woff2 originales,
-       descomenta el bloque @font-face en css/estilos.css -->
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="assets/css/comun.css">
+  <link rel="stylesheet" href="assets/css/inicio.css">
 </head>
 <body id="top">
+
+<!--
+
+  la barra de navegación de arriba, que se queda pegada al bajar: el logo
+  (lleva al inicio), el botón de las 3 rayas que abre el menú en celular y los
+  enlaces a todas las páginas
+
+  el enlace de la página en la que se está lleva la clase nb-activo, que lo
+  muestra marcado
+
+  los dos últimos enlaces (#navCarrito y #navCuenta) los actualiza comun.js
+  según la sesión: el número de productos del carrito y "Ingresar" o "Salir"
+
+-->
 <header class="nb">
     <div class="nb-inner">
       <a class="nb-logo" href="#inicio">
-        <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" style="object-fit:cover;padding:3px;" />
+        <img src="assets/img/logo-futuria.jpeg" alt="Logo Futuria" style="object-fit:cover;padding:3px;" />
         <span>FUTURIA</span>
       </a>
 
@@ -34,19 +55,30 @@
       <nav aria-label="Menú principal">
         <ul class="nb-items" id="nbItems">
           <li><a href="index.html" class="nb-activo">Quiénes somos</a></li>
-          <li><a href="pagina2.html">Integrantes</a></li>
-          <li><a href="pagina3.html">Test vocacional</a></li>
-          <li><a href="productos.html">Productos</a></li>
-          <li><a href="metodos5.html">Métodos</a></li>
-          <li><a href="entrevistas.html">Entrevistas</a></li>
-          <li><a href="ia.html">IA</a></li>
-          <li><a href="contacto.html">Contáctanos</a></li>
+          <li><a href="pages/integrantes.html">Integrantes</a></li>
+          <li><a href="pages/test-vocacional.html">Test vocacional</a></li>
+          <li><a href="pages/productos.html">Productos</a></li>
+          <li><a href="pages/metodos.html">Métodos</a></li>
+          <li><a href="pages/entrevistas.html">Entrevistas</a></li>
+          <li><a href="pages/ia.html">IA</a></li>
+          <li><a href="pages/contacto.html">Contáctanos</a></li>
+          <li id="navCarrito"><a href="pages/carrito.html">Carrito</a></li>
+          <li id="navCuenta"><a href="pages/login.html">Ingresar</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-<!-- ================= HERO ================= -->
+    <!--
+
+      el encabezado grande con el degradado morado y naranja: la etiqueta con
+      el nombre de la sección, el título Futuria, el lema "Crea tu futuro",
+      una descripción, el botón Comienza ahora y el logo dentro de un círculo
+      blanco que flota
+
+      el botón Comienza ahora lleva a la página de registro
+
+    -->
     <div class="hi-hero" id="inicio">
     <div class="hi-interior">
       <div class="hi-texto">
@@ -58,7 +90,7 @@
           inteligente y el poder de la inteligencia artificial. Tu éxito
           académico comienza aquí.
         </p>
-        <a class="hi-boton" href="iniciosecc.html">
+        <a class="hi-boton" href="pages/registro.html">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
             <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
@@ -70,13 +102,18 @@
       </div>
 
       <div class="hi-circulo">
-        <img src="https://cdn.enter.pro/resources/uid_100462196/d79bc025-0d8f-40.jpeg" alt="Logo Futuria" />
+        <img src="assets/img/logo-futuria.jpeg" alt="Logo Futuria" />
       </div>
     </div>
   </div>
 
   
-  <!-- ================= QUIÉNES SOMOS ================= -->
+  <!--
+
+    la sección "¿Quiénes somos?": a la izquierda el texto que presenta el
+    proyecto y a la derecha el carrusel de fotos
+
+  -->
   <section class="seccion" id="quienes-somos">
     <div class="contenedor grid-2">
       <div class="quienes">
@@ -89,12 +126,19 @@
         </p>
       </div>
 
-      <!-- Carrusel -->
+      <!--
+
+        el carrusel de 3 fotos con flechas y puntitos; lo mueve inicio.js
+
+        las fotos están una al lado de la otra dentro de .carrusel__pista y
+        los puntitos los crea el script
+
+      -->
       <div class="carrusel" id="carrusel">
         <div class="carrusel__pista">
-                      <img class="carrusel__img" src="img/carousel-1.jpg" alt="Estudiantes trabajando con sus computadores" width="1024" height="768" loading="lazy">
-                      <img class="carrusel__img" src="img/carousel-2.jpg" alt="Estudiante organizando su agenda semanal" width="1024" height="768" loading="lazy">
-                      <img class="carrusel__img" src="img/carousel-3.jpg" alt="Taller de orientación vocacional" width="1024" height="768" loading="lazy">
+                      <img class="carrusel__img" src="assets/img/carousel-1.jpg" alt="Estudiantes trabajando con sus computadores" width="1024" height="768" loading="lazy">
+                      <img class="carrusel__img" src="assets/img/carousel-2.jpg" alt="Estudiante organizando su agenda semanal" width="1024" height="768" loading="lazy">
+                      <img class="carrusel__img" src="assets/img/carousel-3.jpg" alt="Taller de orientación vocacional" width="1024" height="768" loading="lazy">
                   </div>
         <button class="carrusel__btn carrusel__btn--prev" type="button" aria-label="Imagen anterior">&#10094;</button>
         <button class="carrusel__btn carrusel__btn--next" type="button" aria-label="Imagen siguiente">&#10095;</button>
@@ -103,16 +147,39 @@
     </div>
   </section>
 
-  <!-- ================= MISIÓN / VISIÓN ================= -->
+  <!--
+
+    la sección morada con la misión y la visión, cada una dentro de una forma
+    de hexágono (rombo)
+
+  -->
   <section class="seccion seccion--morada">
+
+    <!--
+
+      la capa de estrellas que brillan de fondo; la llena comun.js
+
+    -->
     <div class="estrellas" aria-hidden="true"></div>
     <div class="contenedor pila">
+
+      <!--
+
+        la misión: qué busca Futuria hoy
+
+      -->
       <article class="rombo">
         <div class="rombo__interior">
           <h3 class="rombo__titulo">MISIÓN</h3>
           <p class="texto">Futuria busca mejorar el rendimiento académico y el aprovechamiento del tiempo de los estudiantes, buscando guiar a los jóvenes hacia un futuro vocacional dependiendo sus preferencias ayudándolos y instruyéndolos de una manera fácil y didáctica en donde les sea posible identificar a qué rama tanto profesional o vocacional se dedicaran a futuro, esto por medio de una página web que ayuda a implementar métodos de estudios efectivos y eficaces distintos materiales de apoyo tales como un libro guía, un juego de cartas, plegables, afiches, redes sociales, etc. </p>
         </div>
       </article>
+
+      <!--
+
+        la visión: qué quiere ser Futuria en el año 2031
+
+      -->
       <article class="rombo">
         <div class="rombo__interior">
           <h3 class="rombo__titulo">VISIÓN</h3>
@@ -122,11 +189,22 @@
     </div>
   </section>
 
-  <!-- ================= FOOTER ================= -->
+  <!--
+
+    el pie de página: el logo, los enlaces a las redes de Futuria (Instagram,
+    TikTok, el correo y Twitter) y la línea de derechos reservados
+
+  -->
   <footer class="footer" id="contacto">
+
+    <!--
+
+      la capa de estrellas que brillan de fondo; la llena comun.js
+
+    -->
     <div class="estrellas" aria-hidden="true"></div>
     <div class="contenedor footer__inner">
-      <img class="footer__logo" src="img/logo-futuria.jpeg" alt="Logo Futuria" width="64" height="64" loading="lazy">
+      <img class="footer__logo" src="assets/img/logo-futuria.jpeg" alt="Logo Futuria" width="64" height="64" loading="lazy">
       <ul class="footer__redes">
                   <li>
             <a href="https://www.instagram.com/futuria20?igsh=dnZ1eXp5eG1jM2Jx" title="Instagram">
@@ -153,6 +231,13 @@
     </div>
   </footer>
 
-  <script src="main.js"></script>
+  <!--
+
+    los scripts: primero comun.js (estrellas, menú del celular y año del
+    footer) y después inicio.js, que mueve el carrusel
+
+  -->
+  <script src="assets/js/comun.js"></script>
+  <script src="assets/js/inicio.js"></script>
 </body>
 </html>
