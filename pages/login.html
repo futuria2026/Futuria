@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña y la
+  hoja de estilos de las páginas de cuenta (la misma del registro)
+
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Futuria — Iniciar sesión</title>
+  <link rel="icon" href="../assets/img/logo-futuria.jpeg" type="image/jpeg">
+  <link rel="stylesheet" href="../assets/css/registro.css">
+</head>
+<body>
+
+  <!--
+
+    las tres manchas de color borrosas que se mueven despacio en el fondo
+
+  -->
+  <div class="bg-blobs">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+  </div>
+
+  <!--
+
+    la tarjeta blanca de inicio de sesión: el logo, el título "Inicia
+    sesión", el formulario y los enlaces de abajo
+
+  -->
+  <main class="card">
+    <div class="logo-wrap">
+      <img src="../assets/img/logo-futuria.jpeg" alt="Futuria" class="logo" />
+    </div>
+    <h1>Inicia sesión</h1>
+    <p class="subtitle">Vuelve a <span class="brand">Futuria</span> y sigue tu camino</p>
+
+    <!--
+
+      el formulario de inicio de sesión con correo y contraseña
+
+      cuenta.js lo revisa y lo envía a api/auth.php (data-accion="login"). Si
+      los datos son correctos, lleva a la página de la que venía la persona
+      (el parámetro ?volver= de la dirección) o al inicio
+
+    -->
+    <form id="formCuenta" data-accion="login" novalidate>
+      <div class="field">
+        <label for="correo">Correo electrónico</label>
+        <input type="email" id="correo" name="correo" placeholder="tu@correo.com" autocomplete="email" required />
+        <small class="error" data-for="correo"></small>
+      </div>
+
+      <div class="field">
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" name="contrasena" placeholder="••••••••" autocomplete="current-password" required />
+        <small class="error" data-for="contrasena"></small>
+      </div>
+
+      <p class="aviso-form" id="avisoForm" hidden></p>
+
+      <button type="submit" class="submit-btn">Entrar</button>
+
+      <p class="login-link"><a href="../index.html">← Volver al inicio</a></p>
+
+      <p class="login-link">¿No tienes cuenta? <a href="registro.html" data-conserva-volver>Regístrate</a></p>
+    </form>
+  </main>
+
+  <!--
+
+    el script que revisa el formulario y lo envía
+
+  -->
+  <script src="../assets/js/cuenta.js"></script>
+</body>
+</html>

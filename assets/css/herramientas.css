@@ -1,13 +1,13 @@
 /**
  *
- * los estilos de las cinco herramientas: IA, Pomodoro, Flashcards, Mapas
- * mentales y Agenda. Primero va la base que comparten (colores, encabezado,
- * barra de navegación, tarjetas, botones, campos y pie de página) y después lo
- * propio de cada herramienta
+ * los estilos de las cinco herramientas (IA, Pomodoro, Flashcards, Mapas
+ * mentales y Agenda) y del carrito de compras. Primero va la base que
+ * comparten (colores, encabezado, barra de navegación, tarjetas, botones,
+ * campos y pie de página) y después lo propio de cada herramienta
  *
  * estas páginas no usan comun.css: este archivo tiene su propia copia de la
  * barra de navegación. Cada herramienta usa clases con su propio prefijo (pm-
- * Pomodoro, fc- Flashcards, mm- Mapas, ag- Agenda, ia- IA)
+ * Pomodoro, fc- Flashcards, mm- Mapas, ag- Agenda, ia- IA, ca- Carrito)
  *
  */
 
@@ -688,3 +688,119 @@ button{font-family:inherit}
   transition:background .2s,color .2s;
 }
 .ia-chip:hover{background:var(--lila);color:var(--morado)}
+
+/**
+ *
+ * Carrito: el contenido en una columna; desde 900px de ancho, dos columnas
+ * (los productos más anchos que el resumen)
+ *
+ */
+.ca-layout{display:grid;gap:2rem}
+@media (min-width:900px){ .ca-layout{grid-template-columns:1.5fr .8fr;align-items:start} }
+
+/**
+ *
+ * los títulos "Productos" y "Resumen" de las tarjetas del carrito
+ *
+ */
+.ca-titulo{color:var(--morado);font-size:1.15rem;margin-bottom:1rem}
+
+/**
+ *
+ * el mensaje de estado (cargando, carrito vacío o falta iniciar sesión); su
+ * enlace va en naranja
+ *
+ */
+.ca-estado{color:rgba(45,44,87,.75)}
+.ca-estado a{color:var(--naranja-vivo);font-weight:700}
+
+/**
+ *
+ * la lista de productos del carrito, uno debajo de otro
+ *
+ */
+.ca-lista{display:flex;flex-direction:column;gap:.8rem}
+
+/**
+ *
+ * la fila de un producto: la foto, el nombre con el precio por unidad, los
+ * botones de cantidad, el subtotal y el botón Quitar, en cinco columnas sobre
+ * fondo hueso
+ *
+ */
+.ca-item{
+  display:grid;grid-template-columns:64px 1fr auto auto auto;align-items:center;gap:1rem;
+  background:var(--hueso);border-radius:1rem;padding:.8rem 1rem;
+}
+
+/**
+ *
+ * el cuadro de la foto, de 64px; si la foto no existe se ve un degradado lila
+ * y azul
+ *
+ */
+.ca-foto{width:64px;height:64px;border-radius:.8rem;overflow:hidden;background:linear-gradient(135deg,var(--lila),var(--azul-cielo))}
+.ca-foto img{width:100%;height:100%;object-fit:cover}
+
+/**
+ *
+ * el nombre del producto en morado y debajo el precio por unidad, más pequeño
+ *
+ */
+.ca-info{display:flex;flex-direction:column;min-width:0}
+.ca-nombre{color:var(--morado);font-size:1.05rem}
+.ca-precio{font-size:.85rem;color:rgba(45,44,87,.7)}
+
+/**
+ *
+ * los botones redondos − y + con la cantidad en el medio; se ponen naranjas al
+ * pasar el mouse
+ *
+ */
+.ca-cantidad{display:flex;align-items:center;gap:.5rem}
+.ca-cantidad button{
+  width:32px;height:32px;border-radius:50%;border:2px solid var(--lila);background:#fff;
+  color:var(--morado);font-size:1.1rem;font-weight:700;cursor:pointer;line-height:1;
+}
+.ca-cantidad button:hover{border-color:var(--naranja-vivo);color:var(--naranja-vivo)}
+.ca-cantidad span{min-width:1.5rem;text-align:center;font-weight:700}
+
+/**
+ *
+ * el subtotal del producto (precio × cantidad), sin partirse en dos líneas
+ *
+ */
+.ca-subtotal{color:var(--azul-noche);white-space:nowrap}
+
+/**
+ *
+ * el botón Quitar, como texto naranja
+ *
+ */
+.ca-quitar{background:none;border:0;color:var(--naranja);cursor:pointer;font-weight:700;font-size:.85rem}
+
+/**
+ *
+ * la tarjeta del resumen: la fila de productos, la del total (más grande, con
+ * una línea arriba) y el botón Vaciar carrito
+ *
+ */
+.ca-resumen{display:flex;flex-direction:column;gap:.8rem}
+.ca-fila{display:flex;justify-content:space-between;align-items:center}
+.ca-fila--total{border-top:2px solid rgba(75,28,113,.12);padding-top:.8rem;font-size:1.15rem;color:var(--morado)}
+
+/**
+ *
+ * en celulares cada fila del carrito se reparte en dos renglones: arriba el
+ * nombre y Quitar, abajo la cantidad y el subtotal, con la foto a la izquierda
+ * de los dos
+ *
+ */
+@media (max-width:640px){
+  .ca-item{grid-template-columns:56px 1fr auto;grid-template-areas:"foto info quitar" "foto cantidad subtotal"}
+  .ca-foto{grid-area:foto;width:56px;height:56px}
+  .ca-info{grid-area:info}
+  .ca-cantidad{grid-area:cantidad}
+  .ca-subtotal{grid-area:subtotal;text-align:right}
+  .ca-quitar{grid-area:quitar}
+}

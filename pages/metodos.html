@@ -20,7 +20,9 @@
   la barra de navegación propia de esta página: el logo, el botón de las 3
   rayas para celular y los enlaces a todas las páginas
 
-  el enlace de Métodos lleva la clase activo, que lo muestra marcado
+  el enlace de Métodos lleva la clase activo, que lo muestra marcado. Los
+  dos últimos enlaces (#navCarrito y #navCuenta) los actualiza comun.js según
+  la sesión: el número de productos del carrito y "Ingresar" o "Salir"
 
 -->
 <header class="navbar">
@@ -46,6 +48,8 @@
           <li><a href="entrevistas.html">Entrevistas</a></li>
           <li><a href="ia.html">IA</a></li>
           <li><a href="contacto.html">Contáctanos</a></li>
+          <li id="navCarrito"><a href="carrito.html">Carrito</a></li>
+          <li id="navCuenta"><a href="login.html">Ingresar</a></li>
         </ul>
       </nav>
     </div>
@@ -474,10 +478,12 @@
 
   <!--
 
-    el script de esta página. defer hace que se ejecute cuando ya cargó todo
-    el HTML
+    los scripts: comun.js (los enlaces de la sesión en la barra) y metodos.js,
+    el de esta página. defer hace que se ejecuten cuando ya cargó todo el
+    HTML
 
   -->
+  <script src="../assets/js/comun.js" defer></script>
   <script src="../assets/js/metodos.js" defer></script>
 </body>
 </html>

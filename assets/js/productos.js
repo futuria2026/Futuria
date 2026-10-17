@@ -2,7 +2,7 @@
  *
  * la página de productos: pide a api/productos.php el catálogo y arma una
  * tarjeta por producto, con un carrusel de fotos, su información y el botón
- * con el precio
+ * para agregarlo al carrito
  *
  * si el servidor no responde, o responde sin productos, usa la lista de
  * respaldo escrita aquí. Las tarjetas se alternan: una con las fotos a la
@@ -12,18 +12,19 @@
 
 /**
  *
- * los productos de respaldo (el libro y las cartas): nombre, eslogan,
- * descripción, características, precio y las 4 fotos de cada uno
+ * los productos de respaldo (el libro y las cartas), con los mismos datos de
+ * la base de datos: id, nombre, eslogan, descripción, características, precio
+ * y las 4 fotos de cada uno
  *
  */
 var PRODUCTOS_RESPALDO = [
-  { nombre:'Libro', eslogan:'Organiza tu año completo',
-    descripcion:'Agenda anual con vista semanal y mensual, espacio para metas, seguimiento de hábitos y páginas de repaso por materia. Diseñada para estudiantes de colegio y primeros semestres.',
-    caracteristicas:['Vista semanal y mensual','Seguimiento de hábitos','Stickers de Futuria','Portada personalizable'],
+  { id:1, nombre:'Libro', eslogan:'Organiza tu año completo',
+    descripcion:'Libro guía de Futuria con orientación vocacional, métodos de estudio y herramientas para organizar tu tiempo. Diseñado para estudiantes de colegio y primeros semestres.',
+    caracteristicas:['Orientación vocacional','Métodos de estudio','Gestión del tiempo','Ilustraciones de Futuria'],
     precio:'$65.000 COP', imagenes:['../assets/img/p1-1.jpg','../assets/img/p1-2.jpg','../assets/img/p1-3.jpg','../assets/img/p1-4.jpg'] },
-  { nombre:'Cartas', eslogan:'Tu semana en una sola hoja',
-    descripcion:'Bloc desprendible de 52 hojas para planear cada semana: tareas, evaluaciones, tiempo libre y bloques de estudio con la técnica Pomodoro.',
-    caracteristicas:['52 hojas desprendibles','Bloques Pomodoro','Tamaño A4','Diseño Futuria'],
+  { id:2, nombre:'Cartas', eslogan:'Aprende jugando',
+    descripcion:'Juego de cartas de Futuria con los personajes del equipo para descubrir tus intereses y repasar métodos de estudio de forma divertida, solo o con amigos.',
+    caracteristicas:['Personajes de Futuria','Para jugar solo o en grupo','Áreas vocacionales','Diseño Futuria'],
     precio:'$28.000 COP', imagenes:['../assets/img/p2-1.jpg','../assets/img/p2-2.jpg','../assets/img/p2-3.jpg','../assets/img/p2-4.jpg'] }
 ];
 
@@ -135,9 +136,8 @@ document.addEventListener('DOMContentLoaded', function () {
    * precio
    *
    * las tarjetas 2, 4, 6... llevan la clase producto--invertido, que pone las
-   * fotos al otro lado. Al hacer clic en el precio, el botón dice "¡Agregado!"
-   * durante 1,8 segundos y vuelve a mostrar el precio (todavía no hay
-   * carrito de compras)
+   * fotos al otro lado. El botón dice "Agregar al carrito" con el precio y
+   * agrega el producto al carrito de la persona
    *
    */
   function tarjeta(dato, indice) {
@@ -163,14 +163,53 @@ document.addEventListener('DOMContentLoaded', function () {
     info.querySelector('.producto__descripcion').textContent = dato.descripcion;
 
     var boton = info.querySelector('.producto__precio');
-    boton.textContent = dato.precio;
-    boton.addEventListener('click', function () {
-      boton.classList.add('agregado');
-      boton.textContent = '¡Agregado! ' + dato.precio;
+    var textoBoton = 'Agregar al carrito · ' + dato.precio;
+    boton.textContent = textoBoton;
+
+    /**
+     *
+     * muestra un mensaje en el botón durante 1,8 segundos y lo devuelve a su
+     * texto normal. Con exito = true el botón se pone azul (clase agregado)
+     *
+     */
+    function mensajeBoton(texto, exito) {
+      boton.classList.toggle('agregado', exito);
+      boton.textContent = texto;
       setTimeout(function () {
         boton.classList.remove('agregado');
-        boton.textContent = dato.precio;
+        boton.textContent = textoBoton;
+        boton.disabled = false;
       }, 1800);
+    }
+
+    /**
+     *
+     * al tocar el botón se agrega una unidad del producto al carrito
+     *
+     * si nadie inició sesión (error 401), lleva al inicio de sesión y después
+     * regresa a productos. Si se agregó, el botón dice "¡Agregado!" y la barra
+     * actualiza el número del carrito con el evento "futuria:carrito"
+     *
+     */
+    boton.addEventListener('click', async function () {
+      boton.disabled = true;
+      try {
+        var res = await fetch('../api/carrito.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accion: 'agregar', producto_id: dato.id, cantidad: 1 })
+        });
+        if (res.status === 401) {
+          location.href = 'login.html?volver=productos.html';
+          return;
+        }
+        var carrito = await res.json();
+        if (!carrito.ok) throw new Error(carrito.error);
+        document.dispatchEvent(new CustomEvent('futuria:carrito', { detail: { cantidad: carrito.cantidad } }));
+        mensajeBoton('¡Agregado! ' + dato.precio, true);
+      } catch (e) {
+        mensajeBoton('No se pudo agregar, intenta de nuevo', false);
+      }
     });
 
     art.appendChild(crearCarrusel(dato.imagenes || [], dato.nombre));

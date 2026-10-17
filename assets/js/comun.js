@@ -1,8 +1,8 @@
 /**
  *
  * lo que comparten todas las páginas con la barra de navegación lila: las
- * estrellas que brillan de fondo, el botón del menú en celular y el año del
- * footer
+ * estrellas que brillan de fondo, el botón del menú en celular, el año del
+ * footer y los enlaces de la sesión ("Ingresar" o "Salir" y el carrito)
  *
  * se carga antes del script propio de cada página. Todo va dentro de una
  * función que se ejecuta sola, y sus variables solo existen ahí adentro
@@ -70,4 +70,85 @@
    */
   var anio = document.getElementById('anio');
   if (anio) anio.textContent = String(new Date().getFullYear());
+
+  /**
+   *
+   * la dirección de api/auth.php, calculada desde donde está este archivo
+   * (assets/js/comun.js); así sirve igual en index.html y en las páginas de
+   * pages/
+   *
+   */
+  var API_AUTH = new URL('../../api/auth.php', document.currentScript.src).href;
+
+  /**
+   *
+   * los enlaces de la barra que dependen de la sesión: "Carrito" y
+   * "Ingresar". Las páginas sin esos enlaces (registro, login y contacto) no
+   * hacen nada más
+   *
+   */
+  var enlaceCarrito = document.querySelector('#navCarrito a');
+  var enlaceCuenta = document.querySelector('#navCuenta a');
+  if (!enlaceCarrito || !enlaceCuenta) return;
+
+  /**
+   *
+   * escribe en el enlace del carrito cuántos productos tiene, por ejemplo
+   * "Carrito (3)"; con 0 dice solo "Carrito"
+   *
+   */
+  function pintarCarrito(cantidad) {
+    enlaceCarrito.textContent = cantidad > 0 ? 'Carrito (' + cantidad + ')' : 'Carrito';
+  }
+
+  /**
+   *
+   * cuando otra parte de la página cambia el carrito (productos.js o
+   * carrito.js) avisa con el evento "futuria:carrito" y aquí se actualiza el
+   * número
+   *
+   */
+  document.addEventListener('futuria:carrito', function (e) {
+    pintarCarrito(e.detail.cantidad);
+  });
+
+  /**
+   *
+   * el enlace "Ingresar" lleva al inicio de sesión con ?volver= y el nombre
+   * de esta página, así después de entrar se regresa aquí
+   *
+   */
+  var paginaActual = location.pathname.split('/').pop();
+  if (/\/pages\/[a-z0-9-]+\.html$/.test(location.pathname) && paginaActual !== 'login.html') {
+    enlaceCuenta.href = enlaceCuenta.getAttribute('href') + '?volver=' + encodeURIComponent(paginaActual);
+  }
+
+  /**
+   *
+   * pregunta al servidor quién inició sesión
+   *
+   * si hay alguien, "Ingresar" cambia por "Salir" (al pasar el mouse dice
+   * de quién es la sesión) y el carrito muestra su número. Al tocar "Salir"
+   * se cierra la sesión y se recarga la página. Si el servidor no responde,
+   * los enlaces se quedan como están
+   *
+   */
+  fetch(API_AUTH + '?accion=sesion')
+    .then(function (r) { return r.json(); })
+    .then(function (datos) {
+      if (!datos.ok || !datos.usuario) return;
+      pintarCarrito(datos.carrito);
+      enlaceCuenta.textContent = 'Salir';
+      enlaceCuenta.title = 'Cerrar la sesión de ' + datos.usuario.nombre;
+      enlaceCuenta.href = '#';
+      enlaceCuenta.addEventListener('click', function (e) {
+        e.preventDefault();
+        fetch(API_AUTH, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accion: 'logout' })
+        }).then(function () { location.reload(); });
+      });
+    })
+    .catch(function () {});
 })();

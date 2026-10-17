@@ -1,8 +1,8 @@
 /**
  *
- * los estilos de la página de registro y de la página de resultado que muestra
- * api/registro.php: un fondo de colores con manchas que se mueven y una
- * tarjeta blanca semitransparente en el centro con el formulario
+ * los estilos de las páginas de cuenta, el registro y el inicio de sesión: un
+ * fondo de colores con manchas que se mueven y una tarjeta blanca
+ * semitransparente en el centro con el formulario
  *
  * esta página no usa comun.css; tiene sus propios colores y usa la fuente del
  * sistema (Segoe UI o la que tenga el equipo)
@@ -167,7 +167,7 @@ body {
 
 /**
  *
- * el título "Crea tu cuenta", centrado y morado
+ * el título ("Crea tu cuenta" o "Inicia sesión"), centrado y morado
  *
  */
 h1 {
@@ -246,8 +246,24 @@ h1 {
 
 /**
  *
- * el botón "Registrarme" (y el botón Volver de la página de resultado): ancho
- * completo, con degradado naranja y sombra
+ * el aviso de un error del servidor (por ejemplo "Correo o contraseña
+ * incorrectos"), en una caja naranja suave arriba del botón
+ *
+ */
+.aviso-form {
+  margin: 6px 0 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(235, 87, 39, 0.1);
+  color: var(--red-orange);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+/**
+ *
+ * el botón "Registrarme" o "Entrar": ancho completo, con degradado naranja y
+ * sombra
  *
  * al pasar el mouse sube 2px y se aclara un poco; al presionarlo vuelve a su
  * lugar
@@ -273,8 +289,8 @@ h1 {
 
 /**
  *
- * los enlaces de abajo ("Volver al inicio" y "¿Ya tienes cuenta?"), centrados;
- * el enlace va morado y se pone naranja al pasar el mouse
+ * los enlaces de abajo ("Volver al inicio" y el que lleva al otro formulario),
+ * centrados; el enlace va morado y se pone naranja al pasar el mouse
  *
  */
 .login-link {
