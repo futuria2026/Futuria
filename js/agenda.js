@@ -96,7 +96,7 @@
 
   async function cargar() {
     try {
-      var res = await fetch('agenda.php?accion=listar');
+      var res = await fetch('php/agenda.php?accion=listar');
       var datos = await res.json();
       tareas = datos.ok ? (datos.tareas || []) : [];
     } catch (e) { tareas = []; }
@@ -123,7 +123,7 @@
     if (!texto) return;
 
     try {
-      var res = await fetch('agenda.php', {
+      var res = await fetch('php/agenda.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ accion: 'agregar', fecha: fecha, hora: hora, texto: texto })
@@ -144,7 +144,7 @@
     var btn = e.target.closest('button[data-id]');
     if (!btn) return;
     try {
-      var res = await fetch('agenda.php', {
+      var res = await fetch('php/agenda.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ accion: 'eliminar', id: btn.dataset.id })

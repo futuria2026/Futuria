@@ -10,7 +10,7 @@
 declare(strict_types=1); 
 
 // --- Config -----------------------------------------------------------------
-$DATA_DIR  = __DIR__ . '/datos';
+$DATA_DIR  = dirname(__DIR__) . '/datos';
 if (!is_dir($DATA_DIR)) { @mkdir($DATA_DIR, 0775, true); }
 $DATA_FILE = $DATA_DIR . '/users.json';
 
@@ -39,7 +39,7 @@ function render_page(bool $ok, string $msg): void {
     <!DOCTYPE html>
     <html lang="es"><head>
       <meta charset="UTF-8"><title><?= htmlspecialchars($title) ?> — Futuria</title>
-      <link rel="stylesheet" href="iniciosecc.css">
+      <link rel="stylesheet" href="../css/iniciosecc.css">
     </head><body>
       <div class="bg-blobs">
         <span class="blob blob-1"></span>
@@ -47,10 +47,10 @@ function render_page(bool $ok, string $msg): void {
         <span class="blob blob-3"></span>
       </div>
       <main class="card" style="text-align:center;">
-        <div class="logo-wrap"><img src="img/logo-futuria.jpeg" alt="Futuria" class="logo"></div>
+        <div class="logo-wrap"><img src="../img/logo-futuria.jpeg" alt="Futuria" class="logo"></div>
         <h1 style="color: <?= $color ?>; margin-top:16px;"><?= htmlspecialchars($title) ?></h1>
         <p class="subtitle" style="margin-top:12px;"><?= htmlspecialchars($msg) ?></p>
-        <a href="iniciosecc.html" class="submit-btn" style="display:inline-block;text-decoration:none;margin-top:8px;">Volver</a>
+        <a href="../iniciosecc.html" class="submit-btn" style="display:inline-block;text-decoration:none;margin-top:8px;">Volver</a>
       </main>
     </body></html>
     <?php

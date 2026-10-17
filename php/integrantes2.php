@@ -2,7 +2,7 @@
 /* =========================================================
    FUTURIA - Backend de la PÁGINA 2 (INTEGRANTES)
    Devuelve en JSON los 8 integrantes con su persona y su animal.
-   Uso:  fetch('integrantes2.php')  desde pagina2.js
+   Uso:  fetch('php/integrantes2.php')  desde js/pagina2.js
    Imágenes personas: img/2.jpg ... img/9.jpg
    Imágenes animales: img/10.jpg ... img/17.jpg
    ========================================================= */

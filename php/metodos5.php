@@ -142,7 +142,7 @@ switch ($accion) {
 /* ==========================================================
    Ejemplo de uso desde metodos5.js (descomentar y ajustar):
 
-   fetch('metodos5.php', {
+   fetch('php/metodos5.php', {
      method: 'POST',
      body: new URLSearchParams({
        accion: 'guardar_tarea',

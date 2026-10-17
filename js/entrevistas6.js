@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  fetch('entrevistas6.php')
+  fetch('php/entrevistas6.php')
     .then(function(r){if(!r.ok)throw new Error('No disponible');return r.json();})
     .then(function(data){pintar(data&&data.ok&&data.entrevistas?data.entrevistas:ENTREVISTAS_RESPALDO);})
     .catch(function(){pintar(ENTREVISTAS_RESPALDO);});

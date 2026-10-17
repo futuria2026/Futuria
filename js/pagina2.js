@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
     lista.forEach(function (dato) { grid.appendChild(tarjeta(dato)); });
   }
 
-  fetch('integrantes2.php')
+  fetch('php/integrantes2.php')
     .then(function (res) { return res.json(); })
     .then(function (data) {
       if (data && data.ok && data.integrantes && data.integrantes.length) {

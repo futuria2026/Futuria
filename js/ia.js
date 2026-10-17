@@ -45,7 +45,7 @@
     var indicador = mostrarEscribiendo();
 
     try {
-      var res = await fetch('ia.php', {
+      var res = await fetch('php/ia.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mensaje: texto })

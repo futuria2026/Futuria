@@ -39,7 +39,7 @@
 
   async function cargar() {
     try {
-      var res = await fetch('flashcards.php?accion=cargar');
+      var res = await fetch('php/flashcards.php?accion=cargar');
       var datos = await res.json();
       tarjetas = datos.ok ? (datos.tarjetas || []) : [];
     } catch (e) {
@@ -51,7 +51,7 @@
 
   async function guardar() {
     try {
-      var res = await fetch('flashcards.php', {
+      var res = await fetch('php/flashcards.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ accion: 'guardar', tarjetas: tarjetas })

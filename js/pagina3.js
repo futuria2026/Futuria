@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
       
-  fetch('test-vocacional.php')
+  fetch('php/test-vocacional.php')
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((d) => {
       if (d.resumen && resumenEl) resumenEl.textContent = d.resumen;

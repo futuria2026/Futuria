@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
     lista.forEach(function (dato, i) { contenedor.appendChild(tarjeta(dato, i)); });
   }
 
-  fetch('productos4.php')
+  fetch('php/productos4.php')
     .then(function (res) { return res.json(); })
     .then(function (data) {
       if (data && data.ok && data.productos && data.productos.length) {
