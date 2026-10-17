@@ -4,7 +4,7 @@
    ========================================================= */
 
 .quienes{text-align:center;position:relative;z-index:1}
-.titulo{font-family:var(--fuente-titulo);font-size:clamp(2rem,5vw,3rem);letter-spacing:.12em;color:var(--morado);text-align:center}
+.titulo{font-family:var(--fuente-titulo);text-align:center}
 .integrantes{
   position:relative;z-index:1;
   margin-top:3.5rem;display:grid;gap:3.5rem 3rem;

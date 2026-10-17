@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Futuria — Registro</title>
-  <link rel="stylesheet" href="css/iniciosecc.css" />
+  <link rel="stylesheet" href="../assets/css/registro.css">
 </head>
 <body>
   <div class="bg-blobs">
@@ -16,12 +16,12 @@
 
   <main class="card">
     <div class="logo-wrap">
-      <img src="img/logo-futuria.jpeg" alt="Futuria" class="logo" />
+      <img src="../assets/img/logo-futuria.jpeg" alt="Futuria" class="logo" />
     </div>
     <h1>Crea tu cuenta</h1>
     <p class="subtitle">Únete a <span class="brand">Futuria</span> y comienza tu viaje</p>
 
-    <form id="signupForm" action="php/iniciosecc.php" method="POST" novalidate>
+    <form id="signupForm" action="../api/registro.php" method="POST" novalidate>
       <div class="field">
         <label for="fullname">Nombre completo</label>
         <input type="text" id="fullname" name="fullname" placeholder="Ej. Ana García" required />
@@ -54,12 +54,12 @@
 
       <button type="submit" class="submit-btn">Registrarme</button>
 
-      <p class="login-link"><a href="index.html">← Volver al inicio</a></p>
+      <p class="login-link"><a href="../index.html">← Volver al inicio</a></p>
 
       <p class="login-link">¿Ya tienes cuenta? <a href="#">Inicia sesión</a></p>
     </form>
   </main>
 
-  <script src="js/iniciosecc.js"></script>
+  <script src="../assets/js/registro.js"></script>
 </body>
 </html>
