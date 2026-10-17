@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña y la
+  hoja de estilos de métodos
+
+-->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,10 +14,18 @@
   <link rel="stylesheet" href="../assets/css/metodos.css">
 </head>
 <body>
+
+<!--
+
+  la barra de navegación propia de esta página: el logo, el botón de las 3
+  rayas para celular y los enlaces a todas las páginas
+
+  el enlace de Métodos lleva la clase activo, que lo muestra marcado
+
+-->
 <header class="navbar">
     <div class="navbar-inner">
       <a class="nav-logo" href="#inicio">
-        <!-- Logo FUTURIA (cambia la URL por tu archivo local cuando quieras) -->
         <img src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" style="object-fit:cover;padding:3px;" />
         <span>FUTURIA</span>
       </a>
@@ -36,11 +51,21 @@
     </div>
   </header>
 
+  <!--
 
-  <!-- Cielo de estrellas (se llena desde metodos5.js) -->
+    el fondo de estrellas y puntitos de luz de toda la página; lo llena
+    metodos.js
+
+  -->
   <div id="cielo" aria-hidden="true"></div>
 
-  <!-- ================= HERO (como la imagen de referencia) ================= -->
+  <!--
+
+    el encabezado grande: la etiqueta, el título Futuria, el lema, la
+    descripción, el botón Comienza ahora (baja hasta los métodos) y el logo en
+    un círculo con borde ondulado
+
+  -->
   <section class="hero" id="inicio">
     <div class="hero-inner">
       <div class="hero-texto">
@@ -63,16 +88,21 @@
         </button>
       </div>
       <div class="hero-badge">
-        <!-- Logo dentro del círculo blanco, como en la imagen de referencia -->
         <img src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" />
       </div>
     </div>
   </section>
 
-  <!-- ================= NAVBAR ================= -->
   
   <main>
-    <!-- ================= INTRODUCCIÓN ================= -->
+
+    <!--
+
+      la presentación de los métodos: el título "Nuestros métodos", un párrafo
+      y las dos mascotas guía a los lados (el zorro y el búho) con sus
+      burbujas de información
+
+    -->
     <section class="seccion" id="metodos">
       <h2 class="seccion-titulo">Nuestros <span>métodos</span></h2>
       <p class="seccion-sub">
@@ -82,7 +112,13 @@
       </p>
 
       <div class="intro">
-        <!-- Círculo izquierdo: ZORRO (coloca aquí la imagen del zorro) -->
+
+        <!--
+
+          el zorro guía. Su burbuja aparece al pasar el mouse, o al tocarlo en
+          celular
+
+        -->
         <div class="animal-lateral izq">
           <div class="animalito">
             <span class="etiqueta">Zorro</span>
@@ -102,7 +138,12 @@
           </p>
         </div>
 
-        <!-- Círculo derecho: BÚHO (coloca aquí la imagen del búho) -->
+        <!--
+
+          el búho guía. Su burbuja aparece al pasar el mouse, o al tocarlo en
+          celular
+
+        -->
         <div class="animal-lateral der">
           <div class="animalito azul">
             <span class="etiqueta">Búho</span>
@@ -116,10 +157,25 @@
       </div>
     </section>
 
-    <!-- ================= LISTA DE MÉTODOS ================= -->
+    <!--
+
+      la lista de los cuatro métodos. Cada uno es una tarjeta con su mascota,
+      el nombre, una frase corta, la explicación en un globo de diálogo, el
+      botón para usarlo y, al lado, un globo de pensamiento con la foto del
+      método sostenido por otra mascota
+
+      las fotos de las mascotas y de los métodos todavía no se han subido (src
+      vacío); mientras tanto se ve un cuadro con el texto "Aquí va la foto…"
+
+    -->
     <section class="seccion" id="metodos-lista" aria-label="Lista de métodos">
 
-      <!-- MÉTODO 1 · POMODORO (Izq: Gato · Der: Conejo) -->
+      <!--
+
+        método 1, Pomodoro, con el gato y el conejo. El botón abre la guía de
+        pasos y después lleva a pomodoro.html
+
+      -->
       <article class="metodo pomodoro" id="metodo-pomodoro">
         <div class="metodo-info">
           <div class="encabezado-metodo">
@@ -149,7 +205,6 @@
 
         <div class="metodo-visual">
           <div class="burbuja-pensamiento">
-            <!-- AQUÍ VA LA FOTO/IMAGEN DEL MÉTODO POMODORO -->
             <div class="caja-imagen" data-caja>
               <div class="ph">
                 <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -161,7 +216,6 @@
               <img class="real" src="" alt="Foto del método Pomodoro" />
             </div>
           </div>
-          <!-- Segundo animal: Conejo sosteniendo el globo de pensamiento -->
           <div class="animalito mascota-globo azul">
             <span class="etiqueta">Conejo</span>
             <img class="mascota" src="" alt="Conejo" />
@@ -169,7 +223,12 @@
         </div>
       </article>
 
-      <!-- MÉTODO 2 · MAPAS MENTALES (Izq: Oso · Der: Ardilla) -->
+      <!--
+
+        método 2, Mapas mentales, con el oso y la ardilla. El botón abre la
+        guía de pasos y después lleva a mapas-mentales.html
+
+      -->
       <article class="metodo mapas" id="metodo-mapas">
         <div class="metodo-info">
           <div class="encabezado-metodo">
@@ -200,7 +259,6 @@
 
         <div class="metodo-visual">
           <div class="burbuja-pensamiento">
-            <!-- AQUÍ VA LA FOTO/IMAGEN DE MAPAS MENTALES -->
             <div class="caja-imagen" data-caja>
               <div class="ph">
                 <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -220,7 +278,12 @@
         </div>
       </article>
 
-      <!-- MÉTODO 3 · TARJETAS / FLASHCARDS (Izq: Pingüino · Der: Zorro) -->
+      <!--
+
+        método 3, Tarjetas / Flashcards, con el pingüino y el zorro. El botón
+        abre la guía de pasos y después lleva a flashcards.html
+
+      -->
       <article class="metodo tarjetas" id="metodo-tarjetas">
         <div class="metodo-info">
           <div class="encabezado-metodo">
@@ -250,7 +313,6 @@
 
         <div class="metodo-visual">
           <div class="burbuja-pensamiento">
-            <!-- AQUÍ VA LA FOTO/IMAGEN DE LAS FLASHCARDS -->
             <div class="caja-imagen" data-caja>
               <div class="ph">
                 <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -269,7 +331,13 @@
         </div>
       </article>
 
-      <!-- MÉTODO 4 · CALENDARIO DE ORGANIZACIÓN PERSONAL (Izq: Perro) -->
+      <!--
+
+        método 4, Calendario personal, con el perro. El botón lleva directo a
+        agenda.html, y en lugar de foto tiene un calendario que funciona aquí
+        mismo
+
+      -->
       <article class="metodo calendario" id="metodo-calendario">
         <div class="metodo-info">
           <div class="encabezado-metodo">
@@ -300,7 +368,17 @@
 
         <div class="metodo-visual">
           <div class="burbuja-pensamiento">
-            <!-- CALENDARIO FUNCIONAL (día, fecha y hora) -->
+
+            <!--
+
+              el calendario de esta página: el mes con sus flechas, los días
+              de la semana, la cuadrícula de días, el formulario (fecha, hora
+              y tarea) y la lista de tareas del día
+
+              lo maneja metodos.js y las tareas se guardan solo en este
+              navegador
+
+            -->
             <div class="cal-caja" id="cal-area">
               <div class="cal-cabecera">
                 <h4 id="calTitulo">agosto 2026</h4>
@@ -338,7 +416,13 @@
     </section>
   </main>
 
-  <!-- ================= FOOTER ================= -->
+  <!--
+
+    el pie de página: los enlaces a las redes de Futuria (Instagram, TikTok,
+    el correo y Facebook), el logo, el nombre FUTURIA y la línea de derechos
+    reservados con el año
+
+  -->
   <footer class="footer">
     <div class="footer-social">
       <a href="https://www.instagram.com/futuria20?igsh=dnZ1eXp5eG1jM2Jx" aria-label="Instagram">
@@ -368,7 +452,15 @@
     <p class="copy">© <span id="anio">2026</span> Futuria · Todos los derechos reservados.</p>
   </footer>
 
-  <!-- ================= MODAL DE GUÍA ================= -->
+  <!--
+
+    la ventana con la guía de un método: la X para cerrar, el título "Usar …",
+    la lista de pasos y el botón "¡A darle!"
+
+    empieza escondida; metodos.js la llena y la muestra al tocar el botón de
+    un método
+
+  -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="modal">
       <button class="modal-cerrar" id="modalCerrar" aria-label="Cerrar">
@@ -380,6 +472,12 @@
     </div>
   </div>
 
+  <!--
+
+    el script de esta página. defer hace que se ejecute cuando ya cargó todo
+    el HTML
+
+  -->
   <script src="../assets/js/metodos.js" defer></script>
 </body>
 </html>

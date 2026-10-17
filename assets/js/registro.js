@@ -1,7 +1,23 @@
+/**
+ *
+ * revisa el formulario de registro mientras la persona lo llena, para
+ * mostrarle los errores antes de enviarlo a api/registro.php
+ *
+ * cada campo se revisa al salir de él, y si ya tenía error se vuelve a
+ * revisar con cada letra. Al enviar se revisan todos; si alguno falla, el
+ * formulario no se envía y el cursor salta al primer campo con error
+ *
+ */
 (() => {
   const form = document.getElementById('signupForm');
   if (!form) return;
 
+  /**
+   *
+   * los cinco campos con su regla. Cada regla devuelve true si el valor está
+   * bien, o el texto del error que se muestra debajo del campo
+   *
+   */
   const fields = {
     fullname: { el: form.fullname, validate: v => v.trim().length >= 3 || 'Ingresa al menos 3 caracteres.' },
     email: { el: form.email, validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Correo no válido.' },
@@ -10,6 +26,12 @@
     confirm: { el: form.confirm, validate: v => v === form.password.value || 'Las contraseñas no coinciden.' },
   };
 
+  /**
+   *
+   * muestra o quita el error de un campo. Si no hay error borra el mensaje y
+   * el borde rojo y devuelve true; si hay error, lo pinta y devuelve false
+   *
+   */
   const setError = (name, msg) => {
     const input = fields[name].el;
     const small = form.querySelector(`.error[data-for="${name}"]`);
@@ -23,6 +45,12 @@
     return false;
   };
 
+  /**
+   *
+   * revisa cada campo al salir de él, y mientras se corrige uno que tiene
+   * error lo revisa con cada letra
+   *
+   */
   Object.entries(fields).forEach(([name, { el, validate }]) => {
     el.addEventListener('blur', () => setError(name, validate(el.value)));
     el.addEventListener('input', () => {
@@ -30,6 +58,12 @@
     });
   });
 
+  /**
+   *
+   * al enviar revisa todos los campos; si alguno falla, detiene el envío y
+   * pone el cursor en el primer campo con error
+   *
+   */
   form.addEventListener('submit', (e) => {
     let ok = true;
     Object.entries(fields).forEach(([name, { el, validate }]) => {

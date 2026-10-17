@@ -1,11 +1,26 @@
-/* =========================================================
-   FUTURIA - Página 3 (TEST VOCACIONAL)
-   Complementa a css/estilos.css (misma paleta y tipografías)
-   ========================================================= */
+/**
+ *
+ * los estilos propios de la página de test vocacional: el resumen y las
+ * tarjetas de cada test
+ *
+ * se carga después de comun.css y usa sus mismos colores y fuentes
+ *
+ */
 
+/**
+ *
+ * el enlace marcado de un menú .nav__lista en lila. No tiene efecto: la página
+ * usa la barra .nb, que no tiene ese menú
+ *
+ */
 .nav__lista a.activo{color:var(--lila)}
 
-/* ---------- Resumen ---------- */
+/**
+ *
+ * el párrafo que explica qué es un test vocacional: centrado, de 46rem de
+ * ancho como máximo y un poco más grande que el texto normal
+ *
+ */
 .test-resumen{
   max-width:46rem;
   margin-inline:auto;
@@ -13,7 +28,12 @@
   color:rgba(45,44,87,.88);
 }
 
-/* ---------- Rejilla de 2 tests ---------- */
+/**
+ *
+ * la cuadrícula de tarjetas: una columna en celular y, desde 820px de ancho,
+ * dos columnas
+ *
+ */
 .tests-grid{
   display:grid;
   grid-template-columns:1fr;
@@ -24,7 +44,14 @@
   .tests-grid{grid-template-columns:repeat(2,1fr);gap:3.5rem}
 }
 
-/* ---------- Tarjeta de test ---------- */
+/**
+ *
+ * la tarjeta de un test: fondo claro, borde lila de 4px, esquinas redondeadas
+ * y sombra
+ *
+ * al pasar el mouse sube 6px y su sombra crece
+ *
+ */
 .test{
   background:var(--hueso);
   border-radius:1.5rem;
@@ -37,6 +64,12 @@
 }
 .test:hover{transform:translateY(-6px);box-shadow:0 24px 60px -22px rgba(45,44,87,.55)}
 
+/**
+ *
+ * la caja de la imagen, en proporción 4:3; al pasar el mouse por la tarjeta la
+ * imagen se acerca un poco (escala 1.05)
+ *
+ */
 .test__imagen{
   position:relative;
   aspect-ratio:4/3;
@@ -49,6 +82,12 @@
 }
 .test:hover .test__imagen img{transform:scale(1.05)}
 
+/**
+ *
+ * la etiqueta morada en mayúsculas que va encima de la imagen, en la esquina
+ * de arriba a la izquierda
+ *
+ */
 .test__etiqueta{
   position:absolute;
   top:1rem;left:1rem;
@@ -62,6 +101,12 @@
   border-radius:999px;
 }
 
+/**
+ *
+ * la parte de abajo de la tarjeta con el título, la descripción, las etiquetas
+ * y el botón, uno debajo del otro
+ *
+ */
 .test__cuerpo{
   padding:2rem 1.75rem 2.25rem;
   display:flex;
@@ -69,17 +114,37 @@
   gap:1rem;
   flex:1;
 }
+
+/**
+ *
+ * el nombre del test, en morado
+ *
+ */
 .test__titulo{
   font-family:var(--fuente-demi);
   letter-spacing:.1em;
   font-size:1.5rem;
   color:var(--morado);
 }
+
+/**
+ *
+ * la descripción del test; ocupa el espacio que sobra, y con eso los botones
+ * de las dos tarjetas quedan a la misma altura
+ *
+ */
 .test__texto{
   color:rgba(45,44,87,.85);
   font-size:.98rem;
   flex:1;
 }
+
+/**
+ *
+ * las etiquetas pequeñas (por ejemplo "9 áreas" o "~15 min") en fila, con
+ * fondo lila suave y bordes redondos
+ *
+ */
 .test__lista{
   display:flex;
   flex-wrap:wrap;
@@ -100,7 +165,14 @@
   padding:.35rem .8rem;
 }
 
-/* ---------- Botón del test ---------- */
+/**
+ *
+ * el botón naranja que abre el test en otra pestaña, con la flecha a la
+ * izquierda
+ *
+ * al pasar el mouse se aclara y sube 2px; al presionarlo vuelve a su lugar
+ *
+ */
 .test__boton{
   display:inline-flex;
   align-items:center;
@@ -124,7 +196,12 @@
 .test__boton:active{transform:translateY(0)}
 .test__boton svg{flex-shrink:0}
 
-/* Variante de color para la segunda tarjeta */
+/**
+ *
+ * los colores de las tarjetas pares (la segunda): borde y etiqueta naranjas, y
+ * botón morado que se oscurece al pasar el mouse
+ *
+ */
 .test--alterno{
   border-color:var(--naranja);
 }
@@ -138,6 +215,12 @@
   background:var(--azul-noche);
 }
 
+/**
+ *
+ * si la persona pidió en su sistema menos movimiento, la tarjeta y la imagen
+ * dejan de animarse
+ *
+ */
 @media(prefers-reduced-motion:reduce){
   .test,.test__imagen img{transition:none}
 }

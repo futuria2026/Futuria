@@ -1,15 +1,29 @@
-/* ==========================================================
-   FUTURIA · Página de métodos de estudio  (assets/js/metodos.js)
-   - Estrellas decorativas de 4 puntas y puntitos degradados
-   - Menú móvil, burbujas de info táctiles
-   - Modal de guía para cada método
-   - Calendario de organización personal (día · fecha · hora)
-     con persistencia en localStorage
-   ========================================================== */
+/**
+ *
+ * la página de métodos de estudio: el cielo de estrellas de fondo, el menú en
+ * celular, las burbujas de información, la ventana con la guía de cada método
+ * y el calendario personal de tareas
+ *
+ * esta página tiene su propio diseño y no usa comun.js. El calendario guarda
+ * las tareas solo en este navegador (localStorage, la memoria del navegador),
+ * no en el servidor. Todo va dentro de una función que se ejecuta sola, y sus
+ * variables solo existen ahí adentro
+ *
+ */
 (function () {
   'use strict';
 
-  /* ---------------- Cielo de estrellas ---------------- */
+  /**
+   *
+   * llena el fondo #cielo con 55 estrellas de cuatro puntas y 24 puntitos de
+   * luz, todos en lugares al azar. Si ya tiene algo adentro no hace nada
+   *
+   * cada estrella es un dibujo SVG metido en el fondo del span, de un color
+   * al azar entre lila, naranja, azul cielo y blanco, de 8 a 28 píxeles, que
+   * brilla a su propio ritmo (de 2,6 a 6 segundos). Los puntitos miden de 24
+   * a 94 píxeles
+   *
+   */
   function pintarEstrellas() {
     var cielo = document.getElementById('cielo');
     if (!cielo || cielo.childNodes.length) return;
@@ -56,9 +70,15 @@
   }
   pintarEstrellas();
 
-  /* ---------------- Imágenes (placeholders) ---------------- */
-  // Si el usuario ya puso un src, se muestra la foto y se oculta el placeholder.
-  // Si el src está vacío, se quita el atributo para no generar errores.
+  /**
+   *
+   * las fotos de las mascotas y de cada método, que todavía no se han subido
+   *
+   * si una imagen ya tiene foto (src), se muestra y se esconde el cuadro de
+   * "Aquí va la foto…". Si el src está vacío se le quita, y el navegador ya
+   * no intenta cargar una imagen que no existe
+   *
+   */
   document.querySelectorAll('img.mascota, img.real').forEach(function (img) {
     var src = (img.getAttribute('src') || '').trim();
     if (!src || src === '#') {
@@ -73,7 +93,12 @@
     }
   });
 
-  /* ---------------- Menú móvil ---------------- */
+  /**
+   *
+   * el botón de las 3 rayas abre y cierra el menú en celular, y al tocar
+   * cualquier enlace del menú este se cierra
+   *
+   */
   var menuBtn = document.getElementById('menuBtn');
   var navItems = document.getElementById('navItems');
   if (menuBtn && navItems) {
@@ -87,14 +112,24 @@
     });
   }
 
-  /* ---------------- Burbujas de info táctiles ---------------- */
+  /**
+   *
+   * tocar una mascota de los lados muestra u oculta su burbuja de
+   * información; en celular hace lo mismo que pasar el mouse por encima
+   *
+   */
   document.querySelectorAll('.animal-lateral').forEach(function (bloque) {
     bloque.addEventListener('click', function () {
       bloque.classList.toggle('tocado');
     });
   });
 
-  /* ---------------- Scroll: botón cohete ---------------- */
+  /**
+   *
+   * el botón "Comienza ahora" del inicio baja suavemente hasta la sección de
+   * métodos
+   *
+   */
   var btnCohete = document.getElementById('btnCohete');
   if (btnCohete) {
     btnCohete.addEventListener('click', function () {
@@ -103,7 +138,12 @@
     });
   }
 
-  /* ---------------- Modal de guía por método ---------------- */
+  /**
+   *
+   * los 5 pasos de la guía de cada método, que se muestran en la ventana
+   * antes de abrir la herramienta
+   *
+   */
   var GUIA = {
     pomodoro: [
       'Elige una sola tarea concreta para trabajar.',
@@ -127,17 +167,43 @@
       'Repite a diario hasta que todas te salgan bien.'
     ]
   };
+
+  /**
+   *
+   * el color del nombre del método en el título de la ventana: naranja para
+   * Pomodoro, azul cielo para mapas y morado para tarjetas
+   *
+   */
   var colorGuia = { pomodoro: '#EB5727', mapas: '#83AEE3', tarjetas: '#4b1c71' };
 
+  /**
+   *
+   * las partes de la ventana de la guía: el fondo oscuro, la ventana, la
+   * palabra del título y la lista de pasos
+   *
+   */
   var overlay = document.getElementById('modalOverlay');
   var modal = document.getElementById('modal');
   var modalPalabra = document.getElementById('modalPalabra');
   var modalPasos = document.getElementById('modalPasos');
 
+  /**
+   *
+   * cierra la ventana de la guía y vuelve a dejar mover la página
+   *
+   */
   function cerrarModal() {
     if (overlay) overlay.classList.remove('abierto');
     document.body.style.overflow = '';
   }
+
+  /**
+   *
+   * abre la ventana con la guía de un método: pone su nombre con mayúscula
+   * inicial y en su color, escribe sus pasos y no deja mover la página de
+   * fondo mientras está abierta
+   *
+   */
   function abrirModal(guia) {
     if (!overlay || !GUIA[guia]) return;
     modalPalabra.textContent = GUIA[guia] ? guia.charAt(0).toUpperCase() + guia.slice(1) : guia;
@@ -152,8 +218,23 @@
     document.body.style.overflow = 'hidden';
   }
 
-  var enlacePendiente = null; // URL de la herramienta real, para cuando cierres el modal con "¡A darle!"
+  /**
+   *
+   * la página de la herramienta a la que se va al darle "¡A darle!" en la
+   * ventana (por ejemplo pomodoro.html)
+   *
+   */
+  var enlacePendiente = null;
 
+  /**
+   *
+   * los botones "Usar …" de cada método
+   *
+   * si el botón tiene una guía (data-guia), primero abre la ventana con los
+   * pasos y guarda a dónde iba. Si no tiene guía, como "Usar Calendario", va
+   * directo a su página
+   *
+   */
   document.querySelectorAll('.btn-usar').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       var guia = btn.getAttribute('data-guia');
@@ -164,11 +245,16 @@
         enlacePendiente = href || null;
         abrirModal(guia);
       }
-      // Si no tiene guía (ej. el botón "Usar Calendario" -> agenda.html),
-      // se deja el enlace normal del <a> para que navegue directo.
     });
   });
 
+  /**
+   *
+   * las formas de salir de la ventana: la X la cierra, "¡A darle!" lleva a la
+   * herramienta (o cierra si no hay a dónde ir), y también se cierra al hacer
+   * clic en el fondo oscuro o con la tecla Escape
+   *
+   */
   var modalCerrar = document.getElementById('modalCerrar');
   var modalInicio = document.getElementById('modalInicio');
   if (modalCerrar) modalCerrar.addEventListener('click', cerrarModal);
@@ -186,19 +272,35 @@
     if (e.key === 'Escape') cerrarModal();
   });
 
-  /* ====================================================
-     CALENDARIO DE ORGANIZACIÓN PERSONAL (día · fecha · hora)
-     ==================================================== */
+  /**
+   *
+   * los nombres de los meses y de los días, y la clave con la que se guardan
+   * las tareas en la memoria del navegador
+   *
+   */
   var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   var DIAS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   var CLAVE_TAREAS = 'futuria_tareas_v1';
 
+  /**
+   *
+   * la fecha de hoy, el año y el mes que se ven en el calendario (enero = 0),
+   * el día elegido y las tareas guardadas, agrupadas por fecha:
+   * { "2026-10-17": [ { id, hora, titulo } ] }
+   *
+   */
   var hoy = new Date();
   var anio = hoy.getFullYear();
-  var mes = hoy.getMonth(); // 0 = enero
+  var mes = hoy.getMonth();
   var diaSel = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
   var tareas = cargarTareas();
 
+  /**
+   *
+   * las partes del calendario: la cuadrícula, el título del mes, los campos
+   * del formulario, la lista de tareas y el mensaje de día sin tareas
+   *
+   */
   var calCuadricula = document.getElementById('calCuadricula');
   var calTitulo = document.getElementById('calTitulo');
   var calFecha = document.getElementById('calFecha');
@@ -208,6 +310,12 @@
   var calLista = document.getElementById('calLista');
   var calVacio = document.getElementById('calVacio');
 
+  /**
+   *
+   * lee las tareas guardadas en el navegador. Si no hay o están dañadas,
+   * empieza sin tareas
+   *
+   */
   function cargarTareas() {
     try {
       return JSON.parse(localStorage.getItem(CLAVE_TAREAS)) || {};
@@ -215,40 +323,67 @@
       return {};
     }
   }
+
+  /**
+   *
+   * guarda todas las tareas en el navegador. Si el navegador no lo permite
+   * (por ejemplo en modo privado), sigue sin guardar
+   *
+   */
   function guardarTareas() {
     try {
       localStorage.setItem(CLAVE_TAREAS, JSON.stringify(tareas));
-    } catch (e) { /* almacenamiento no disponible */ }
+    } catch (e) {}
   }
+
+  /**
+   *
+   * convierte una fecha en el texto AAAA-MM-DD con el que se agrupan las
+   * tareas
+   *
+   */
   function claveFecha(d) {
     var mm = String(d.getMonth() + 1).padStart(2, '0');
     var dd = String(d.getDate()).padStart(2, '0');
     return d.getFullYear() + '-' + mm + '-' + dd;
   }
+
+  /**
+   *
+   * dice si dos fechas son el mismo día, sin importar la hora
+   *
+   */
   function mismaFecha(a, b) {
     return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   }
 
+  /**
+   *
+   * dibuja la cuadrícula del mes que se está viendo
+   *
+   * la semana empieza el lunes. Primero pone los últimos días del mes
+   * anterior que caben en la primera semana, después todos los días del mes
+   * y al final los primeros días del mes siguiente hasta completar la última
+   * fila de 7
+   *
+   */
   function renderCalendario() {
     calTitulo.textContent = MESES[mes] + ' ' + anio;
 
     var primerDia = new Date(anio, mes, 1);
     var diasEnMes = new Date(anio, mes + 1, 0).getDate();
     var diasEnMesAnt = new Date(anio, mes, 0).getDate();
-    var desfase = (primerDia.getDay() + 6) % 7; // lunes = 0
+    var desfase = (primerDia.getDay() + 6) % 7;
 
     calCuadricula.innerHTML = '';
 
-    // Celdas del mes anterior
     for (var i = desfase - 1; i >= 0; i--) {
       var fechaAnt = new Date(anio, mes - 1, diasEnMesAnt - i);
       calCuadricula.appendChild(crearCelda(fechaAnt, false));
     }
-    // Días del mes actual
     for (var d = 1; d <= diasEnMes; d++) {
       calCuadricula.appendChild(crearCelda(new Date(anio, mes, d), true));
     }
-    // Celdas del mes siguiente (para completar la grilla)
     var total = calCuadricula.children.length;
     var resto = (7 - (total % 7)) % 7;
     for (var k = 1; k <= resto; k++) {
@@ -256,12 +391,22 @@
     }
   }
 
+  /**
+   *
+   * crea el botón de un día del calendario
+   *
+   * los días de otro mes se ven más claros, el sábado y el domingo de otro
+   * color, y se marcan hoy y el día elegido. Si el día tiene tareas lleva un
+   * puntito. Al hacer clic queda elegido; si era de otro mes, el calendario
+   * pasa a ese mes
+   *
+   */
   function crearCelda(fecha, esMismoMes) {
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'cal-dia';
     if (!esMismoMes) btn.classList.add('otro-mes');
-    var diaSemana = fecha.getDay(); // 0 domingo
+    var diaSemana = fecha.getDay();
     if (diaSemana === 0 || diaSemana === 6) btn.classList.add('fin');
     if (mismaFecha(fecha, hoy)) btn.classList.add('hoy');
     if (mismaFecha(fecha, diaSel)) btn.classList.add('sel');
@@ -279,7 +424,6 @@
       if (esMismoMes) {
         renderCalendario();
       } else {
-        // Navegar al mes del día vecino
         anio = fecha.getFullYear();
         mes = fecha.getMonth();
         renderCalendario();
@@ -289,10 +433,25 @@
     return btn;
   }
 
+  /**
+   *
+   * escribe una fecha completa, por ejemplo "Sábado 17 de octubre de 2026"
+   *
+   */
   function textoFecha(d) {
     return DIAS[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()] + ' de ' + d.getFullYear();
   }
 
+  /**
+   *
+   * muestra las tareas del día elegido, ordenadas por hora
+   *
+   * también escribe la fecha completa en el campo de fecha y lo ensancha al
+   * largo de ese texto. Si el día no tiene tareas muestra el mensaje de
+   * vacío; si tiene, pone cada una con su hora (o "Sin hora"), su título y
+   * una X para borrarla
+   *
+   */
   function renderLista() {
     var clave = claveFecha(diaSel);
     calFecha.value = textoFecha(diaSel);
@@ -334,6 +493,13 @@
     });
   }
 
+  /**
+   *
+   * al enviar el formulario se agrega la tarea al día elegido, se guarda en
+   * el navegador, se limpian los campos y se vuelve a dibujar. Si no se
+   * escribió nada, el cursor vuelve al campo de la tarea
+   *
+   */
   if (calForm) {
     calForm.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -350,6 +516,12 @@
     });
   }
 
+  /**
+   *
+   * las flechas cambian al mes anterior o al siguiente, pasando de año cuando
+   * hace falta
+   *
+   */
   var calPrev = document.getElementById('calPrev');
   var calNext = document.getElementById('calNext');
   if (calPrev) calPrev.addEventListener('click', function () {
@@ -363,13 +535,21 @@
     renderCalendario(); renderLista();
   });
 
-  // Arranque del calendario
+  /**
+   *
+   * al abrir la página se dibujan el calendario y las tareas de hoy
+   *
+   */
   if (calCuadricula) {
     renderCalendario();
     renderLista();
   }
 
-  /* ---------------- Año del footer ---------------- */
+  /**
+   *
+   * escribe el año actual en el footer
+   *
+   */
   var anioSpan = document.getElementById('anio');
   if (anioSpan) anioSpan.textContent = new Date().getFullYear();
 })();

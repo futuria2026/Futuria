@@ -1,8 +1,21 @@
-/* =========================================================
-   FUTURIA - Página de entrevistas (acordeón por área + audio)
-   Carga las entrevistas desde api/entrevistas.php.
-   (estrellas, menú y año están en comun.js)
-   ========================================================= */
+/**
+ *
+ * la página de entrevistas: pide a api/entrevistas.php la lista de
+ * profesionales y arma un acordeón con un área por fila. Al abrir un área se
+ * ven la foto, los dos consejos y el reproductor con el audio de la entrevista
+ *
+ * si el servidor no responde usa la lista de respaldo escrita aquí, que tiene
+ * las entrevistas reales del equipo (Jacobo, Ñe y Santiago). Solo puede haber
+ * un área abierta y un audio sonando a la vez
+ *
+ */
+
+/**
+ *
+ * las entrevistas de respaldo: área, nombre, profesión, imagen, audio y los
+ * dos consejos de cada persona
+ *
+ */
 var ENTREVISTAS_RESPALDO = [
   {area:'Transporte - Piloto',nombre:'Jacobo Román',profesion:'Aviación',imagen:'../assets/img/piloto.jpg',audio:'../assets/audio/jacobo.mp3',orientacion:'Le diría que primero estudie algo que le guste; a mí me parece que estudiar algo que a uno no le guste es un infierno  y me he dado cuenta de que en cualquier área o cualquier campo que uno escoja, uno mismo se hace su destino',carrera:'SIIII.'},
 
@@ -12,9 +25,27 @@ var ENTREVISTAS_RESPALDO = [
 
 ];
 
+/**
+ *
+ * cuando la página termina de cargar se piden las entrevistas y se pintan
+ *
+ */
 document.addEventListener('DOMContentLoaded', function(){
+
+  /**
+   *
+   * la caja del acordeón y el audio que está sonando ahora (para pausarlo si
+   * se reproduce otro)
+   *
+   */
   var lista=document.getElementById('entrevistas-lista');var audioActual=null;
 
+  /**
+   *
+   * convierte segundos en el texto mm:ss, por ejemplo 124 → "02:04". Si el
+   * dato no sirve devuelve "00:00"
+   *
+   */
   function formatoTiempo(segundos) {
     if (isNaN(segundos) || segundos < 0) return '00:00';
     var m = Math.floor(segundos / 60);
@@ -22,6 +53,14 @@ document.addEventListener('DOMContentLoaded', function(){
     return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
   }
 
+  /**
+   *
+   * arma todo el acordeón, con una fila por entrevista
+   *
+   * la primera fila empieza abierta. Cada fila tiene un botón con el número
+   * y el nombre del área, y un panel con la entrevista y su reproductor
+   *
+   */
   function pintar(datos){
     if(!lista)return;lista.innerHTML='';
     datos.forEach(function(dato,indice){
@@ -31,6 +70,13 @@ document.addEventListener('DOMContentLoaded', function(){
       boton.innerHTML='<span class="area__numero">'+String(indice+1).padStart(2,'0')+'</span><span class="area__nombre"></span><span class="area__icono" aria-hidden="true">+</span>';
       boton.querySelector('.area__nombre').textContent=dato.area;
       
+      /**
+       *
+       * el panel de la entrevista: la imagen, el nombre, la profesión, los
+       * dos consejos y el reproductor (botón, tiempo actual, barra y
+       * duración total)
+       *
+       */
       var panel=document.createElement('div');panel.className='area__panel';panel.id=panelId;
       panel.innerHTML='<div class="area__interior"><div class="entrevista"><figure class="entrevista__imagen"><img loading="lazy" width="900" height="700"></figure><div class="entrevista__contenido"><h3 class="entrevista__nombre"></h3><p class="entrevista__profesion"></p><div class="consejos"><section class="consejo"><h4>Si aún no sabes qué estudiar</h4><p class="consejo__orientacion"></p></section><section class="consejo"><h4>Si contemplas esta carrera</h4><p class="consejo__carrera"></p></section></div><div class="audio"><button class="audio__boton" type="button"><span class="audio__icono" aria-hidden="true">▶</span><span class="audio__texto">Reproducir entrevista</span></button><div class="audio__progreso-wrapper" style="display:flex; align-items:center; gap:8px; width:100%; margin-top:8px;"><span class="audio__tiempo-actual" style="font-size:0.8rem; color:rgba(252,252,251,0.8);">00:00</span><input type="range" class="audio__barra" value="0" min="0" max="100" style="flex:1; cursor:pointer;"><span class="audio__tiempo-total" style="font-size:0.8rem; color:rgba(252,252,251,0.8);">00:00</span></div><audio preload="metadata"></audio></div></div></div></div>';
       
@@ -38,6 +84,11 @@ document.addEventListener('DOMContentLoaded', function(){
       panel.querySelector('.entrevista__nombre').textContent=dato.nombre;panel.querySelector('.entrevista__profesion').textContent=dato.profesion;
       panel.querySelector('.consejo__orientacion').textContent=dato.orientacion;panel.querySelector('.consejo__carrera').textContent=dato.carrera;
       
+      /**
+       *
+       * el audio de la entrevista y las partes del reproductor
+       *
+       */
       var audio=panel.querySelector('audio');audio.src=dato.audio;
       var play=panel.querySelector('.audio__boton');
       var texto=panel.querySelector('.audio__texto');
@@ -46,9 +97,22 @@ document.addEventListener('DOMContentLoaded', function(){
       var tiempoActual=panel.querySelector('.audio__tiempo-actual');
       var tiempoTotal=panel.querySelector('.audio__tiempo-total');
 
+      /**
+       *
+       * cambian el botón entre "Pausar entrevista" (Ⅱ) y "Reproducir
+       * entrevista" (▶)
+       *
+       */
       function mostrarPausa(){texto.textContent='Pausar entrevista';icono.textContent='Ⅱ';}
       function mostrarPlay(){texto.textContent='Reproducir entrevista';icono.textContent='▶';}
 
+      /**
+       *
+       * el botón reproduce o pausa. Antes de reproducir pausa cualquier otra
+       * entrevista que esté sonando. Si el audio no se puede reproducir (por
+       * ejemplo porque el archivo no existe) el botón dice "Reemplaza el audio"
+       *
+       */
       play.addEventListener('click',function(){
         if(audio.paused){
           if(audioActual&&audioActual!==audio){
@@ -66,10 +130,22 @@ document.addEventListener('DOMContentLoaded', function(){
         }
       });
 
+      /**
+       *
+       * cuando se conoce la duración del audio se muestra a la derecha de la
+       * barra
+       *
+       */
       audio.addEventListener('loadedmetadata', function(){
         tiempoTotal.textContent = formatoTiempo(audio.duration);
       });
 
+      /**
+       *
+       * mientras suena, mueve la barra (de 0 a 100) y actualiza el tiempo
+       * actual
+       *
+       */
       audio.addEventListener('timeupdate', function(){
         if(audio.duration){
           var porcentaje = (audio.currentTime / audio.duration) * 100;
@@ -78,6 +154,11 @@ document.addEventListener('DOMContentLoaded', function(){
         }
       });
 
+      /**
+       *
+       * al arrastrar la barra, el audio salta a ese punto
+       *
+       */
       barra.addEventListener('input', function(){
         if(audio.duration){
           var nuevoTiempo = (barra.value / 100) * audio.duration;
@@ -85,6 +166,12 @@ document.addEventListener('DOMContentLoaded', function(){
         }
       });
 
+      /**
+       *
+       * al pausar vuelve el botón de reproducir; al terminar, además, la
+       * barra y el tiempo vuelven a cero
+       *
+       */
       audio.addEventListener('pause',mostrarPlay);
       audio.addEventListener('ended',function(){
         mostrarPlay();
@@ -92,6 +179,12 @@ document.addEventListener('DOMContentLoaded', function(){
         tiempoActual.textContent = '00:00';
       });
 
+      /**
+       *
+       * al hacer clic en un área se abre (o se cierra si ya estaba abierta)
+       * y se cierran todas las demás
+       *
+       */
       boton.addEventListener('click',function(){
         var abrir=!item.classList.contains('abierta');
         document.querySelectorAll('.area.abierta').forEach(function(otro){
@@ -108,6 +201,11 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
+  /**
+   *
+   * pide las entrevistas al servidor; si no llegan, usa las de respaldo
+   *
+   */
   fetch('../api/entrevistas.php')
     .then(function(r){if(!r.ok)throw new Error('No disponible');return r.json();})
     .then(function(data){pintar(data&&data.ok&&data.entrevistas?data.entrevistas:ENTREVISTAS_RESPALDO);})

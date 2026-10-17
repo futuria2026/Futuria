@@ -1,29 +1,59 @@
 <?php
-// ============================================================
-//  FUTURIA - Backend de la Agenda escolar (solo PHP, sin HTML)
-//  GET  ?accion=listar                                    -> lista de tareas
-//  POST { accion:"agregar", fecha, hora, texto }          -> agrega una tarea
-//  POST { accion:"eliminar", id }                         -> elimina una tarea
-// ============================================================
+/**
+ *
+ * guarda y devuelve las tareas de la agenda escolar de cada visitante, cada
+ * una con su fecha, su hora y el texto de la tarea
+ *
+ * con GET ?accion=listar devuelve todas las tareas. Con POST
+ * { accion: "agregar", fecha, hora, texto } agrega una y con
+ * { accion: "eliminar", id } borra una. Después de cada cambio devuelve la
+ * lista completa ya actualizada
+ *
+ */
 declare(strict_types=1);
 
+/**
+ *
+ * trae las funciones compartidas para leer y guardar datos por visitante
+ *
+ */
 require __DIR__ . '/inc/datos.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
 $metodo = $_SERVER['REQUEST_METHOD'];
 
+/**
+ *
+ * devolver todas las tareas guardadas
+ *
+ */
 if ($metodo === 'GET') {
     $agenda = futuria_leer('agenda', ['tareas' => []]);
     futuria_responder(['ok' => true, 'tareas' => $agenda['tareas'] ?? []]);
 }
 
+/**
+ *
+ * agregar o eliminar una tarea, según la acción que llegue
+ *
+ */
 if ($metodo === 'POST') {
     $entrada = futuria_leer_json_entrada();
     $accion  = (string)($entrada['accion'] ?? '');
     $agenda  = futuria_leer('agenda', ['tareas' => []]);
     $tareas  = $agenda['tareas'] ?? [];
 
+    /**
+     *
+     * agregar una tarea nueva
+     *
+     * la fecha tiene que venir como AAAA-MM-DD y el texto no puede estar
+     * vacío. La hora es opcional (HH:MM); si viene mal se guarda vacía. Se
+     * aceptan como máximo 500 tareas y el texto se corta a 200 letras. Cada
+     * tarea recibe un id único que empieza con "tk_"
+     *
+     */
     if ($accion === 'agregar') {
         $fecha = (string)($entrada['fecha'] ?? '');
         $hora  = (string)($entrada['hora']  ?? '');
@@ -49,6 +79,11 @@ if ($metodo === 'POST') {
         futuria_responder(['ok' => true, 'tareas' => $tareas]);
     }
 
+    /**
+     *
+     * eliminar la tarea que tenga ese id. Si no existe, la lista queda igual
+     *
+     */
     if ($accion === 'eliminar') {
         $id = (string)($entrada['id'] ?? '');
         $tareas = array_values(array_filter($tareas, function ($t) use ($id) {

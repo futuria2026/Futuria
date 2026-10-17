@@ -1,7 +1,24 @@
 <?php
+/**
+ *
+ * le entrega a la página de entrevistas la lista de profesionales
+ * entrevistados en JSON, uno por cada área (salud, humanidades, ciencias...)
+ *
+ * los datos están escritos aquí mismo. La página los pide con fetch() y arma
+ * un acordeón: cada área se abre y muestra la foto, los dos consejos y el
+ * reproductor con el audio de la entrevista
+ *
+ */
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
+/**
+ *
+ * la lista de entrevistas. Cada una tiene el área, el nombre y la profesión
+ * de la persona, la imagen, el audio, el consejo para quien aún no sabe qué
+ * estudiar (orientacion) y el consejo para quien ya piensa en esa carrera
+ *
+ */
 $entrevistas = [
  ['area'=>'Salud','nombre'=>'Dra. Valentina Ríos','profesion'=>'Médica general','imagen'=>'../assets/img/salud.jpg','audio'=>'../assets/audio/salud.mp3','orientacion'=>'Conoce qué problemas disfrutas resolver y busca experiencias reales antes de elegir. Una conversación o un voluntariado puede aclararte mucho más que una lista de carreras.','carrera'=>'La medicina exige constancia y empatía. Aprende a pedir ayuda, cuida tu descanso y recuerda que detrás de cada caso hay una persona.'],
  ['area'=>'Salud','nombre'=>'Dra. Valentina Ríos','profesion'=>'Médica general','imagen'=>'../assets/img/salud.jpg','audio'=>'../assets/audio/salud.mp3','orientacion'=>'Conoce qué problemas disfrutas resolver y busca experiencias reales antes de elegir. Una conversación o un voluntariado puede aclararte mucho más que una lista de carreras.','carrera'=>'La medicina exige constancia y empatía. Aprende a pedir ayuda, cuida tu descanso y recuerda que detrás de cada caso hay una persona.'],
@@ -12,4 +29,9 @@ $entrevistas = [
  ['area'=>'Entretenimiento','nombre'=>'Mateo Salazar','profesion'=>'Productor audiovisual','imagen'=>'../assets/img/entretenimiento.jpg','audio'=>'../assets/audio/entretenimiento.mp3','orientacion'=>'Explora teatro, música, cine o producción con proyectos cortos. El entretenimiento reúne perfiles creativos, técnicos y de gestión.','carrera'=>'Sé puntual, crea una red de colaboradores y termina lo que empiezas. Un proyecto completo enseña más que muchas ideas guardadas.']
 ];
 
+/**
+ *
+ * envía la lista con ok: true y cuántas entrevistas hay
+ *
+ */
 echo json_encode(['ok'=>true,'total'=>count($entrevistas),'entrevistas'=>$entrevistas], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

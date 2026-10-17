@@ -1,12 +1,24 @@
 <?php
-/* =========================================================
-   FUTURIA - api/productos.php
-   Devuelve en JSON los productos que se muestran en productos.html
-   ========================================================= */
+/**
+ *
+ * le entrega a la página de productos el catálogo de Futuria en JSON: por
+ * ahora la Agenda Futuria 2026 y el Planner Semanal
+ *
+ * los productos están escritos aquí mismo, no salen de una base de datos. La
+ * página los pide con fetch() y arma una tarjeta con carrusel por cada uno
+ *
+ */
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
+/**
+ *
+ * la lista de productos. Cada uno tiene nombre, eslogan, descripción, la
+ * lista de características (las que salen con estrellita), el precio en pesos
+ * colombianos y las 4 fotos de su carrusel
+ *
+ */
 $productos = [
   [
     'nombre'      => 'Agenda Futuria 2026',
@@ -26,6 +38,11 @@ $productos = [
   ],
 ];
 
+/**
+ *
+ * envía el catálogo con ok: true y cuántos productos hay en total
+ *
+ */
 echo json_encode([
   'ok'        => true,
   'total'     => count($productos),

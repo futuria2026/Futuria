@@ -1,23 +1,47 @@
 <?php
-// ============================================================
-//  FUTURIA - Backend de Mapas mentales (solo PHP, sin HTML)
-//  GET  ?accion=cargar                       -> devuelve el mapa
-//  POST { accion: "guardar", nodos: [...] }  -> reemplaza el mapa
-//  Cada nodo: { id, texto, color, x, y, padre }
-// ============================================================
+/**
+ *
+ * guarda y devuelve el mapa mental de cada visitante: la lista de ideas
+ * (nodos) con su texto, su color, su posición en el lienzo y de qué idea salen
+ *
+ * con GET ?accion=cargar devuelve el mapa guardado. Con POST
+ * { accion: "guardar", nodos: [...] } reemplaza el mapa completo. Cada nodo es
+ * { id, texto, color, x, y, padre }
+ *
+ */
 declare(strict_types=1);
 
+/**
+ *
+ * trae las funciones compartidas para leer y guardar datos por visitante
+ *
+ */
 require __DIR__ . '/inc/datos.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
 $metodo = $_SERVER['REQUEST_METHOD'];
 
+/**
+ *
+ * devolver el mapa. Si el visitante todavía no tiene uno, devuelve la lista
+ * vacía
+ *
+ */
 if ($metodo === 'GET') {
     $mapa = futuria_leer('mapas', ['nodos' => []]);
     futuria_responder(['ok' => true, 'nodos' => $mapa['nodos'] ?? []]);
 }
 
+/**
+ *
+ * guardar el mapa
+ *
+ * acepta como máximo 200 nodos. Descarta los que no tienen texto, corta el
+ * texto a 120 letras, usa el morado #4b1c71 si el color no es un color válido
+ * (#rrggbb) y convierte la posición x, y en números
+ *
+ */
 if ($metodo === 'POST') {
     $entrada = futuria_leer_json_entrada();
     $accion  = (string)($entrada['accion'] ?? '');

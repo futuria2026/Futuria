@@ -1,5 +1,28 @@
+/**
+ *
+ * los estilos de la página de registro y de la página de resultado que muestra
+ * api/registro.php: un fondo de colores con manchas que se mueven y una
+ * tarjeta blanca semitransparente en el centro con el formulario
+ *
+ * esta página no usa comun.css; tiene sus propios colores y usa la fuente del
+ * sistema (Segoe UI o la que tenga el equipo)
+ *
+ */
+
+/**
+ *
+ * quita los márgenes que el navegador pone por defecto y hace que el ancho de
+ * las cajas incluya su relleno y su borde
+ *
+ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/**
+ *
+ * los colores de esta página guardados como variables: azul, rosa, azul
+ * marino, naranja, naranja rojizo y morado
+ *
+ */
 :root {
   --blue: #83AEE3;
   --pink: #dbb6ee;
@@ -9,6 +32,12 @@
   --purple: #4b1c71;
 }
 
+/**
+ *
+ * la página ocupa al menos todo el alto de la pantalla, con un degradado de
+ * azul cielo a rosa de fondo y el texto azul marino
+ *
+ */
 html, body {
   min-height: 100vh;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -17,6 +46,12 @@ html, body {
   overflow-x: hidden;
 }
 
+/**
+ *
+ * centra la tarjeta en la mitad de la pantalla, de arriba a abajo y de lado a
+ * lado
+ *
+ */
 body {
   display: flex;
   align-items: center;
@@ -25,8 +60,23 @@ body {
   position: relative;
 }
 
-/* animated background blobs */
+/**
+ *
+ * la capa de fondo fija detrás de todo, donde flotan las manchas; no se puede
+ * tocar
+ *
+ */
 .bg-blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+
+/**
+ *
+ * cada mancha: un círculo muy borroso y semitransparente que se mueve con la
+ * animación "float" cada 12 segundos
+ *
+ * las tres manchas tienen distinto tamaño, color (naranja, morado y naranja
+ * rojizo) y lugar, y empiezan la animación en momentos distintos
+ *
+ */
 .blob {
   position: absolute;
   border-radius: 50%;
@@ -38,12 +88,26 @@ body {
 .blob-2 { width: 320px; height: 320px; background: var(--purple); bottom: -80px; right: -80px; animation-delay: -4s; }
 .blob-3 { width: 260px; height: 260px; background: var(--red-orange); top: 40%; left: 60%; animation-delay: -8s; opacity: 0.35; }
 
+/**
+ *
+ * el movimiento de las manchas: a la mitad se corren 30px a la derecha, suben
+ * 40px y crecen un poco, y vuelven
+ *
+ */
 @keyframes float {
   0%, 100% { transform: translate(0,0) scale(1); }
   50%      { transform: translate(30px,-40px) scale(1.08); }
 }
 
-/* card */
+/**
+ *
+ * la tarjeta del formulario: blanca casi opaca, con el fondo de atrás borroso,
+ * esquinas redondeadas y sombra morada
+ *
+ * al abrir la página sube y aparece suavemente (animación "rise", 0,7
+ * segundos)
+ *
+ */
 .card {
   position: relative;
   z-index: 1;
@@ -61,17 +125,35 @@ body {
   animation: rise 0.7s cubic-bezier(.2,.8,.2,1) both;
 }
 
+/**
+ *
+ * la entrada de la tarjeta: empieza transparente y 24px más abajo, y termina
+ * en su lugar
+ *
+ */
 @keyframes rise {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/**
+ *
+ * la caja del logo, centrada y subida 90px: el logo queda montado sobre el
+ * borde de arriba de la tarjeta
+ *
+ */
 .logo-wrap {
   display: flex;
   justify-content: center;
   margin-top: -90px;
   margin-bottom: 8px;
 }
+
+/**
+ *
+ * el logo en un círculo blanco de 130px con borde y sombra naranjas
+ *
+ */
 .logo {
   width: 130px;
   height: 130px;
@@ -83,12 +165,24 @@ body {
   border: 3px solid var(--orange);
 }
 
+/**
+ *
+ * el título "Crea tu cuenta", centrado y morado
+ *
+ */
 h1 {
   text-align: center;
   font-size: 1.75rem;
   color: var(--purple);
   margin-top: 12px;
 }
+
+/**
+ *
+ * la frase debajo del título, centrada y gris. .brand pone la palabra
+ * "Futuria" en naranja y negrita
+ *
+ */
 .subtitle {
   text-align: center;
   color: #555;
@@ -97,6 +191,15 @@ h1 {
 }
 .brand { color: var(--orange); font-weight: 700; }
 
+/**
+ *
+ * cada campo del formulario: su etiqueta arriba y el cuadro de texto debajo
+ *
+ * el cuadro se ve casi blanco y sin borde; al escribir en él (focus) aparece
+ * un borde naranja con un halo, y si tiene error (.invalid) el borde y el halo
+ * son naranja rojizo
+ *
+ */
 .field { margin-bottom: 14px; }
 .field label {
   display: block;
@@ -126,6 +229,13 @@ h1 {
   border-color: var(--red-orange);
   box-shadow: 0 0 0 4px rgba(235, 87, 39, 0.15);
 }
+
+/**
+ *
+ * el mensaje de error debajo de cada campo, pequeño y naranja rojizo. Siempre
+ * guarda 16px de alto, aunque esté vacío
+ *
+ */
 .error {
   display: block;
   min-height: 16px;
@@ -134,6 +244,15 @@ h1 {
   margin-top: 4px;
 }
 
+/**
+ *
+ * el botón "Registrarme" (y el botón Volver de la página de resultado): ancho
+ * completo, con degradado naranja y sombra
+ *
+ * al pasar el mouse sube 2px y se aclara un poco; al presionarlo vuelve a su
+ * lugar
+ *
+ */
 .submit-btn {
   width: 100%;
   margin-top: 10px;
@@ -152,6 +271,12 @@ h1 {
 .submit-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
 .submit-btn:active { transform: translateY(0); }
 
+/**
+ *
+ * los enlaces de abajo ("Volver al inicio" y "¿Ya tienes cuenta?"), centrados;
+ * el enlace va morado y se pone naranja al pasar el mouse
+ *
+ */
 .login-link {
   text-align: center;
   margin-top: 16px;
@@ -165,13 +290,14 @@ h1 {
 }
 .login-link a:hover { color: var(--orange); }
 
-
+/**
+ *
+ * en celulares pequeños la tarjeta tiene menos relleno, el logo mide 110px y
+ * el título es más pequeño
+ *
+ */
 @media (max-width: 480px) {
   .card { padding: 32px 22px 24px; }
   .logo { width: 110px; height: 110px; }
   h1 { font-size: 1.45rem; }
 }
-
-
-
-

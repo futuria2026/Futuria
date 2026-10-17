@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña, la
+  descripción que muestran los buscadores y las redes al compartir, el ícono,
+  la fuente Jost de Google Fonts y las hojas de estilo
+
+-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +19,13 @@
 </head>
 <body>
 
+  <!--
+
+    la barra de navegación de arriba, que se queda pegada al bajar: el logo
+    (lleva al inicio), el botón de las 3 rayas que abre el menú en celular y
+    los enlaces a todas las páginas
+
+  -->
   <header class="nb">
     <div class="nb-inner">
       <a class="nb-logo" href="../index.html#inicio">
@@ -37,6 +52,12 @@
     </div>
   </header>
 
+  <!--
+
+    el encabezado de la herramienta sobre el degradado: la etiqueta, el título
+    y una descripción corta
+
+  -->
   <div class="ht-encabezado">
     <p class="ht-etiqueta">Futuria · Método Pomodoro</p>
     <h1 class="ht-titulo">Concentración total</h1>
@@ -45,13 +66,36 @@
 
   <main class="ht-contenedor pm-layout">
 
+    <!--
+
+      la tarjeta del temporizador: los botones de modo, el reloj con su
+      anillo, los controles y los campos para cambiar los minutos
+
+    -->
     <section class="ht-tarjeta">
+
+      <!--
+
+        los tres modos: concentración, descanso corto y descanso largo. data-
+        modo dice cuál es cada uno
+
+      -->
       <div class="pm-modos">
         <button type="button" class="pm-modo activo" data-modo="trabajo">Concentración</button>
         <button type="button" class="pm-modo" data-modo="corto">Descanso corto</button>
         <button type="button" class="pm-modo" data-modo="largo">Descanso largo</button>
       </div>
 
+      <!--
+
+        el reloj: el nombre del modo, el anillo que se va vaciando y el tiempo
+        que falta en el centro, y debajo los botones Iniciar, Pausar y
+        Reiniciar
+
+        el anillo es un SVG con dos círculos de radio 120: uno de fondo y otro
+        encima (pmProgreso) que pomodoro.js va recortando
+
+      -->
       <div class="pm-reloj-caja">
         <p class="pm-etiqueta-modo" id="pmEtiquetaModo">Concentración</p>
         <div class="pm-anillo">
@@ -68,6 +112,12 @@
         </div>
       </div>
 
+      <!--
+
+        los minutos de cada modo, que la persona puede cambiar (25, 5 y 15 al
+        empezar)
+
+      -->
       <div class="pm-ajustes">
         <div class="pm-ajuste">
           <label for="pmDurTrabajo">Concentración (min)</label>
@@ -84,6 +134,12 @@
       </div>
     </section>
 
+    <!--
+
+      la tarjeta de progreso: Pomodoros de hoy, racha de días y total, y la
+      lista de los últimos 7 días, que llena pomodoro.js
+
+    -->
     <aside class="ht-tarjeta pm-stats">
       <h2 style="color:var(--morado);font-size:1.15rem">Tu progreso</h2>
       <div class="pm-stat-fila">
@@ -95,17 +151,34 @@
       <div class="pm-historial" id="pmHistorial"></div>
     </aside>
 
+    <!--
+
+      el enlace para volver a la página de métodos
+
+    -->
     <div style="grid-column:1/-1">
       <a class="ht-volver" href="metodos.html">&larr; Volver a Métodos</a>
     </div>
   </main>
 
+  <!--
+
+    el pie de página: el logo, el nombre FUTURIA y la línea de derechos
+    reservados con el año, que escribe comun.js
+
+  -->
   <footer class="footer">
     <img src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" />
     <p><strong>FUTURIA</strong></p>
     <p>© <span id="anio"></span> Futuria · Todos los derechos reservados.</p>
   </footer>
 
+  <!--
+
+    los scripts: primero comun.js (estrellas, menú del celular y año del
+    footer) y después pomodoro.js, que maneja el temporizador
+
+  -->
   <script src="../assets/js/comun.js"></script>
   <script src="../assets/js/pomodoro.js"></script>
 </body>

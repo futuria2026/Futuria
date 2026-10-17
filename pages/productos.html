@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña, la
+  descripción que muestran los buscadores y las redes al compartir, el ícono,
+  la fuente Jost de Google Fonts y las hojas de estilo
+
+-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,6 +25,17 @@
   <link rel="stylesheet" href="../assets/css/productos.css">
 </head>
 <body id="top">
+
+<!--
+
+  la barra de navegación de arriba, que se queda pegada al bajar: el logo
+  (lleva al inicio), el botón de las 3 rayas que abre el menú en celular y los
+  enlaces a todas las páginas
+
+  el enlace de la página en la que se está lleva la clase nb-activo, que lo
+  muestra marcado
+
+-->
 <header class="nb">
     <div class="nb-inner">
       <a class="nb-logo" href="#inicio">
@@ -45,6 +64,14 @@
     </div>
   </header>
 
+  <!--
+
+    el encabezado grande con el degradado morado y naranja: la etiqueta con el
+    nombre de la sección, el título Futuria, el lema "Crea tu futuro", una
+    descripción, el botón Comienza ahora y el logo dentro de un círculo blanco
+    que flota
+
+  -->
   <div class="hi-hero" id="inicio">
     <div class="hi-interior">
       <div class="hi-texto">
@@ -75,8 +102,19 @@
  
 
    
-  <!-- ================= INTRO ================= -->
+  <!--
+
+    la introducción del catálogo sobre fondo claro: el título "Nuestros
+    productos" y un párrafo
+
+  -->
   <section class="seccion" id="intro">
+
+    <!--
+
+      la capa de estrellas de colores para fondo claro; la llena comun.js
+
+    -->
     <div class="estrellas estrellas--claras" aria-hidden="true"></div>
     <div class="contenedor intro">
       <h2 class="titulo">NUESTROS PRODUCTOS</h2>
@@ -88,18 +126,46 @@
     </div>
   </section>
 
-  <!-- ================= PRODUCTOS ================= -->
+  <!--
+
+    la sección morada del catálogo con la lista de productos
+
+  -->
   <section class="seccion seccion--morada" id="productos">
+
+    <!--
+
+      la capa de estrellas que brillan de fondo; la llena comun.js
+
+    -->
     <div class="estrellas" aria-hidden="true"></div>
     <div class="contenedor">
       <h2 class="titulo titulo--claro">CATÁLOGO</h2>
       <span class="subrayado"></span>
+
+      <!--
+
+        la lista de productos; empieza vacía y la llena productos.js con una
+        tarjeta y un carrusel por producto
+
+      -->
       <div class="productos" id="productos-lista"></div>
     </div>
   </section>
 
-  <!-- ================= FOOTER ================= -->
+<!--
+
+  el pie de página: el logo, los enlaces a las redes de Futuria (Instagram,
+  TikTok, el correo y Facebook) y la línea de derechos reservados
+
+-->
 <footer class="footer" id="contacto">
+
+    <!--
+
+      la capa de estrellas que brillan de fondo; la llena comun.js
+
+    -->
     <div class="estrellas" aria-hidden="true"></div>
     <div class="contenedor footer__inner">
       <img class="footer__logo" src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" width="64" height="64" loading="lazy">
@@ -129,6 +195,12 @@
     </div>
   </footer>
 
+  <!--
+
+    los scripts: primero comun.js (estrellas, menú del celular y año del
+    footer) y después productos.js, que trae los productos y arma sus tarjetas
+
+  -->
   <script src="../assets/js/comun.js"></script>
   <script src="../assets/js/productos.js"></script>
 </body>

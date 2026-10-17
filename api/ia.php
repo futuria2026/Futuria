@@ -1,29 +1,52 @@
 <?php
-// ============================================================
-//  FUTURIA - Asistente IA "Futuria" (solo PHP, sin HTML)
-//  Recibe { "mensaje": "..." } por POST (JSON) desde ia.js,
-//  guarda el historial de la conversación por sesión y
-//  responde en JSON: { ok, respuesta }.
-//
-//  Para conectarlo a un modelo real:
-//   1) Escribe tu API key abajo en FUTURIA_IA_API_KEY.
-//   2) Si usas otro proveedor (no OpenAI), ajusta la función
-//      futuria_llamar_modelo() con la URL / formato de esa API.
-//  Si no hay API key configurada, el asistente responde con
-//  un modo local ("modo básico") para que la página funcione
-//  igual mientras conectas el modelo.
-// ============================================================
+/**
+ *
+ * el asistente "Futuria" de la página IA: recibe el mensaje que escribe la
+ * persona y le devuelve la respuesta en JSON { ok, respuesta }
+ *
+ * guarda las últimas 20 entradas de la conversación de cada visitante. Si hay
+ * una clave de OpenAI configurada le pasa la conversación al modelo
+ * gpt-4o-mini; si no la hay, o si la llamada falla, responde con el "modo
+ * básico", que busca palabras clave como "pomodoro" o "agenda" y contesta con
+ * un texto ya escrito
+ *
+ */
 declare(strict_types=1);
 
+/**
+ *
+ * trae las funciones compartidas para leer y guardar datos por visitante
+ * (futuria_leer, futuria_guardar, futuria_responder, futuria_leer_json_entrada)
+ *
+ */
 require __DIR__ . '/inc/datos.php';
 
-// -------- Configuración del modelo --------
-const FUTURIA_IA_API_KEY = ''; // <-- pon aquí tu API key (OpenAI, por ejemplo)
+/**
+ *
+ * la clave de la API de OpenAI. Mientras esté vacía el asistente funciona en
+ * modo básico
+ *
+ */
+const FUTURIA_IA_API_KEY = '';
+
+/**
+ *
+ * el modelo de inteligencia artificial que se usa y la dirección de la API a
+ * la que se le envían los mensajes
+ *
+ */
 const FUTURIA_IA_MODELO  = 'gpt-4o-mini';
 const FUTURIA_IA_URL     = 'https://api.openai.com/v1/chat/completions';
 
-// Personalidad / "conciencia" de Futuria: se envía como instrucción
-// de sistema en cada llamada al modelo.
+/**
+ *
+ * la personalidad de Futuria: cómo debe hablar, en qué ayuda y qué no debe
+ * hacer
+ *
+ * se le envía al modelo al inicio de cada conversación como instrucción de
+ * sistema (el mensaje que el modelo siempre obedece)
+ *
+ */
 const FUTURIA_PERSONA = <<<TXT
 Eres "Futuria", la inteligencia artificial y guía del sitio web Futuria.
 Futuria acompaña a estudiantes de bachillerato en su orientación vocacional,
@@ -49,10 +72,21 @@ TXT;
 
 header('Content-Type: application/json; charset=utf-8');
 
+/**
+ *
+ * solo se aceptan mensajes enviados con POST; si no, error 405
+ *
+ */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     futuria_responder(['ok' => false, 'error' => 'Método no permitido.'], 405);
 }
 
+/**
+ *
+ * el mensaje que escribió la persona. Si está vacío o pasa de 1200 caracteres
+ * se responde con el error 422 y no se le pregunta nada al modelo
+ *
+ */
 $entrada = futuria_leer_json_entrada();
 $mensaje = trim((string)($entrada['mensaje'] ?? ''));
 
@@ -63,11 +97,22 @@ if (mb_strlen($mensaje) > 1200) {
     futuria_responder(['ok' => false, 'error' => 'Tu mensaje es muy largo (máx. 1200 caracteres).'], 422);
 }
 
-// -------- Historial por sesión (para dar contexto al modelo) --------
+/**
+ *
+ * la conversación de este visitante: se agrega el mensaje nuevo y se dejan
+ * solo las últimas 20 entradas
+ *
+ */
 $historial = futuria_leer('ia_chat', []);
 $historial[] = ['rol' => 'usuario', 'texto' => $mensaje, 'hora' => date('c')];
-$historial = array_slice($historial, -20); // conserva las últimas 20 entradas
+$historial = array_slice($historial, -20);
 
+/**
+ *
+ * pide la respuesta, la agrega a la conversación, guarda todo y se la envía
+ * a la página
+ *
+ */
 $respuesta = futuria_llamar_modelo($mensaje, $historial);
 
 $historial[] = ['rol' => 'futuria', 'texto' => $respuesta, 'hora' => date('c')];
@@ -75,11 +120,18 @@ futuria_guardar('ia_chat', $historial);
 
 futuria_responder(['ok' => true, 'respuesta' => $respuesta]);
 
-// ============================================================
-//  Funciones
-// ============================================================
-
-/** Llama al modelo de lenguaje configurado, o responde en modo básico. */
+/**
+ *
+ * le pregunta al modelo de OpenAI y devuelve su respuesta como texto
+ *
+ * si no hay clave o el servidor no tiene cURL (la herramienta de PHP para
+ * llamar a otras páginas) responde en modo básico. Si hay clave, arma la
+ * lista de mensajes: primero la personalidad, después las últimas entradas de
+ * la conversación y al final el mensaje nuevo. Pide como máximo 400 tokens
+ * (pedazos de palabra) y espera hasta 25 segundos. Si la llamada falla o
+ * llega sin texto, también responde en modo básico
+ *
+ */
 function futuria_llamar_modelo(string $mensaje, array $historial): string
 {
     if (FUTURIA_IA_API_KEY === '' || !function_exists('curl_init')) {
@@ -128,9 +180,14 @@ function futuria_llamar_modelo(string $mensaje, array $historial): string
 }
 
 /**
- * Respuestas de respaldo (sin API), para que el asistente funcione
- * mientras se conecta un modelo real. Reconoce algunas palabras clave
- * relacionadas con las herramientas del sitio.
+ *
+ * las respuestas del modo básico, cuando no hay modelo de IA conectado
+ *
+ * pasa el mensaje a minúsculas y busca, en este orden, las palabras pomodoro,
+ * flashcard, tarjeta, mapa, agenda, vocacion, estres y hola. Devuelve el texto
+ * de la primera que encuentre; si no encuentra ninguna, devuelve un saludo que
+ * explica que está en modo básico
+ *
  */
 function futuria_modo_basico(string $mensaje): string
 {

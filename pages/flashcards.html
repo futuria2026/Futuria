@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña, la
+  descripción que muestran los buscadores y las redes al compartir, el ícono,
+  la fuente Jost de Google Fonts y las hojas de estilo
+
+-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +19,13 @@
 </head>
 <body>
 
+  <!--
+
+    la barra de navegación de arriba, que se queda pegada al bajar: el logo
+    (lleva al inicio), el botón de las 3 rayas que abre el menú en celular y
+    los enlaces a todas las páginas
+
+  -->
   <header class="nb">
     <div class="nb-inner">
       <a class="nb-logo" href="../index.html#inicio">
@@ -37,6 +52,12 @@
     </div>
   </header>
 
+  <!--
+
+    el encabezado de la herramienta sobre el degradado: la etiqueta, el título
+    y una descripción corta
+
+  -->
   <div class="ht-encabezado">
     <p class="ht-etiqueta">Futuria · Flashcards</p>
     <h1 class="ht-titulo">Memoria activa</h1>
@@ -45,6 +66,12 @@
 
   <main class="ht-contenedor fc-layout">
 
+    <!--
+
+      la tarjeta para crear: el formulario de pregunta y respuesta, el aviso y
+      la lista "Tu mazo" con todas las tarjetas
+
+    -->
     <section class="ht-tarjeta">
       <h2 style="color:var(--morado);font-size:1.15rem;margin-bottom:1rem">Crear tarjeta</h2>
       <form class="fc-form" id="fcForm">
@@ -62,6 +89,17 @@
       <div class="fc-lista-mini" id="fcListaMini"></div>
     </section>
 
+    <!--
+
+      la tarjeta de estudio: el mensaje de mazo vacío y la zona de estudio con
+      el contador, la tarjeta que se voltea y los botones Siguiente, La domino
+      y Mezclar
+
+      la zona de estudio empieza escondida y flashcards.js la muestra cuando
+      hay tarjetas por estudiar. La tarjeta tiene dos caras, una encima de la
+      otra: la pregunta adelante y la respuesta atrás
+
+    -->
     <section class="ht-tarjeta fc-estudio">
       <h2 style="color:var(--morado);font-size:1.15rem;align-self:flex-start">Modo estudio</h2>
 
@@ -84,17 +122,34 @@
       </div>
     </section>
 
+    <!--
+
+      el enlace para volver a la página de métodos
+
+    -->
     <div style="grid-column:1/-1">
       <a class="ht-volver" href="metodos.html">&larr; Volver a Métodos</a>
     </div>
   </main>
 
+  <!--
+
+    el pie de página: el logo, el nombre FUTURIA y la línea de derechos
+    reservados con el año, que escribe comun.js
+
+  -->
   <footer class="footer">
     <img src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" />
     <p><strong>FUTURIA</strong></p>
     <p>© <span id="anio"></span> Futuria · Todos los derechos reservados.</p>
   </footer>
 
+  <!--
+
+    los scripts: primero comun.js (estrellas, menú del celular y año del
+    footer) y después flashcards.js, que maneja el mazo y el modo estudio
+
+  -->
   <script src="../assets/js/comun.js"></script>
   <script src="../assets/js/flashcards.js"></script>
 </body>

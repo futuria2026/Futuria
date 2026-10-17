@@ -1,16 +1,25 @@
 <?php
-/* =========================================================
-   FUTURIA - Backend de la PÁGINA 2 (INTEGRANTES)
-   Devuelve en JSON los 8 integrantes con su persona y su animal.
-   Uso:  fetch('../api/integrantes.php')  desde assets/js/integrantes.js
-   Imágenes personas: img/2.jpg ... img/9.jpg
-   Imágenes animales: img/10.jpg ... img/17.jpg
-   ========================================================= */
+/**
+ *
+ * le entrega a la página de integrantes los 8 miembros del equipo en JSON,
+ * cada uno con su foto, su descripción y el personaje animal que lo representa
+ *
+ * los datos están escritos aquí mismo, no salen de una base de datos. La
+ * página los pide con fetch() y al hacer clic en cada círculo cambia entre la
+ * persona y su personaje
+ *
+ */
 declare(strict_types=1);
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
+/**
+ *
+ * la lista del equipo. Cada integrante tiene su nombre, su foto, qué hace en
+ * el proyecto y su animal (con nombre, descripción y foto propios)
+ *
+ */
 $integrantes = [
   [
     'nombre'      => 'Isabela M.',
@@ -94,10 +103,20 @@ $integrantes = [
   ],
 ];
 
+/**
+ *
+ * le pone a cada integrante un número de id según su posición: 1, 2, 3...
+ *
+ */
 foreach ($integrantes as $i => $dato) {
   $integrantes[$i]['id'] = $i + 1;
 }
 
+/**
+ *
+ * envía la lista con ok: true
+ *
+ */
 echo json_encode(
   ['ok' => true, 'integrantes' => $integrantes],
   JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES

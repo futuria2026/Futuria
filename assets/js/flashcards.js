@@ -1,13 +1,32 @@
-/* =========================================================
-   FUTURIA · Flashcards - flashcards.js
-   ========================================================= */
+/**
+ *
+ * la página de flashcards: crear tarjetas de pregunta y respuesta, verlas en
+ * una lista, estudiarlas volteándolas y marcar las que ya se saben
+ *
+ * el mazo se guarda en api/flashcards.php cada vez que cambia. Para estudiar
+ * se usan solo las tarjetas que todavía no están "dominadas"
+ *
+ */
 (function () {
   'use strict';
 
+  /**
+   *
+   * todas las tarjetas de la persona, las que quedan por estudiar (sin
+   * dominar) y la posición de la tarjeta que se está viendo
+   *
+   */
   var tarjetas = [];
   var mazoEstudio = [];
   var indiceActual = 0;
 
+  /**
+   *
+   * las partes de la página: el formulario con sus dos campos, la lista
+   * pequeña del mazo, la tarjeta grande con sus dos caras, el contador, el
+   * mensaje de mazo vacío, los botones de estudio y el aviso
+   *
+   */
   var el = {
     form: document.getElementById('fcForm'),
     pregunta: document.getElementById('fcPregunta'),
@@ -25,10 +44,22 @@
     aviso: document.getElementById('fcAviso')
   };
 
+  /**
+   *
+   * crea un id para una tarjeta nueva con la hora actual y un número al azar,
+   * por ejemplo "tc_1760000000000_42"
+   *
+   */
   function idUnico() {
     return 'tc_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
   }
 
+  /**
+   *
+   * muestra un aviso corto (verde si salió bien, naranja si es un error) que
+   * desaparece solo a los 2,2 segundos
+   *
+   */
   function mostrarAviso(texto, esError) {
     if (!el.aviso) return;
     el.aviso.hidden = false;
@@ -37,6 +68,12 @@
     setTimeout(function () { el.aviso.hidden = true; }, 2200);
   }
 
+  /**
+   *
+   * trae el mazo guardado en el servidor al abrir la página y lo pinta. Si
+   * falla, se empieza con el mazo vacío
+   *
+   */
   async function cargar() {
     try {
       var res = await fetch('../api/flashcards.php?accion=cargar');
@@ -49,6 +86,12 @@
     prepararEstudio();
   }
 
+  /**
+   *
+   * envía el mazo completo al servidor para guardarlo. Si no se puede, avisa
+   * que las tarjetas solo se ven en este navegador
+   *
+   */
   async function guardar() {
     try {
       var res = await fetch('../api/flashcards.php', {
@@ -63,6 +106,13 @@
     }
   }
 
+  /**
+   *
+   * pinta la lista pequeña "Tu mazo": una fila por tarjeta con su pregunta
+   * (con ✅ si está dominada) y un botón Eliminar. Si no hay tarjetas muestra
+   * un mensaje invitando a crear la primera
+   *
+   */
   function pintarListaMini() {
     el.listaMini.innerHTML = '';
     if (!tarjetas.length) {
@@ -79,18 +129,40 @@
     });
   }
 
+  /**
+   *
+   * convierte un texto en HTML seguro: si alguien escribe etiquetas como <b>
+   * en una pregunta, se ven como texto y no cambian la página
+   *
+   */
   function escaparHTML(s) {
     var d = document.createElement('div');
     d.textContent = s;
     return d.innerHTML;
   }
 
+  /**
+   *
+   * arma el mazo de estudio con las tarjetas que no están dominadas y vuelve
+   * a la primera
+   *
+   */
   function prepararEstudio() {
     mazoEstudio = tarjetas.filter(function (t) { return !t.dominada; });
     indiceActual = 0;
     pintarEstudio();
   }
 
+  /**
+   *
+   * muestra la tarjeta que toca estudiar, siempre por el lado de la pregunta
+   *
+   * si no hay tarjetas, esconde la zona de estudio y deja el mensaje de mazo
+   * vacío. Si todas están dominadas, muestra "🎉 ¡Dominaste todas tus
+   * tarjetas!". Si no, pone la pregunta y la respuesta en las dos caras y
+   * actualiza el contador ("Tarjeta 1 de 5 · 2 dominadas")
+   *
+   */
   function pintarEstudio() {
     el.tarjeta.classList.remove('volteada');
     var quedan = mazoEstudio.length;
@@ -118,6 +190,13 @@
     el.contador.textContent = 'Tarjeta ' + (indiceActual + 1) + ' de ' + quedan + ' · ' + dominadas + ' dominadas';
   }
 
+  /**
+   *
+   * al enviar el formulario se crea la tarjeta (si tiene pregunta y
+   * respuesta), se limpian los campos, se actualiza todo, se guarda y se
+   * muestra "Tarjeta agregada."
+   *
+   */
   el.form.addEventListener('submit', function (e) {
     e.preventDefault();
     var pregunta = el.pregunta.value.trim();
@@ -132,6 +211,14 @@
     mostrarAviso('Tarjeta agregada.');
   });
 
+  /**
+   *
+   * el botón Eliminar de cada fila borra esa tarjeta y guarda el mazo
+   *
+   * hay un solo escuchador para toda la lista; mira si el clic cayó en un
+   * botón con data-id y usa ese id para saber cuál borrar
+   *
+   */
   el.listaMini.addEventListener('click', function (e) {
     var btn = e.target.closest('button[data-id]');
     if (!btn) return;
@@ -141,16 +228,33 @@
     guardar();
   });
 
+  /**
+   *
+   * al tocar la tarjeta grande se voltea entre la pregunta y la respuesta
+   *
+   */
   el.tarjeta.addEventListener('click', function () {
     el.tarjeta.classList.toggle('volteada');
   });
 
+  /**
+   *
+   * el botón Siguiente pasa a la próxima tarjeta y, al llegar a la última,
+   * vuelve a la primera
+   *
+   */
   el.btnSiguiente.addEventListener('click', function () {
     if (!mazoEstudio.length) return;
     indiceActual = (indiceActual + 1) % mazoEstudio.length;
     pintarEstudio();
   });
 
+  /**
+   *
+   * el botón "La domino" marca la tarjeta actual como dominada, la saca del
+   * mazo de estudio y guarda
+   *
+   */
   el.btnDominada.addEventListener('click', function () {
     if (!mazoEstudio.length) return;
     var actual = mazoEstudio[indiceActual];
@@ -161,6 +265,15 @@
     guardar();
   });
 
+  /**
+   *
+   * el botón Mezclar pone las tarjetas de estudio en un orden al azar y
+   * vuelve a la primera
+   *
+   * recorre el mazo de atrás para adelante y cambia cada tarjeta de lugar con
+   * otra elegida al azar (el método de Fisher-Yates)
+   *
+   */
   el.btnMezclar.addEventListener('click', function () {
     for (var i = mazoEstudio.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
@@ -170,6 +283,11 @@
     pintarEstudio();
   });
 
+  /**
+   *
+   * al abrir la página se carga el mazo guardado
+   *
+   */
   cargar();
 
 })();

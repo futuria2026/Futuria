@@ -1,17 +1,24 @@
-/* =========================================================
-   FUTURIA - Página de test vocacional
-   1) Carga los tests desde api/test-vocacional.php (con respaldo local)
-   2) Pinta cada tarjeta: imagen, título, descripción, etiquetas
-      y un botón que guía al test vocacional
-   ========================================================= */
-
+/**
+ *
+ * la página de test vocacional: pide a api/test-vocacional.php el resumen y
+ * los tests recomendados y arma una tarjeta por cada test
+ *
+ * si el servidor no responde (por ejemplo al abrir el HTML sin PHP) usa los
+ * mismos datos guardados aquí como respaldo
+ *
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('tests-grid');
   if (!grid) return;
 
   const resumenEl = document.getElementById('test-resumen');
 
-  /* ---------- Respaldo si se abre sin servidor PHP ---------- */
+  /**
+   *
+   * los datos de respaldo: el mismo resumen y los mismos dos tests (CHASIDE y
+   * Holland) que devuelve el servidor
+   *
+   */
   const RESPALDO = {
     resumen:
       'El test vocacional es una herramienta de orientación que te ayuda a descubrir tus ' +
@@ -48,7 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   };
 
-      
+  /**
+   *
+   * pide los datos al servidor. Si llegan, cambia el resumen y pinta sus
+   * tests; si algo falla, pinta los tests de respaldo
+   *
+   */
   fetch('../api/test-vocacional.php')
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((d) => {
@@ -57,12 +69,26 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(() => pintar(RESPALDO.tests));
 
-  /* ---------- Pintado ---------- */
+  /**
+   *
+   * vacía la cuadrícula y agrega una tarjeta por cada test
+   *
+   */
   function pintar(tests) {
     grid.innerHTML = '';
     tests.forEach((t, i) => grid.appendChild(tarjeta(t, i)));
   }
 
+  /**
+   *
+   * arma la tarjeta de un test: la imagen con su etiqueta encima, el nombre,
+   * la descripción, las etiquetas pequeñas y el botón con flecha que abre el
+   * test en otra pestaña
+   *
+   * las tarjetas 2, 4, 6... llevan además la clase test--alterno, que les
+   * cambia los colores
+   *
+   */
   function tarjeta(t, i) {
     const article = document.createElement('article');
     article.className = 'test' + (i % 2 === 1 ? ' test--alterno' : '');

@@ -1,18 +1,33 @@
 <?php
-// ============================================================
-//  FUTURIA - Backend del Pomodoro (solo PHP, sin HTML)
-//  GET  ?accion=stats                -> devuelve el historial
-//  POST { accion: "registrar",
-//         tipo: "trabajo" | "descanso" } -> guarda una sesión
-// ============================================================
+/**
+ *
+ * guarda los bloques del Pomodoro que termina cada visitante y le devuelve sus
+ * estadísticas: cuántos hizo hoy, su racha de días y los últimos 7 días
+ *
+ * con GET ?accion=stats solo devuelve las estadísticas. Con POST
+ * { accion: "registrar", tipo: "trabajo" | "descanso" } guarda la sesión que
+ * acaba de terminar y devuelve las estadísticas ya actualizadas
+ *
+ */
 declare(strict_types=1);
 
+/**
+ *
+ * trae las funciones compartidas para leer y guardar datos por visitante
+ *
+ */
 require __DIR__ . '/inc/datos.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
 $metodo = $_SERVER['REQUEST_METHOD'];
 
+/**
+ *
+ * pedir las estadísticas. Cualquier otra acción que no sea "stats" responde
+ * con el error 400
+ *
+ */
 if ($metodo === 'GET') {
     $accion = $_GET['accion'] ?? 'stats';
     if ($accion !== 'stats') {
@@ -21,6 +36,14 @@ if ($metodo === 'GET') {
     futuria_responder(['ok' => true] + futuria_pomodoro_resumen());
 }
 
+/**
+ *
+ * registrar una sesión terminada
+ *
+ * solo acepta los tipos "trabajo" y "descanso". Guarda el tipo con la fecha y
+ * la hora de ese momento y conserva solo las últimas 500 sesiones
+ *
+ */
 if ($metodo === 'POST') {
     $entrada = futuria_leer_json_entrada();
     $accion  = (string)($entrada['accion'] ?? '');
@@ -40,7 +63,17 @@ if ($metodo === 'POST') {
 
 futuria_responder(['ok' => false, 'error' => 'Método no permitido.'], 405);
 
-/** Calcula el resumen: hoy, últimos 7 días y racha de días con al menos un Pomodoro. */
+/**
+ *
+ * calcula el resumen del Pomodoro: cuántos bloques de estudio se hicieron hoy,
+ * cuántos días seguidos lleva la racha, el total y los últimos 7 días con
+ * actividad
+ *
+ * cuenta solo las sesiones de tipo "trabajo", agrupadas por fecha y ordenadas
+ * de la más nueva a la más vieja. La racha arranca en hoy y va restando un día
+ * mientras haya al menos un Pomodoro en esa fecha
+ *
+ */
 function futuria_pomodoro_resumen(): array
 {
     $registro = futuria_leer('pomodoro', ['sesiones' => []]);
@@ -56,7 +89,6 @@ function futuria_pomodoro_resumen(): array
     $hoy = date('Y-m-d');
     $totalHoy = $porDia[$hoy] ?? 0;
 
-    // Racha de días consecutivos (incluyendo hoy) con al menos un pomodoro
     $racha = 0;
     $cursor = new DateTime($hoy);
     while (isset($porDia[$cursor->format('Y-m-d')])) {

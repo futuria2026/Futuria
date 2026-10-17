@@ -1,8 +1,22 @@
-/* =========================================================
-   FUTURIA - Base compartida para las herramientas
-   (IA, Pomodoro, Flashcards, Mapas mentales, Agenda)
-   Paleta: #2d2c57  #83AEE3  #4b1c71  #dbb6e8  #EB5727  #FE6A00  #FCFCFB
-   ========================================================= */
+/**
+ *
+ * los estilos de las cinco herramientas: IA, Pomodoro, Flashcards, Mapas
+ * mentales y Agenda. Primero va la base que comparten (colores, encabezado,
+ * barra de navegación, tarjetas, botones, campos y pie de página) y después lo
+ * propio de cada herramienta
+ *
+ * estas páginas no usan comun.css: este archivo tiene su propia copia de la
+ * barra de navegación. Cada herramienta usa clases con su propio prefijo (pm-
+ * Pomodoro, fc- Flashcards, mm- Mapas, ag- Agenda, ia- IA)
+ *
+ */
+
+/**
+ *
+ * los colores de Futuria, el degradado del encabezado, la sombra y la fuente
+ * (Jost) guardados como variables
+ *
+ */
 :root{
   --azul-noche:#2d2c57;
   --azul-cielo:#83AEE3;
@@ -16,6 +30,13 @@
   --fuente:'Jost','Century Gothic','Trebuchet MS',sans-serif;
 }
 
+/**
+ *
+ * lo básico de la página: sin márgenes del navegador, desplazamiento suave,
+ * fondo hueso, texto azul noche, imágenes que no se salen, enlaces sin
+ * subrayado, listas sin viñetas y botones con la misma letra del texto
+ *
+ */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -29,7 +50,14 @@ a{text-decoration:none;color:inherit}
 ul{list-style:none}
 button{font-family:inherit}
 
-/* ---------------- Encabezado con degradado ---------------- */
+/**
+ *
+ * el encabezado con degradado de cada herramienta, con el texto centrado y
+ * blanco
+ *
+ * sus ::before y ::after son dos luces redondas borrosas en las esquinas
+ *
+ */
 .ht-encabezado{
   background:var(--degradado-hero);
   color:var(--hueso);
@@ -45,20 +73,47 @@ button{font-family:inherit}
 }
 .ht-encabezado::before{width:340px;height:340px;right:-100px;top:-110px}
 .ht-encabezado::after{width:280px;height:280px;left:-100px;bottom:-110px}
+
+/**
+ *
+ * la pastilla transparente con letras separadas que dice el nombre de la
+ * herramienta
+ *
+ */
 .ht-etiqueta{
   display:inline-block;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;
   background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);
   padding:8px 16px;border-radius:999px;margin:0 0 16px;position:relative;z-index:1;
 }
+
+/**
+ *
+ * el título grande de la herramienta; crece y se achica con el ancho de la
+ * pantalla
+ *
+ */
 .ht-titulo{
   font-size:clamp(2.1rem,5.5vw,3.2rem);font-weight:800;letter-spacing:1px;
   position:relative;z-index:1;
 }
+
+/**
+ *
+ * la descripción corta debajo del título, de 640px de ancho como máximo
+ *
+ */
 .ht-desc{
   max-width:640px;margin:14px auto 0;opacity:.95;font-size:1.05rem;position:relative;z-index:1;
 }
 
-/* ---------------- Navbar (igual que el resto del sitio) ---------------- */
+/**
+ *
+ * la barra de navegación lila que se queda pegada arriba, igual a la de las
+ * páginas de contenido: el logo, los enlaces en forma de pastilla (que se
+ * aclaran y suben al pasar el mouse) y el botón de las 3 rayas, escondido en
+ * pantallas grandes
+ *
+ */
 .nb{position:sticky;top:0;z-index:50;background:#DBB6E0;color:#FCFCFB;box-shadow:0 6px 24px -10px rgba(45,44,87,.35)}
 .nb-inner{max-width:1280px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .nb-logo{display:flex;align-items:center;gap:10px;color:#FCFCFB}
@@ -69,18 +124,47 @@ button{font-family:inherit}
 .nb-items a:hover{background:rgba(255,255,255,.3);transform:translateY(-2px)}
 .nb-items a.nb-activo{background:rgba(255,255,255,.42);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
 .nb-btn{display:none;background:transparent;border:2px solid #FCFCFB;border-radius:12px;padding:8px 10px;color:#FCFCFB;cursor:pointer}
+
+/**
+ *
+ * en pantallas de 920px o menos aparece el botón de las 3 rayas y el menú se
+ * esconde; con la clase .nb-abierto se muestra en columna
+ *
+ */
 @media (max-width:920px){
   .nb-btn{display:inline-flex}
   .nb-items{display:none;flex-direction:column;width:100%;padding:8px 0 14px;align-items:stretch;text-align:center}
   .nb-items.nb-abierto{display:flex}
 }
 
-/* ---------------- Contenedores y tarjetas genéricas ---------------- */
+/**
+ *
+ * la caja centrada del contenido, de 1080px como máximo. Sube 40px y queda
+ * montada sobre el encabezado
+ *
+ */
 .ht-contenedor{width:min(1080px,92%);margin:-40px auto 0;position:relative;z-index:2;padding-bottom:70px}
+
+/**
+ *
+ * la tarjeta blanca de esquinas redondeadas y sombra donde va cada parte de
+ * una herramienta
+ *
+ */
 .ht-tarjeta{
   background:#fff;border-radius:1.5rem;box-shadow:var(--sombra);
   border:1px solid rgba(75,28,113,.1);padding:2rem;
 }
+
+/**
+ *
+ * el botón naranja de las herramientas; sube 2px al pasar el mouse
+ *
+ * la variante --secundario es blanca con borde lila, la --peligro es roja
+ * oscura (para borrar) y cuando está apagado (disabled) se ve medio
+ * transparente y no se mueve
+ *
+ */
 .ht-boton{
   display:inline-flex;align-items:center;gap:8px;
   background:linear-gradient(135deg,#FE6A00,#EB5727);color:var(--hueso);
@@ -92,32 +176,71 @@ button{font-family:inherit}
 .ht-boton--secundario{background:var(--hueso);color:var(--morado);box-shadow:inset 0 0 0 2px var(--lila)}
 .ht-boton--peligro{background:linear-gradient(135deg,#c94b32,#8f2f1c)}
 .ht-boton:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/**
+ *
+ * los cuadros de texto de las herramientas, con borde lila que se pone naranja
+ * al escribir en ellos
+ *
+ */
 .ht-entrada{
   width:100%;padding:.8rem 1rem;border:2px solid var(--lila);border-radius:.9rem;
   font-family:inherit;font-size:1rem;color:var(--azul-noche);background:#fff;
 }
 .ht-entrada:focus{outline:none;border-color:var(--naranja-vivo)}
+
+/**
+ *
+ * los avisos cortos debajo de un formulario: naranja si es un error y verde si
+ * salió bien
+ *
+ */
 .ht-aviso{margin-top:1rem;font-size:.95rem}
 .ht-aviso--error{color:var(--naranja)}
 .ht-aviso--ok{color:#1c8a4b}
+
+/**
+ *
+ * el enlace morado "← Volver…", que se pone naranja al pasar el mouse
+ *
+ */
 .ht-volver{display:inline-block;margin-top:1.4rem;color:var(--morado);font-weight:600}
 .ht-volver:hover{color:var(--naranja-vivo)}
 
-/* ---------------- Footer ---------------- */
+/**
+ *
+ * el pie de página de las herramientas: el degradado, el texto centrado y el
+ * logo redondo de 56px
+ *
+ */
 .footer{background-image:var(--degradado-hero);padding:3rem 0;color:var(--hueso);text-align:center}
 .footer p{opacity:.85;font-size:.9rem;margin-top:.4rem}
 .footer img{width:56px;height:56px;border-radius:50%;background:var(--hueso);object-fit:contain;padding:4px;margin:0 auto}
 
+/**
+ *
+ * en celulares las tarjetas tienen menos relleno
+ *
+ */
 @media (max-width:640px){
   .ht-tarjeta{padding:1.4rem}
 }
 
-/* =========================================================
-   FUTURIA - Pomodoro - estilos específicos
-   ========================================================= */
+/**
+ *
+ * Pomodoro: el contenido en una columna; desde 900px de ancho, dos columnas
+ * (el temporizador más ancho que el progreso)
+ *
+ */
 .pm-layout{display:grid;gap:2rem}
 @media (min-width:900px){ .pm-layout{grid-template-columns:1.1fr .9fr} }
 
+/**
+ *
+ * los tres botones de modo en fila. El modo activo se pone morado con letras
+ * blancas
+ *
+ */
 .pm-modos{display:flex;gap:.5rem;margin-bottom:1.6rem;flex-wrap:wrap}
 .pm-modo{
   flex:1;min-width:120px;border:2px solid var(--lila);background:#fff;
@@ -126,22 +249,67 @@ button{font-family:inherit}
 }
 .pm-modo.activo{background:var(--morado);color:var(--hueso);border-color:var(--morado)}
 
+/**
+ *
+ * la columna centrada con el nombre del modo, el anillo y los controles
+ *
+ */
 .pm-reloj-caja{display:flex;flex-direction:column;align-items:center;gap:1.4rem;padding:1rem 0 1.6rem}
+
+/**
+ *
+ * el anillo de progreso, cuadrado y de 280px como máximo
+ *
+ * el SVG se gira -90 grados y así el anillo empieza arriba. El círculo de
+ * fondo es morado muy suave y el de progreso naranja, con las puntas redondas;
+ * se acorta cada segundo con una transición de 1 segundo
+ *
+ */
 .pm-anillo{position:relative;width:min(280px,70vw);aspect-ratio:1/1}
 .pm-anillo svg{width:100%;height:100%;transform:rotate(-90deg)}
 .pm-anillo circle{fill:none;stroke-width:10}
 .pm-anillo .pm-fondo{stroke:rgba(75,28,113,.12)}
 .pm-anillo .pm-progreso{stroke:var(--naranja-vivo);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+
+/**
+ *
+ * el tiempo que falta, grande y centrado encima del anillo
+ *
+ */
 .pm-tiempo{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:clamp(2.2rem,7vw,3.2rem);font-weight:800;color:var(--azul-noche);
 }
+
+/**
+ *
+ * el nombre del modo en mayúsculas, encima del anillo
+ *
+ */
 .pm-etiqueta-modo{text-align:center;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--morado);font-size:.9rem}
+
+/**
+ *
+ * los botones Iniciar, Pausar y Reiniciar, centrados en fila
+ *
+ */
 .pm-controles{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+
+/**
+ *
+ * los tres campos de minutos en tres columnas, cada uno con su etiqueta arriba
+ *
+ */
 .pm-ajustes{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1.6rem}
 .pm-ajuste label{display:block;font-size:.82rem;color:var(--morado);font-weight:600;margin-bottom:.35rem}
 .pm-ajuste input{width:100%;padding:.55rem;border:2px solid var(--lila);border-radius:.7rem;font-family:inherit}
 
+/**
+ *
+ * la tarjeta de progreso: los tres números (hoy, racha y total) en cajas de
+ * fondo hueso y la lista de los últimos 7 días, una fila por día
+ *
+ */
 .pm-stats{display:grid;gap:1rem}
 .pm-stat-fila{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;text-align:center}
 .pm-stat{background:var(--hueso);border-radius:1rem;padding:1rem;box-shadow:inset 0 0 0 2px rgba(75,28,113,.08)}
@@ -150,14 +318,33 @@ button{font-family:inherit}
 .pm-historial{display:flex;flex-direction:column;gap:.4rem;margin-top:.5rem}
 .pm-historial-fila{display:flex;justify-content:space-between;font-size:.9rem;padding:.4rem .6rem;border-radius:.6rem;background:var(--hueso)}
 
-/* =========================================================
-   FUTURIA - Flashcards - estilos específicos
-   ========================================================= */
+/**
+ *
+ * Flashcards: el contenido en una columna; desde 900px de ancho, dos columnas
+ * (crear a la izquierda y estudiar a la derecha)
+ *
+ */
 .fc-layout{display:grid;gap:2rem}
 @media (min-width:900px){ .fc-layout{grid-template-columns:.9fr 1.1fr} }
 
+/**
+ *
+ * el formulario de tarjeta nueva; los cuadros de pregunta y respuesta se
+ * pueden estirar hacia abajo
+ *
+ */
 .fc-form{display:grid;gap:.8rem}
 .fc-form textarea{min-height:70px;resize:vertical;font-family:inherit}
+
+/**
+ *
+ * la lista "Tu mazo", de 260px de alto como máximo; si hay más tarjetas
+ * aparece una barra para bajar
+ *
+ * cada fila muestra la pregunta en una sola línea (cortada con … si es larga)
+ * y el botón Eliminar en naranja
+ *
+ */
 .fc-lista-mini{margin-top:1.2rem;display:flex;flex-direction:column;gap:.5rem;max-height:260px;overflow:auto}
 .fc-item-mini{
   display:flex;justify-content:space-between;align-items:center;gap:.6rem;
@@ -166,8 +353,23 @@ button{font-family:inherit}
 .fc-item-mini span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fc-item-mini button{background:none;border:0;color:var(--naranja);cursor:pointer;font-size:.85rem;font-weight:700}
 
+/**
+ *
+ * la tarjeta de estudio con todo centrado en columna, y el contador en morado
+ *
+ */
 .fc-estudio{display:flex;flex-direction:column;align-items:center;gap:1.2rem}
 .fc-contador{color:var(--morado);font-weight:700;letter-spacing:1px}
+
+/**
+ *
+ * la tarjeta que se voltea, de 440px de ancho como máximo y 260px de alto
+ *
+ * perspective da la sensación de profundidad al girar. Por dentro, las dos
+ * caras están una encima de la otra; con la clase .volteada el interior gira
+ * 180 grados en medio segundo y se ve la cara de atrás
+ *
+ */
 .fc-tarjeta{
   width:100%;max-width:440px;height:260px;perspective:1200px;cursor:pointer;
 }
@@ -176,6 +378,16 @@ button{font-family:inherit}
   transform-style:preserve-3d;
 }
 .fc-tarjeta.volteada .fc-tarjeta-interior{transform:rotateY(180deg)}
+
+/**
+ *
+ * cada cara de la tarjeta, con el texto centrado. backface-visibility: hidden
+ * esconde la cara que queda de espaldas
+ *
+ * el frente es morado oscuro con letras blancas y el reverso es lila con
+ * letras moradas, ya girado 180 grados
+ *
+ */
 .fc-cara{
   position:absolute;inset:0;backface-visibility:hidden;border-radius:1.3rem;
   display:flex;align-items:center;justify-content:center;text-align:center;
@@ -184,14 +396,36 @@ button{font-family:inherit}
 .fc-cara--frente{background:linear-gradient(135deg,#4b1c71,#2d2c57);color:var(--hueso)}
 .fc-cara--reverso{background:var(--lila);color:var(--morado);transform:rotateY(180deg)}
 .fc-cara small{display:block;margin-top:.8rem;font-weight:400;opacity:.75;font-size:.8rem}
+
+/**
+ *
+ * los botones Siguiente, La domino y Mezclar, centrados en fila
+ *
+ */
 .fc-acciones-estudio{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center}
+
+/**
+ *
+ * el mensaje centrado de mazo vacío o de tarjetas terminadas
+ *
+ */
 .fc-vacio{text-align:center;color:rgba(45,44,87,.7);padding:2rem 0}
 
-/* =========================================================
-   FUTURIA - Mapas mentales - estilos específicos
-   ========================================================= */
+/**
+ *
+ * Mapas mentales: la barra de arriba con el cuadro de texto (que ocupa el
+ * espacio que sobra), el botón y los colores
+ *
+ */
 .mm-barra{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:1rem}
 .mm-barra input[type="text"]{flex:1;min-width:160px}
+
+/**
+ *
+ * la fila de botones redondos de colores; el elegido (.activo) lleva un anillo
+ * naranja
+ *
+ */
 .mm-colores{display:flex;gap:.4rem}
 .mm-color{
   width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px rgba(75,28,113,.2);
@@ -199,6 +433,15 @@ button{font-family:inherit}
 }
 .mm-color.activo{box-shadow:0 0 0 3px var(--naranja-vivo)}
 
+/**
+ *
+ * el lienzo del mapa: fondo hueso con una cuadrícula de puntitos cada 22px,
+ * esquinas redondeadas y de 560px de alto como máximo
+ *
+ * touch-action: none evita que en celular la página se mueva mientras se
+ * arrastra un nodo
+ *
+ */
 .mm-lienzo-caja{
   position:relative;width:100%;height:min(560px,65vh);
   background:
@@ -207,9 +450,25 @@ button{font-family:inherit}
   border-radius:1.2rem;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(75,28,113,.08);
   touch-action:none;
 }
+
+/**
+ *
+ * el SVG de las líneas, encima de todo el lienzo pero sin recibir clics. Las
+ * líneas son lilas de 2,5px
+ *
+ */
 .mm-lienzo-caja svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .mm-lienzo-caja svg line{stroke:var(--lila);stroke-width:2.5}
 
+/**
+ *
+ * cada idea del mapa: una pastilla de color con texto blanco, centrada en su
+ * punto (x, y), que se puede agarrar y arrastrar
+ *
+ * la seleccionada lleva un contorno naranja y el tema central (.raiz) es más
+ * grande
+ *
+ */
 .mm-nodo{
   position:absolute;transform:translate(-50%,-50%);
   padding:.55rem 1rem;border-radius:999px;color:#fff;font-weight:700;
@@ -221,24 +480,60 @@ button{font-family:inherit}
 .mm-nodo.seleccionado{outline:3px solid var(--naranja-vivo);outline-offset:2px}
 .mm-nodo.raiz{font-size:1.05rem;padding:.8rem 1.3rem}
 
+/**
+ *
+ * la línea de ayuda debajo del lienzo y la fila de botones de abajo
+ *
+ */
 .mm-ayuda{font-size:.85rem;color:rgba(45,44,87,.7);margin-top:.8rem}
 .mm-acciones{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
 
-/* =========================================================
-   FUTURIA - Agenda escolar - estilos específicos
-   ========================================================= */
+/**
+ *
+ * Agenda: el contenido en una columna; desde 900px de ancho, dos columnas
+ * (calendario y tareas del día)
+ *
+ */
 .ag-layout{display:grid;gap:2rem}
 @media (min-width:900px){ .ag-layout{grid-template-columns:1.1fr .9fr} }
 
+/**
+ *
+ * la fila de arriba del calendario: el nombre del mes (con mayúscula inicial)
+ * y las flechas
+ *
+ */
 .ag-cabecera{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
 .ag-cabecera h2{color:var(--morado);font-size:1.2rem;text-transform:capitalize}
 .ag-flechas button{
   background:var(--hueso);border:2px solid var(--lila);border-radius:.7rem;
   padding:.4rem .7rem;cursor:pointer;color:var(--morado);
 }
+
+/**
+ *
+ * la fila con los nombres de los días, de lunes a domingo
+ *
+ */
 .ag-dias-semana{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem;margin-bottom:.4rem}
 .ag-dias-semana span{text-align:center;font-size:.78rem;font-weight:700;color:var(--morado)}
+
+/**
+ *
+ * la cuadrícula del mes, de 7 columnas
+ *
+ */
 .ag-cuadricula{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem}
+
+/**
+ *
+ * cada día: una casilla cuadrada de fondo hueso con el número
+ *
+ * al pasar el mouse muestra un borde lila. Hoy lleva un borde azul cielo, el
+ * día elegido es morado con el número blanco y las casillas vacías del inicio
+ * del mes no se ven
+ *
+ */
 .ag-dia{
   aspect-ratio:1/1;border-radius:.7rem;border:2px solid transparent;background:var(--hueso);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
@@ -248,12 +543,38 @@ button{font-family:inherit}
 .ag-dia.hoy{box-shadow:inset 0 0 0 2px var(--azul-cielo)}
 .ag-dia.seleccionado{background:var(--morado);color:#fff}
 .ag-dia.vacio{visibility:hidden;cursor:default}
+
+/**
+ *
+ * el puntito naranja de los días que tienen tareas
+ *
+ */
 .ag-punto{width:6px;height:6px;border-radius:50%;background:var(--naranja-vivo)}
 
+/**
+ *
+ * el formulario de tarea nueva, con la fecha y la hora en la misma fila
+ *
+ */
 .ag-form{display:grid;gap:.7rem;margin-top:1.4rem}
 .ag-form-fila{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
 
+/**
+ *
+ * el título "Tareas del…" de la lista
+ *
+ */
 .ag-lista-titulo{color:var(--morado);font-size:1rem;margin-bottom:.6rem}
+
+/**
+ *
+ * la lista de tareas del día, de 420px de alto como máximo; si hay más aparece
+ * una barra para bajar
+ *
+ * cada tarea muestra la hora en morado, el texto debajo y el botón Eliminar en
+ * naranja
+ *
+ */
 .ag-lista{display:flex;flex-direction:column;gap:.6rem;max-height:420px;overflow:auto}
 .ag-item{
   display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem;
@@ -262,19 +583,45 @@ button{font-family:inherit}
 .ag-item b{display:block;color:var(--morado);font-size:.85rem}
 .ag-item p{font-size:.92rem;margin-top:.15rem}
 .ag-item button{background:none;border:0;color:var(--naranja);cursor:pointer;font-weight:700;font-size:.85rem}
+
+/**
+ *
+ * el mensaje de día sin tareas
+ *
+ */
 .ag-vacio{color:rgba(45,44,87,.65);font-size:.92rem}
 
-/* =========================================================
-   FUTURIA - IA (chat) - estilos específicos
-   ========================================================= */
+/**
+ *
+ * IA: la tarjeta del chat en columna, de 640px de alto como máximo
+ *
+ */
 .ia-chat{
   display:flex;flex-direction:column;
   height:min(640px,70vh);
 }
+
+/**
+ *
+ * la conversación: ocupa el espacio que sobra y, si hay muchos mensajes,
+ * aparece una barra para bajar
+ *
+ */
 .ia-mensajes{
   flex:1;overflow-y:auto;padding:.5rem .25rem;
   display:flex;flex-direction:column;gap:.9rem;
 }
+
+/**
+ *
+ * cada burbuja de mensaje, del 78% del ancho como máximo; respeta los saltos
+ * de línea del texto
+ *
+ * las de Futuria son lilas a la izquierda y las de la persona son naranjas a
+ * la derecha, cada una con la esquina de abajo más recta del lado de quien
+ * habla. "Escribiendo…" se ve en cursiva y medio transparente
+ *
+ */
 .ia-burbuja{
   max-width:78%;padding:.75rem 1rem;border-radius:1.1rem;
   font-size:.98rem;line-height:1.5;white-space:pre-wrap;
@@ -288,6 +635,15 @@ button{font-family:inherit}
   color:var(--hueso);border-bottom-right-radius:.3rem;
 }
 .ia-burbuja--escribiendo{opacity:.75;font-style:italic}
+
+/**
+ *
+ * la fila de abajo con el cuadro de texto y el botón Enviar, separada por una
+ * línea
+ *
+ * el cuadro no se puede estirar y su borde lila se pone naranja al escribir
+ *
+ */
 .ia-form{
   display:flex;gap:.6rem;margin-top:1rem;padding-top:1rem;
   border-top:2px solid rgba(75,28,113,.12);
@@ -298,13 +654,33 @@ button{font-family:inherit}
   font-size:1rem;color:var(--azul-noche);
 }
 .ia-form textarea:focus{outline:none;border-color:var(--naranja-vivo)}
+
+/**
+ *
+ * el círculo morado con la "F" de Futuria o el "Tú" de la persona
+ *
+ */
 .ia-avatar{
   width:40px;height:40px;border-radius:50%;flex:none;
   display:flex;align-items:center;justify-content:center;
   background:var(--morado);color:var(--hueso);font-weight:800;
 }
+
+/**
+ *
+ * cada fila de la conversación: el avatar y la burbuja juntos abajo. En los
+ * mensajes de la persona el orden se invierte (avatar a la derecha)
+ *
+ */
 .ia-fila{display:flex;gap:.6rem;align-items:flex-end}
 .ia-fila--usuario{flex-direction:row-reverse}
+
+/**
+ *
+ * la fila de preguntas sugeridas: pastillas blancas con borde lila que se
+ * ponen lilas al pasar el mouse
+ *
+ */
 .ia-sugerencias{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
 .ia-chip{
   border:1px solid var(--lila);background:#fff;color:var(--morado);

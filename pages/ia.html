@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña, la
+  descripción que muestran los buscadores y las redes al compartir, el ícono,
+  la fuente Jost de Google Fonts y las hojas de estilo
+
+-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,6 +21,13 @@
 </head>
 <body>
 
+  <!--
+
+    la barra de navegación de arriba, que se queda pegada al bajar: el logo
+    (lleva al inicio), el botón de las 3 rayas que abre el menú en celular y
+    los enlaces a todas las páginas
+
+  -->
   <header class="nb">
     <div class="nb-inner">
       <a class="nb-logo" href="../index.html#inicio">
@@ -41,6 +56,12 @@
     </div>
   </header>
 
+  <!--
+
+    el encabezado de la herramienta sobre el degradado: la etiqueta, el título
+    y una descripción corta
+
+  -->
   <div class="ht-encabezado">
     <p class="ht-etiqueta">Futuria · Asistente con IA</p>
     <h1 class="ht-titulo">Habla con Futuria</h1>
@@ -52,8 +73,20 @@
   </div>
 
   <main class="ht-contenedor">
+
+    <!--
+
+      la tarjeta del chat: las preguntas sugeridas, la conversación y el
+      cuadro para escribir
+
+    -->
     <div class="ht-tarjeta ia-chat">
 
+      <!--
+
+        las preguntas sugeridas; al tocar una se envía como mensaje
+
+      -->
       <div class="ia-sugerencias" id="iaChips">
         <button type="button" class="ia-chip">¿Cómo uso el método Pomodoro?</button>
         <button type="button" class="ia-chip">No sé qué carrera estudiar</button>
@@ -61,6 +94,12 @@
         <button type="button" class="ia-chip">¿Cómo hago un mapa mental?</button>
       </div>
 
+      <!--
+
+        la conversación. Empieza con el saludo de Futuria y ia.js va agregando
+        una fila por cada mensaje
+
+      -->
       <div class="ia-mensajes" id="iaMensajes">
         <div class="ia-fila">
           <div class="ia-avatar">F</div>
@@ -72,21 +111,43 @@
         </div>
       </div>
 
+      <!--
+
+        el cuadro para escribir y el botón Enviar; Enter también envía
+
+      -->
       <form class="ia-form" id="iaForm">
         <textarea id="iaEntrada" placeholder="Escríbele a Futuria… (Enter para enviar)" required></textarea>
         <button class="ht-boton" id="iaEnviar" type="submit">Enviar</button>
       </form>
     </div>
 
+    <!--
+
+      el enlace para volver a la página de inicio
+
+    -->
     <a class="ht-volver" href="../index.html">&larr; Volver al inicio</a>
   </main>
 
+  <!--
+
+    el pie de página: el logo, el nombre FUTURIA y la línea de derechos
+    reservados con el año, que escribe comun.js
+
+  -->
   <footer class="footer">
     <img src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" />
     <p><strong>FUTURIA</strong></p>
     <p>© <span id="anio"></span> Futuria · Todos los derechos reservados.</p>
   </footer>
 
+  <!--
+
+    los scripts: primero comun.js (estrellas, menú del celular y año del
+    footer) y después ia.js, que maneja el chat
+
+  -->
   <script src="../assets/js/comun.js"></script>
   <script src="../assets/js/ia.js"></script>
 </body>

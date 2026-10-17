@@ -1,12 +1,20 @@
-/* =========================================================
-   FUTURIA - Página de integrantes
-   Carga los integrantes desde api/integrantes.php y alterna
-   entre la persona y su personaje ilustrado.
-   (estrellas, menú y año están en comun.js)
-   ========================================================= */
+/**
+ *
+ * la página de integrantes: pide a api/integrantes.php los 8 miembros del
+ * equipo y pinta una tarjeta por cada uno. Al hacer clic en el círculo, la
+ * tarjeta cambia entre la persona y su personaje ilustrado
+ *
+ * si el servidor no responde, o responde sin integrantes, usa la lista de
+ * respaldo escrita aquí, que tiene las fotos reales del equipo
+ *
+ */
 
-/* Datos de respaldo: si el sitio se abre sin servidor PHP, la página
-   sigue funcionando con esta misma información. */
+/**
+ *
+ * los integrantes de respaldo: nombre, foto, qué hace en el proyecto y su
+ * personaje (nombre, foto y descripción escrita por el mismo personaje)
+ *
+ */
 var INTEGRANTES_RESPALDO = [
   { nombre:'Isabela M.', imagen:'../assets/img/isabela.jpeg',
     descripcion:'Diseñadora gráfica, diseña los personajes y la estructura visual y gráfica de la guía, juego, etc…',
@@ -42,12 +50,27 @@ var INTEGRANTES_RESPALDO = [
       descripcion:'Soy el experto en artes culinarias, desde siempre me a gustado experimentar y descubrir los nuevos sabores, texturas y culturas gastronomicas, y a su vez disfruto de la estetica en los platilos.' } }
 ];
 
+/**
+ *
+ * cuando la página termina de cargar se piden los integrantes y se pintan
+ *
+ */
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ---------- Integrantes ---------- */
   var grid = document.getElementById('integrantes-grid');
   if (!grid) return;
 
+  /**
+   *
+   * arma la tarjeta de un integrante y la deja lista para cambiar entre la
+   * persona y su personaje
+   *
+   * la tarjeta tiene el nombre, el círculo con la foto grande y una foto
+   * pequeña en la esquina (la del otro lado), la descripción y una etiqueta
+   * ("Integrante" o "Personaje ilustrado"). El círculo funciona con clic y
+   * también con las teclas Enter y espacio
+   *
+   */
   function tarjeta(dato) {
     var art = document.createElement('article');
     art.className = 'integrante';
@@ -69,6 +92,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var esAnimal = false;
     var animando = false;
 
+    /**
+     *
+     * pone en la tarjeta los datos del lado que se está mostrando: el nombre,
+     * la descripción y la foto grande del frente, y en la foto pequeña el otro
+     * lado
+     *
+     */
     function pintar() {
       var frente = esAnimal ? dato.animal : dato;
       var atras = esAnimal ? dato : dato.animal;
@@ -82,6 +112,15 @@ document.addEventListener('DOMContentLoaded', function () {
       art.classList.toggle('es-animal', esAnimal);
     }
 
+    /**
+     *
+     * cambia de lado con una animación corta
+     *
+     * agrega la clase "cambiando" (que desvanece la tarjeta), espera 300
+     * milisegundos, cambia los datos y la quita. Mientras anima, los clics de
+     * más se ignoran
+     *
+     */
     function alternar() {
       if (animando) return;
       animando = true;
@@ -103,11 +142,21 @@ document.addEventListener('DOMContentLoaded', function () {
     return art;
   }
 
+  /**
+   *
+   * vacía la cuadrícula y agrega una tarjeta por cada integrante
+   *
+   */
   function pintarTodos(lista) {
     grid.innerHTML = '';
     lista.forEach(function (dato) { grid.appendChild(tarjeta(dato)); });
   }
 
+  /**
+   *
+   * pide los integrantes al servidor; si no llegan, usa los de respaldo
+   *
+   */
   fetch('../api/integrantes.php')
     .then(function (res) { return res.json(); })
     .then(function (data) {

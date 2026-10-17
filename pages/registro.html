@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña y la
+  hoja de estilos del registro
+
+-->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,13 +14,24 @@
   <link rel="stylesheet" href="../assets/css/registro.css">
 </head>
 <body>
+
+  <!--
+
+    las tres manchas de color borrosas que se mueven despacio en el fondo
+
+  -->
   <div class="bg-blobs">
     <span class="blob blob-1"></span>
     <span class="blob blob-2"></span>
     <span class="blob blob-3"></span>
   </div>
 
+  <!--
 
+    la tarjeta blanca del registro: el logo, el título "Crea tu cuenta", el
+    formulario y los enlaces de abajo
+
+  -->
   <main class="card">
     <div class="logo-wrap">
       <img src="../assets/img/logo-futuria.jpeg" alt="Futuria" class="logo" />
@@ -21,6 +39,16 @@
     <h1>Crea tu cuenta</h1>
     <p class="subtitle">Únete a <span class="brand">Futuria</span> y comienza tu viaje</p>
 
+    <!--
+
+      el formulario de registro con nombre completo, correo, usuario,
+      contraseña y confirmación
+
+      se envía a api/registro.php, que crea la cuenta y muestra el resultado.
+      novalidate apaga los avisos propios del navegador; los errores los
+      muestra registro.js debajo de cada campo (en los <small class="error">)
+
+    -->
     <form id="signupForm" action="../api/registro.php" method="POST" novalidate>
       <div class="field">
         <label for="fullname">Nombre completo</label>
@@ -56,10 +84,20 @@
 
       <p class="login-link"><a href="../index.html">← Volver al inicio</a></p>
 
+      <!--
+
+        el enlace para iniciar sesión; todavía no lleva a ninguna página
+
+      -->
       <p class="login-link">¿Ya tienes cuenta? <a href="#">Inicia sesión</a></p>
     </form>
   </main>
 
+  <!--
+
+    el script que revisa los campos antes de enviar
+
+  -->
   <script src="../assets/js/registro.js"></script>
 </body>
 </html>

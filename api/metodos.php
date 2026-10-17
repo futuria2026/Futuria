@@ -1,34 +1,50 @@
 <?php
-/* ==========================================================
-   FUTURIA · api/metodos.php
-   ----------------------------------------------------------
-   IMPORTANTE: este archivo NO se ejecuta en la plataforma
-   Enter (el backend de Enter usa funciones cloud, no PHP).
-   Es un archivo listo para usar en tu propio servidor PHP
-   (XAMPP / WAMP / Apache + MySQL) sin necesidad de Enter.
+/**
+ *
+ * guarda en la base de datos MySQL las tareas del calendario de la página de
+ * métodos y los mensajes de contacto. Ninguna página lo usa todavía: el
+ * calendario de métodos guarda las tareas solo en el navegador
+ *
+ * se conecta a la base "futuria" con el usuario root sin contraseña. Solo
+ * acepta POST con un campo "accion": "guardar_tarea" (fecha, hora, titulo) o
+ * "contacto" (nombre, correo, mensaje). Necesita dos tablas que no están en
+ * database/futuria.sql: tareas (id, fecha DATE, hora TIME, titulo
+ * VARCHAR(255), creado TIMESTAMP) y contactos (id, nombre VARCHAR(120), correo
+ * VARCHAR(160), mensaje TEXT, creado TIMESTAMP)
+ *
+ */
 
-   Cómo usarlo:
-   1) El sitio completo debe estar en la carpeta pública
-      del servidor (pages/, assets/ y api/).
-   2) Crea la base de datos y la tabla con el SQL de abajo.
-   3) Ajusta $HOST, $USER, $PASS y $DB de este archivo.
-   4) En assets/js/metodos.js, descomenta el bloque "Sincronizar con
-      el servidor PHP" para enviar las tareas del calendario
-      aquí.
-   ========================================================== */
-
+/**
+ *
+ * responde en JSON y deja que cualquier página, incluso de otro dominio, le
+ * envíe datos con POST (CORS)
+ *
+ */
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');      // ajusta el dominio en producción
+header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
-/* ---------- Configuración de la base de datos ---------- */
+/**
+ *
+ * los datos para entrar a la base de datos: servidor, usuario, contraseña y
+ * nombre de la base
+ *
+ */
 $HOST = 'localhost';
 $USER = 'root';
 $PASS = '';
 $DB   = 'futuria';
 
-/* ---------- Conexión (PDO + prepared statements) ---------- */
+/**
+ *
+ * la conexión a la base de datos
+ *
+ * usa PDO (la forma de PHP de hablar con bases de datos). Si algo falla en una
+ * consulta lanza un error, y las filas llegan como listas con nombre de
+ * columna. Si no se puede conectar responde con el error 500
+ *
+ */
 try {
     $pdo = new PDO(
         "mysql:host={$HOST};dbname={$DB};charset=utf8mb4",
@@ -44,39 +60,32 @@ try {
 }
 
 /**
- * SQL para crear la tabla de tareas (ejecutar una sola vez):
  *
- * CREATE DATABASE IF NOT EXISTS futuria CHARACTER SET utf8mb4;
+ * convierte los datos en JSON, los envía con el código de respuesta indicado
+ * (200 si todo está bien) y termina el programa
  *
- * CREATE TABLE IF NOT EXISTS tareas (
- *   id       INT AUTO_INCREMENT PRIMARY KEY,
- *   fecha    DATE NOT NULL,
- *   hora     TIME NULL,
- *   titulo   VARCHAR(255) NOT NULL,
- *   creado   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
- * );
- *
- * CREATE TABLE IF NOT EXISTS contactos (
- *   id       INT AUTO_INCREMENT PRIMARY KEY,
- *   nombre   VARCHAR(120) NOT NULL,
- *   correo   VARCHAR(160) NOT NULL,
- *   mensaje  TEXT NOT NULL,
- *   creado   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
- * );
  */
-
-/* ---------- Utilidades ---------- */
 function responder($datos, $codigo = 200) {
     http_response_code($codigo);
     echo json_encode($datos, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
+/**
+ *
+ * limpia un texto: le quita etiquetas HTML y los espacios sobrantes al inicio
+ * y al final
+ *
+ */
 function limpiar($valor) {
     return trim(strip_tags((string) $valor));
 }
 
-/* ---------- Solo POST ---------- */
+/**
+ *
+ * solo se aceptan envíos POST; si no, error 405
+ *
+ */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     responder(['error' => 'Método no permitido. Usa POST.'], 405);
 }
@@ -85,7 +94,15 @@ $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 
 switch ($accion) {
 
-    /* Guardar una tarea del calendario: accion=guardar_tarea */
+    /**
+     *
+     * guarda una tarea del calendario en la tabla tareas
+     *
+     * el título es obligatorio y la fecha tiene que venir como AAAA-MM-DD. La
+     * hora es opcional; si viene vacía se guarda sin hora. Responde con el id
+     * que le dio la base de datos a la tarea nueva
+     *
+     */
     case 'guardar_tarea':
         $fecha  = limpiar($_POST['fecha'] ?? '');
         $hora   = limpiar($_POST['hora'] ?? '');
@@ -112,7 +129,14 @@ switch ($accion) {
             'mensaje' => 'Tarea guardada correctamente',
         ]);
 
-    /* Guardar un mensaje de contacto: accion=contacto */
+    /**
+     *
+     * guarda un mensaje de contacto en la tabla contactos
+     *
+     * nombre, correo y mensaje son obligatorios y el correo tiene que ser
+     * válido. Responde con un "¡Gracias!" que incluye el nombre de la persona
+     *
+     */
     case 'contacto':
         $nombre  = limpiar($_POST['nombre'] ?? '');
         $correo  = limpiar($_POST['correo'] ?? '');
@@ -138,17 +162,3 @@ switch ($accion) {
     default:
         responder(['error' => 'Acción desconocida'], 400);
 }
-
-/* ==========================================================
-   Ejemplo de uso desde assets/js/metodos.js (descomentar y ajustar):
-
-   fetch('../api/metodos.php', {
-     method: 'POST',
-     body: new URLSearchParams({
-       accion: 'guardar_tarea',
-       fecha:  '2026-08-17',
-       hora:   '15:30',
-       titulo: 'Estudiar biología'
-     })
-   }).then(r => r.json()).then(console.log);
-   ========================================================== */
