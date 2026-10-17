@@ -10,11 +10,11 @@ var PRODUCTOS_RESPALDO = [
   { nombre:'Libro', eslogan:'Organiza tu año completo',
     descripcion:'Agenda anual con vista semanal y mensual, espacio para metas, seguimiento de hábitos y páginas de repaso por materia. Diseñada para estudiantes de colegio y primeros semestres.',
     caracteristicas:['Vista semanal y mensual','Seguimiento de hábitos','Stickers de Futuria','Portada personalizable'],
-    precio:'$65.000 COP', imagenes:['img/p1-1.jpg','img/p1-2.jpg','img/p1-3.jpg','img/p1-4.jpg'] },
+    precio:'$65.000 COP', imagenes:['../assets/img/p1-1.jpg','../assets/img/p1-2.jpg','../assets/img/p1-3.jpg','../assets/img/p1-4.jpg'] },
   { nombre:'Cartas', eslogan:'Tu semana en una sola hoja',
     descripcion:'Bloc desprendible de 52 hojas para planear cada semana: tareas, evaluaciones, tiempo libre y bloques de estudio con la técnica Pomodoro.',
     caracteristicas:['52 hojas desprendibles','Bloques Pomodoro','Tamaño A4','Diseño Futuria'],
-    precio:'$28.000 COP', imagenes:['img/p2-1.jpg','img/p2-2.jpg','img/p2-3.jpg','img/p2-4.jpg'] }
+    precio:'$28.000 COP', imagenes:['../assets/img/p2-1.jpg','../assets/img/p2-2.jpg','../assets/img/p2-3.jpg','../assets/img/p2-4.jpg'] }
 ];
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
     lista.forEach(function (dato, i) { contenedor.appendChild(tarjeta(dato, i)); });
   }
 
-  fetch('php/productos4.php')
+  fetch('../api/productos.php')
     .then(function (res) { return res.json(); })
     .then(function (data) {
       if (data && data.ok && data.productos && data.productos.length) {

@@ -188,7 +188,7 @@
   // ---- Backend ----
   async function cargar() {
     try {
-      var res = await fetch('php/mapas-mentales.php?accion=cargar');
+      var res = await fetch('../api/mapas-mentales.php?accion=cargar');
       var datos = await res.json();
       nodos = datos.ok ? (datos.nodos || []) : [];
     } catch (e) { nodos = []; }
@@ -201,7 +201,7 @@
     clearTimeout(guardarTimeout);
     guardarTimeout = setTimeout(async function () {
       try {
-        await fetch('php/mapas-mentales.php', {
+        await fetch('../api/mapas-mentales.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ accion: 'guardar', nodos: nodos })

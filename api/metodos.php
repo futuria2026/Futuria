@@ -1,6 +1,6 @@
 <?php
 /* ==========================================================
-   FUTURIA · Página 5 · MÉTODOS  (metodos5.php)
+   FUTURIA · api/metodos.php
    ----------------------------------------------------------
    IMPORTANTE: este archivo NO se ejecuta en la plataforma
    Enter (el backend de Enter usa funciones cloud, no PHP).
@@ -8,11 +8,11 @@
    (XAMPP / WAMP / Apache + MySQL) sin necesidad de Enter.
 
    Cómo usarlo:
-   1) Coloca metodos5.html, estilos5.css, metodos5.js y
-      metodos5.php juntos en la carpeta pública del servidor.
+   1) El sitio completo debe estar en la carpeta pública
+      del servidor (pages/, assets/ y api/).
    2) Crea la base de datos y la tabla con el SQL de abajo.
    3) Ajusta $HOST, $USER, $PASS y $DB de este archivo.
-   4) En metodos5.js, descomenta el bloque "Sincronizar con
+   4) En assets/js/metodos.js, descomenta el bloque "Sincronizar con
       el servidor PHP" para enviar las tareas del calendario
       aquí.
    ========================================================== */
@@ -140,9 +140,9 @@ switch ($accion) {
 }
 
 /* ==========================================================
-   Ejemplo de uso desde metodos5.js (descomentar y ajustar):
+   Ejemplo de uso desde assets/js/metodos.js (descomentar y ajustar):
 
-   fetch('php/metodos5.php', {
+   fetch('../api/metodos.php', {
      method: 'POST',
      body: new URLSearchParams({
        accion: 'guardar_tarea',

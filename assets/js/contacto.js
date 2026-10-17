@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     aviso.style.color = '';
     aviso.textContent = 'Enviando...';
     try {
-      var res  = await fetch('php/contacto.php', { method: 'POST', body: new FormData(form) });
+      var res  = await fetch('../api/contacto.php', { method: 'POST', body: new FormData(form) });
       var data = await res.json();
       if (data.ok) {
         aviso.textContent = '¡Gracias! Tu mensaje fue enviado correctamente.';

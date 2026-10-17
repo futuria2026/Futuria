@@ -1,10 +1,10 @@
 <?php
 /**
  * Futuria — Registro de usuario
- * Procesa el formulario enviado desde index.html
+ * Procesa el formulario enviado desde pages/registro.html
  *
  * NOTA: Este archivo requiere un servidor con PHP (Apache/Nginx + PHP-FPM,
- * XAMPP, Laragon, o `php -S localhost:8000` desde la carpeta futuria/).
+ * XAMPP, Laragon, o `php -S localhost:8000` desde la raíz del proyecto).
  */
 
 declare(strict_types=1); 
@@ -39,7 +39,7 @@ function render_page(bool $ok, string $msg): void {
     <!DOCTYPE html>
     <html lang="es"><head>
       <meta charset="UTF-8"><title><?= htmlspecialchars($title) ?> — Futuria</title>
-      <link rel="stylesheet" href="../css/iniciosecc.css">
+      <link rel="stylesheet" href="../assets/css/registro.css">
     </head><body>
       <div class="bg-blobs">
         <span class="blob blob-1"></span>
@@ -47,10 +47,10 @@ function render_page(bool $ok, string $msg): void {
         <span class="blob blob-3"></span>
       </div>
       <main class="card" style="text-align:center;">
-        <div class="logo-wrap"><img src="../img/logo-futuria.jpeg" alt="Futuria" class="logo"></div>
+        <div class="logo-wrap"><img src="../assets/img/logo-futuria.jpeg" alt="Futuria" class="logo"></div>
         <h1 style="color: <?= $color ?>; margin-top:16px;"><?= htmlspecialchars($title) ?></h1>
         <p class="subtitle" style="margin-top:12px;"><?= htmlspecialchars($msg) ?></p>
-        <a href="../iniciosecc.html" class="submit-btn" style="display:inline-block;text-decoration:none;margin-top:8px;">Volver</a>
+        <a href="../pages/registro.html" class="submit-btn" style="display:inline-block;text-decoration:none;margin-top:8px;">Volver</a>
       </main>
     </body></html>
     <?php

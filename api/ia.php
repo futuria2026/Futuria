@@ -15,7 +15,7 @@
 // ============================================================
 declare(strict_types=1);
 
-require dirname(__DIR__) . '/inc/datos.php';
+require __DIR__ . '/inc/datos.php';
 
 // -------- Configuración del modelo --------
 const FUTURIA_IA_API_KEY = ''; // <-- pon aquí tu API key (OpenAI, por ejemplo)

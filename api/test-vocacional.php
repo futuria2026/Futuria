@@ -30,7 +30,7 @@ $tests = [
     'etiquetas'   => ['9 áreas', 'Intereses', 'Aptitudes', '~15 min'],
     'boton'       => 'Hacer el test CHASIDE',
     'enlace'      => 'https://orientacion-psicopedagogica.net/test/test-chaside/',
-    'imagen'      => 'img/test-vocacional-1.jpg',
+    'imagen'      => '../assets/img/test-vocacional-1.jpg',
   ],
   [
     'id'          => 'holland',
@@ -42,7 +42,7 @@ $tests = [
     'etiquetas'   => ['6 tipos', 'RIASEC', 'Carreras', '~10 min'],
     'boton'       => 'Hacer el test de Holland',
     'enlace'      => 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
-    'imagen'      => 'img/test-vocacional-2.jpg',
+    'imagen'      => '../assets/img/test-vocacional-2.jpg',
   ],
 ];
 

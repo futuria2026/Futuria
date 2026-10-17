@@ -96,7 +96,7 @@
 
   async function registrarSesion(tipo) {
     try {
-      var res = await fetch('php/pomodoro.php', {
+      var res = await fetch('../api/pomodoro.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ accion: 'registrar', tipo: tipo })
@@ -108,7 +108,7 @@
 
   async function cargarStats() {
     try {
-      var res = await fetch('php/pomodoro.php?accion=stats');
+      var res = await fetch('../api/pomodoro.php?accion=stats');
       var datos = await res.json();
       if (datos.ok) pintarStats(datos);
     } catch (e) { /* silencioso */ }

@@ -1,5 +1,5 @@
 /* ==========================================================
-   FUTURIA · Página 5 · MÉTODOS  (metodos5.js)
+   FUTURIA · Página de métodos de estudio  (assets/js/metodos.js)
    - Estrellas decorativas de 4 puntas y puntitos degradados
    - Menú móvil, burbujas de info táctiles
    - Modal de guía para cada método

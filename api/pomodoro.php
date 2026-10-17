@@ -7,7 +7,7 @@
 // ============================================================
 declare(strict_types=1);
 
-require dirname(__DIR__) . '/inc/datos.php';
+require __DIR__ . '/inc/datos.php';
 
 header('Content-Type: application/json; charset=utf-8');
 

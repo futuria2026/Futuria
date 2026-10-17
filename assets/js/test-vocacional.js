@@ -1,6 +1,6 @@
 /* =========================================================
-   FUTURIA - Página 3 (TEST VOCACIONAL)
-   1) Carga los tests desde test-vocacional.php (con respaldo local)
+   FUTURIA - Página de test vocacional
+   1) Carga los tests desde api/test-vocacional.php (con respaldo local)
    2) Pinta cada tarjeta: imagen, título, descripción, etiquetas
       y un botón que guía al test vocacional
    ========================================================= */
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         etiquetas: ['9 áreas', 'Intereses', 'Aptitudes', '~15 min'],
         boton: 'Hacer el test CHASIDE',
         enlace: 'https://orientacion-psicopedagogica.net/test/test-chaside/',
-        imagen: 'img/test-vocacional-1.jpg'
+        imagen: '../assets/img/test-vocacional-1.jpg'
       },
       {
         id: 'holland',
@@ -43,13 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
         etiquetas: ['6 tipos', 'RIASEC', 'Carreras', '~10 min'],
         boton: 'Hacer el test de Holland',
         enlace: 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
-        imagen: 'img/test-vocacional-2.jpg'
+        imagen: '../assets/img/test-vocacional-2.jpg'
       }
     ]
   };
 
       
-  fetch('php/test-vocacional.php')
+  fetch('../api/test-vocacional.php')
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((d) => {
       if (d.resumen && resumenEl) resumenEl.textContent = d.resumen;

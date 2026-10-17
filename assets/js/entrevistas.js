@@ -4,11 +4,11 @@
    (estrellas, menú y año están en comun.js)
    ========================================================= */
 var ENTREVISTAS_RESPALDO = [
-  {area:'Transporte - Piloto',nombre:'Jacobo Román',profesion:'Aviación',imagen:'img/piloto.jpg',audio:'audio/jacobo.mp3',orientacion:'Le diría que primero estudie algo que le guste; a mí me parece que estudiar algo que a uno no le guste es un infierno  y me he dado cuenta de que en cualquier área o cualquier campo que uno escoja, uno mismo se hace su destino',carrera:'SIIII.'},
+  {area:'Transporte - Piloto',nombre:'Jacobo Román',profesion:'Aviación',imagen:'../assets/img/piloto.jpg',audio:'../assets/audio/jacobo.mp3',orientacion:'Le diría que primero estudie algo que le guste; a mí me parece que estudiar algo que a uno no le guste es un infierno  y me he dado cuenta de que en cualquier área o cualquier campo que uno escoja, uno mismo se hace su destino',carrera:'SIIII.'},
 
-  {area:'Entretenimiento - Streamer',nombre:'Juan Felipe Restrepo (Ñe)',profesion:'Streamer - Estudiante',imagen:'img/stremer.jpg',audio:'audio/ñe.mp3',orientacion:'.',carrera:'La verdad es muy complejo, pero también trato de asimilarlo mucho con las personas que trabajan y estudian al mismo tiempo ya que la creación de contenido es como un trabajo y se le tiene que dedicar mucho tiempo para que pueda ser rentable.'},
+  {area:'Entretenimiento - Streamer',nombre:'Juan Felipe Restrepo (Ñe)',profesion:'Streamer - Estudiante',imagen:'../assets/img/stremer.jpg',audio:'../assets/audio/ñe.mp3',orientacion:'.',carrera:'La verdad es muy complejo, pero también trato de asimilarlo mucho con las personas que trabajan y estudian al mismo tiempo ya que la creación de contenido es como un trabajo y se le tiene que dedicar mucho tiempo para que pueda ser rentable.'},
 
-  {area:'Social y Humanidades - Abogado',nombre:'Santiago Mejía',profesion:'Abogado',imagen:'img/abogado.jpg',audio:'audio/sebastian.mp3',orientacion:'SIIIII.',carrera:'Si vas a estudiar derecho, dedícate completamente, lee más de lo que te dan en clases, estudia muchos libros, busca prácticas adicionales, no te quedes con lo mínimo'},
+  {area:'Social y Humanidades - Abogado',nombre:'Santiago Mejía',profesion:'Abogado',imagen:'../assets/img/abogado.jpg',audio:'../assets/audio/sebastian.mp3',orientacion:'SIIIII.',carrera:'Si vas a estudiar derecho, dedícate completamente, lee más de lo que te dan en clases, estudia muchos libros, busca prácticas adicionales, no te quedes con lo mínimo'},
 
 ];
 
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  fetch('php/entrevistas6.php')
+  fetch('../api/entrevistas.php')
     .then(function(r){if(!r.ok)throw new Error('No disponible');return r.json();})
     .then(function(data){pintar(data&&data.ok&&data.entrevistas?data.entrevistas:ENTREVISTAS_RESPALDO);})
     .catch(function(){pintar(ENTREVISTAS_RESPALDO);});
