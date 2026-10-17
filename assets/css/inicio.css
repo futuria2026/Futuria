@@ -1,0 +1,34 @@
+/* =========================================================
+   FUTURIA - Página de inicio (Quiénes somos)
+   Se carga después de comun.css
+   ========================================================= */
+
+.grid-2{display:grid;gap:3rem;align-items:center}
+@media(min-width:900px){.grid-2{grid-template-columns:1fr 1fr}}
+
+/* ---------- Carrusel ---------- */
+.carrusel{position:relative;overflow:hidden;border-radius:1.5rem;border:4px solid var(--lila);box-shadow:var(--sombra)}
+.carrusel__pista{display:flex;transition:transform .7s ease}
+.carrusel__img{flex:0 0 100%;height:24rem;object-fit:cover}
+.carrusel__btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:2.6rem;height:2.6rem;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(75,28,113,.8);color:var(--hueso);font-size:1rem;transition:background .2s;
+}
+.carrusel__btn:hover{background:var(--naranja-vivo)}
+.carrusel__btn--prev{left:.8rem}
+.carrusel__btn--next{right:.8rem}
+.carrusel__puntos{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem}
+.carrusel__punto{width:10px;height:10px;border:0;border-radius:999px;background:rgba(252,252,251,.7);cursor:pointer;transition:all .3s}
+.carrusel__punto.activo{width:28px;background:var(--naranja-vivo)}
+
+/* ---------- Misión / Visión (rombo) ---------- */
+.pila{display:flex;flex-direction:column;gap:3.5rem;position:relative;z-index:1}
+.rombo{
+  width:min(48rem,100%);margin-inline:auto;background:var(--hueso);
+  padding:4rem 2.5rem;text-align:center;
+  clip-path:polygon(18% 0,82% 0,100% 50%,82% 100%,18% 100%,0 50%);
+}
+@media(min-width:700px){.rombo{padding:4rem 6rem}}
+.rombo__interior{max-width:28rem;margin-inline:auto;padding:2rem 0;border-top:2px solid rgba(75,28,113,.7);border-bottom:2px solid rgba(75,28,113,.7)}
+.rombo__titulo{font-family:var(--fuente-demi);letter-spacing:.18em;font-size:1.75rem;color:var(--morado)}

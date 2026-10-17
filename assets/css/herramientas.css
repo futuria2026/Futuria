@@ -111,3 +111,204 @@ button{font-family:inherit}
 @media (max-width:640px){
   .ht-tarjeta{padding:1.4rem}
 }
+
+/* =========================================================
+   FUTURIA - Pomodoro - estilos específicos
+   ========================================================= */
+.pm-layout{display:grid;gap:2rem}
+@media (min-width:900px){ .pm-layout{grid-template-columns:1.1fr .9fr} }
+
+.pm-modos{display:flex;gap:.5rem;margin-bottom:1.6rem;flex-wrap:wrap}
+.pm-modo{
+  flex:1;min-width:120px;border:2px solid var(--lila);background:#fff;
+  color:var(--morado);padding:.6rem 1rem;border-radius:.9rem;cursor:pointer;
+  font-weight:700;transition:background .2s,color .2s;
+}
+.pm-modo.activo{background:var(--morado);color:var(--hueso);border-color:var(--morado)}
+
+.pm-reloj-caja{display:flex;flex-direction:column;align-items:center;gap:1.4rem;padding:1rem 0 1.6rem}
+.pm-anillo{position:relative;width:min(280px,70vw);aspect-ratio:1/1}
+.pm-anillo svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pm-anillo circle{fill:none;stroke-width:10}
+.pm-anillo .pm-fondo{stroke:rgba(75,28,113,.12)}
+.pm-anillo .pm-progreso{stroke:var(--naranja-vivo);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.pm-tiempo{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(2.2rem,7vw,3.2rem);font-weight:800;color:var(--azul-noche);
+}
+.pm-etiqueta-modo{text-align:center;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--morado);font-size:.9rem}
+.pm-controles{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.pm-ajustes{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1.6rem}
+.pm-ajuste label{display:block;font-size:.82rem;color:var(--morado);font-weight:600;margin-bottom:.35rem}
+.pm-ajuste input{width:100%;padding:.55rem;border:2px solid var(--lila);border-radius:.7rem;font-family:inherit}
+
+.pm-stats{display:grid;gap:1rem}
+.pm-stat-fila{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;text-align:center}
+.pm-stat{background:var(--hueso);border-radius:1rem;padding:1rem;box-shadow:inset 0 0 0 2px rgba(75,28,113,.08)}
+.pm-stat b{display:block;font-size:1.7rem;color:var(--morado)}
+.pm-stat span{font-size:.8rem;color:rgba(45,44,87,.7)}
+.pm-historial{display:flex;flex-direction:column;gap:.4rem;margin-top:.5rem}
+.pm-historial-fila{display:flex;justify-content:space-between;font-size:.9rem;padding:.4rem .6rem;border-radius:.6rem;background:var(--hueso)}
+
+/* =========================================================
+   FUTURIA - Flashcards - estilos específicos
+   ========================================================= */
+.fc-layout{display:grid;gap:2rem}
+@media (min-width:900px){ .fc-layout{grid-template-columns:.9fr 1.1fr} }
+
+.fc-form{display:grid;gap:.8rem}
+.fc-form textarea{min-height:70px;resize:vertical;font-family:inherit}
+.fc-lista-mini{margin-top:1.2rem;display:flex;flex-direction:column;gap:.5rem;max-height:260px;overflow:auto}
+.fc-item-mini{
+  display:flex;justify-content:space-between;align-items:center;gap:.6rem;
+  background:var(--hueso);padding:.6rem .8rem;border-radius:.7rem;font-size:.88rem;
+}
+.fc-item-mini span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fc-item-mini button{background:none;border:0;color:var(--naranja);cursor:pointer;font-size:.85rem;font-weight:700}
+
+.fc-estudio{display:flex;flex-direction:column;align-items:center;gap:1.2rem}
+.fc-contador{color:var(--morado);font-weight:700;letter-spacing:1px}
+.fc-tarjeta{
+  width:100%;max-width:440px;height:260px;perspective:1200px;cursor:pointer;
+}
+.fc-tarjeta-interior{
+  position:relative;width:100%;height:100%;transition:transform .5s;
+  transform-style:preserve-3d;
+}
+.fc-tarjeta.volteada .fc-tarjeta-interior{transform:rotateY(180deg)}
+.fc-cara{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:1.3rem;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:1.6rem;font-size:1.15rem;font-weight:600;box-shadow:var(--sombra);
+}
+.fc-cara--frente{background:linear-gradient(135deg,#4b1c71,#2d2c57);color:var(--hueso)}
+.fc-cara--reverso{background:var(--lila);color:var(--morado);transform:rotateY(180deg)}
+.fc-cara small{display:block;margin-top:.8rem;font-weight:400;opacity:.75;font-size:.8rem}
+.fc-acciones-estudio{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center}
+.fc-vacio{text-align:center;color:rgba(45,44,87,.7);padding:2rem 0}
+
+/* =========================================================
+   FUTURIA - Mapas mentales - estilos específicos
+   ========================================================= */
+.mm-barra{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:1rem}
+.mm-barra input[type="text"]{flex:1;min-width:160px}
+.mm-colores{display:flex;gap:.4rem}
+.mm-color{
+  width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px rgba(75,28,113,.2);
+  cursor:pointer;
+}
+.mm-color.activo{box-shadow:0 0 0 3px var(--naranja-vivo)}
+
+.mm-lienzo-caja{
+  position:relative;width:100%;height:min(560px,65vh);
+  background:
+    radial-gradient(circle at 1px 1px, rgba(75,28,113,.12) 1px, transparent 0) 0 0/22px 22px,
+    var(--hueso);
+  border-radius:1.2rem;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(75,28,113,.08);
+  touch-action:none;
+}
+.mm-lienzo-caja svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.mm-lienzo-caja svg line{stroke:var(--lila);stroke-width:2.5}
+
+.mm-nodo{
+  position:absolute;transform:translate(-50%,-50%);
+  padding:.55rem 1rem;border-radius:999px;color:#fff;font-weight:700;
+  font-size:.9rem;cursor:grab;user-select:none;box-shadow:0 8px 18px -8px rgba(45,44,87,.5);
+  max-width:180px;text-align:center;word-break:break-word;line-height:1.2;
+  border:3px solid rgba(255,255,255,.5);
+}
+.mm-nodo:active{cursor:grabbing}
+.mm-nodo.seleccionado{outline:3px solid var(--naranja-vivo);outline-offset:2px}
+.mm-nodo.raiz{font-size:1.05rem;padding:.8rem 1.3rem}
+
+.mm-ayuda{font-size:.85rem;color:rgba(45,44,87,.7);margin-top:.8rem}
+.mm-acciones{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+
+/* =========================================================
+   FUTURIA - Agenda escolar - estilos específicos
+   ========================================================= */
+.ag-layout{display:grid;gap:2rem}
+@media (min-width:900px){ .ag-layout{grid-template-columns:1.1fr .9fr} }
+
+.ag-cabecera{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.ag-cabecera h2{color:var(--morado);font-size:1.2rem;text-transform:capitalize}
+.ag-flechas button{
+  background:var(--hueso);border:2px solid var(--lila);border-radius:.7rem;
+  padding:.4rem .7rem;cursor:pointer;color:var(--morado);
+}
+.ag-dias-semana{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem;margin-bottom:.4rem}
+.ag-dias-semana span{text-align:center;font-size:.78rem;font-weight:700;color:var(--morado)}
+.ag-cuadricula{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem}
+.ag-dia{
+  aspect-ratio:1/1;border-radius:.7rem;border:2px solid transparent;background:var(--hueso);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  cursor:pointer;font-size:.85rem;position:relative;
+}
+.ag-dia:hover{border-color:var(--lila)}
+.ag-dia.hoy{box-shadow:inset 0 0 0 2px var(--azul-cielo)}
+.ag-dia.seleccionado{background:var(--morado);color:#fff}
+.ag-dia.vacio{visibility:hidden;cursor:default}
+.ag-punto{width:6px;height:6px;border-radius:50%;background:var(--naranja-vivo)}
+
+.ag-form{display:grid;gap:.7rem;margin-top:1.4rem}
+.ag-form-fila{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+
+.ag-lista-titulo{color:var(--morado);font-size:1rem;margin-bottom:.6rem}
+.ag-lista{display:flex;flex-direction:column;gap:.6rem;max-height:420px;overflow:auto}
+.ag-item{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem;
+  background:var(--hueso);border-radius:.8rem;padding:.7rem .9rem;
+}
+.ag-item b{display:block;color:var(--morado);font-size:.85rem}
+.ag-item p{font-size:.92rem;margin-top:.15rem}
+.ag-item button{background:none;border:0;color:var(--naranja);cursor:pointer;font-weight:700;font-size:.85rem}
+.ag-vacio{color:rgba(45,44,87,.65);font-size:.92rem}
+
+/* =========================================================
+   FUTURIA - IA (chat) - estilos específicos
+   ========================================================= */
+.ia-chat{
+  display:flex;flex-direction:column;
+  height:min(640px,70vh);
+}
+.ia-mensajes{
+  flex:1;overflow-y:auto;padding:.5rem .25rem;
+  display:flex;flex-direction:column;gap:.9rem;
+}
+.ia-burbuja{
+  max-width:78%;padding:.75rem 1rem;border-radius:1.1rem;
+  font-size:.98rem;line-height:1.5;white-space:pre-wrap;
+}
+.ia-burbuja--futuria{
+  align-self:flex-start;background:var(--lila);color:var(--morado);
+  border-bottom-left-radius:.3rem;
+}
+.ia-burbuja--usuario{
+  align-self:flex-end;background:linear-gradient(135deg,#FE6A00,#EB5727);
+  color:var(--hueso);border-bottom-right-radius:.3rem;
+}
+.ia-burbuja--escribiendo{opacity:.75;font-style:italic}
+.ia-form{
+  display:flex;gap:.6rem;margin-top:1rem;padding-top:1rem;
+  border-top:2px solid rgba(75,28,113,.12);
+}
+.ia-form textarea{
+  flex:1;resize:none;height:52px;padding:.8rem 1rem;
+  border:2px solid var(--lila);border-radius:.9rem;font-family:inherit;
+  font-size:1rem;color:var(--azul-noche);
+}
+.ia-form textarea:focus{outline:none;border-color:var(--naranja-vivo)}
+.ia-avatar{
+  width:40px;height:40px;border-radius:50%;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--morado);color:var(--hueso);font-weight:800;
+}
+.ia-fila{display:flex;gap:.6rem;align-items:flex-end}
+.ia-fila--usuario{flex-direction:row-reverse}
+.ia-sugerencias{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.ia-chip{
+  border:1px solid var(--lila);background:#fff;color:var(--morado);
+  padding:.4rem .9rem;border-radius:999px;font-size:.85rem;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.ia-chip:hover{background:var(--lila);color:var(--morado)}

@@ -1,3 +1,8 @@
+/* =========================================================
+   FUTURIA - Página de entrevistas (acordeón por área + audio)
+   Carga las entrevistas desde api/entrevistas.php.
+   (estrellas, menú y año están en comun.js)
+   ========================================================= */
 var ENTREVISTAS_RESPALDO = [
   {area:'Transporte - Piloto',nombre:'Jacobo Román',profesion:'Aviación',imagen:'img/piloto.jpg',audio:'audio/jacobo.mp3',orientacion:'Le diría que primero estudie algo que le guste; a mí me parece que estudiar algo que a uno no le guste es un infierno  y me he dado cuenta de que en cualquier área o cualquier campo que uno escoja, uno mismo se hace su destino',carrera:'SIIII.'},
 
@@ -8,27 +13,6 @@ var ENTREVISTAS_RESPALDO = [
 ];
 
 document.addEventListener('DOMContentLoaded', function(){
-  var colores=['#dbb6e8','#FCFCFB','#83AEE3','#FE6A00'];
-  document.querySelectorAll('.estrellas').forEach(function(capa){
-    var claras=capa.classList.contains('estrellas--claras');
-    for(var i=0;i<(claras?9:15);i++){
-      var e=document.createElement('span');var t=Math.random()*7+4;
-      e.className='estrella';e.style.top=Math.random()*100+'%';e.style.left=Math.random()*100+'%';
-      e.style.width=t+'px';e.style.height=t+'px';e.style.background=claras?colores[(i+2)%colores.length]:colores[i%colores.length];
-      e.style.animationDelay=(Math.random()*3).toFixed(2)+'s';capa.appendChild(e);
-    }
-  });
-
-  var toggle=document.querySelector('.nav__toggle');var menu=document.querySelector('.nav__lista');
-  if(toggle&&menu){
-    toggle.addEventListener('click',function(){
-      var abierto=menu.classList.toggle('abierto');
-      toggle.setAttribute('aria-expanded',String(abierto));
-      toggle.setAttribute('aria-label',abierto?'Cerrar menú':'Abrir menú');
-    });
-  }
-  var anio=document.getElementById('anio');if(anio)anio.textContent=String(new Date().getFullYear());
-
   var lista=document.getElementById('entrevistas-lista');var audioActual=null;
 
   function formatoTiempo(segundos) {

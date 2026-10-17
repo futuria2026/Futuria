@@ -192,10 +192,4 @@
   pintar();
   cargarStats();
 
-  // Menú móvil (igual que el resto del sitio)
-  var btn = document.getElementById('nbBtn');
-  var items = document.getElementById('nbItems');
-  if (btn && items) {
-    btn.addEventListener('click', function () { items.classList.toggle('nb-abierto'); });
-  }
 })();

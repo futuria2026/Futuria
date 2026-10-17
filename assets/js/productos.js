@@ -1,8 +1,8 @@
 /* =========================================================
-   FUTURIA - JavaScript de la PÁGINA 4 (Productos)
-   1) Estrellas decorativas
-   2) Menú móvil
-   3) Productos (carga desde productos4.php) con carrusel intercalado
+   FUTURIA - Página de productos
+   Carga los productos desde api/productos.php y arma un
+   carrusel de imágenes por producto.
+   (estrellas, menú y año están en comun.js)
    ========================================================= */
 
 /* Datos de respaldo: si se abre sin servidor PHP la página sigue funcionando. */
@@ -19,47 +19,7 @@ var PRODUCTOS_RESPALDO = [
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ---------- 1) Estrellas ---------- */
-  var COLORES = ['#dbb6e8', '#FCFCFB', '#83AEE3'];
-  document.querySelectorAll('.estrellas').forEach(function (capa) {
-    var total = capa.classList.contains('estrellas--claras') ? 10 : 16;
-    for (var i = 0; i < total; i++) {
-      var e = document.createElement('span');
-      var t = Math.random() * 10 + 5;
-      e.className = 'estrella';
-      e.style.top = Math.random() * 100 + '%';
-      e.style.left = Math.random() * 100 + '%';
-      e.style.width = t + 'px';
-      e.style.height = t + 'px';
-      e.style.background = capa.classList.contains('estrellas--claras')
-        ? ['#dbb6e8', '#83AEE3', '#FE6A00'][i % 3]
-        : COLORES[i % COLORES.length];
-      e.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
-      capa.appendChild(e);
-    }
-  });
-
-  /* ---------- 2) Menú móvil ---------- */
-  var toggle = document.querySelector('.nav__toggle');
-  var lista = document.querySelector('.nav__lista');
-  if (toggle && lista) {
-    toggle.addEventListener('click', function () {
-      var abierto = lista.classList.toggle('abierto');
-      toggle.setAttribute('aria-expanded', String(abierto));
-    });
-    lista.addEventListener('click', function (ev) {
-      if (ev.target.tagName === 'A') {
-        lista.classList.remove('abierto');
-        toggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-
-  /* ---------- 3) Año del footer ---------- */
-  var anio = document.getElementById('anio');
-  if (anio) anio.textContent = String(new Date().getFullYear());
-
-  /* ---------- 4) Productos ---------- */
+  /* ---------- Productos ---------- */
   var contenedor = document.getElementById('productos-lista');
   if (!contenedor) return;
 
@@ -183,12 +143,3 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .catch(function () { pintarTodos(PRODUCTOS_RESPALDO); });
 });
-   (function () {
-      var btn = document.getElementById('nbBtn');
-      var items = document.getElementById('nbItems');
-      if (btn && items) {
-        btn.addEventListener('click', function () {
-          items.classList.toggle('nb-abierto');
-        });
-      }
-    })();
