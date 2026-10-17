@@ -1,7 +1,8 @@
 <?php
 /**
  *
- * el modelo de los datos para conectarse a la base de datos MySQL
+ * el modelo de los datos para conectarse a la base de datos MySQL y de la
+ * clave de la IA
  *
  * se copia como config.php en esta misma carpeta y se llenan los datos que
  * da Hostinger en hPanel → Bases de datos MySQL. config.php no se sube a git
@@ -33,4 +34,12 @@ return [
     'base' => 'u123456789_futuria',
     'usuario' => 'u123456789_futuria',
     'contrasena' => 'cambia-esta-contraseña',
+
+    /**
+     *
+     * la clave de la API de inteligencia artificial para el chat de la página
+     * IA. Vacía, el chat responde en modo básico con textos ya escritos
+     *
+     */
+    'ia_api_key' => '',
 ];

@@ -1,7 +1,8 @@
 /**
  *
  * la base de datos de Futuria: las cuentas de los usuarios, los productos de
- * la tienda y el carrito de compras de cada usuario
+ * la tienda, el carrito de compras de cada usuario y lo que cada usuario
+ * guarda en las herramientas
  *
  * se importa en phpMyAdmin dentro de una base que ya exista (en Hostinger se
  * crea en hPanel → Bases de datos MySQL), por eso no trae CREATE DATABASE. Se
@@ -76,6 +77,27 @@ CREATE TABLE IF NOT EXISTS `carrito` (
   KEY `idx_carrito_producto` (`producto_id`),
   CONSTRAINT `fk_carrito_usuario`  FOREIGN KEY (`usuario_id`)  REFERENCES `usuarios`  (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_carrito_producto` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/**
+ *
+ * lo que cada usuario guarda en las herramientas: sus sesiones de Pomodoro,
+ * su mazo de flashcards, su mapa mental, las tareas de su agenda y la
+ * conversación con la IA
+ *
+ * cada usuario tiene una fila por herramienta ("pomodoro", "flashcards",
+ * "mapas", "agenda" o "ia_chat") y en datos se guarda todo lo de esa
+ * herramienta en formato JSON. Si se borra el usuario, sus datos se borran
+ * solos
+ *
+ */
+CREATE TABLE IF NOT EXISTS `herramientas_datos` (
+  `usuario_id`     INT UNSIGNED NOT NULL,
+  `herramienta`    VARCHAR(30)  NOT NULL,
+  `datos`          MEDIUMTEXT   NOT NULL,
+  `actualizado_en` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`usuario_id`, `herramienta`),
+  CONSTRAINT `fk_herramientas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /**

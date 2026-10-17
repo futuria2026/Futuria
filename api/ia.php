@@ -4,39 +4,51 @@
  * el asistente "Futuria" de la página IA: recibe el mensaje que escribe la
  * persona y le devuelve la respuesta en JSON { ok, respuesta }
  *
- * guarda las últimas 20 entradas de la conversación de cada visitante. Si hay
- * una clave de OpenAI configurada le pasa la conversación al modelo
- * gpt-4o-mini; si no la hay, o si la llamada falla, responde con el "modo
- * básico", que busca palabras clave como "pomodoro" o "agenda" y contesta con
- * un texto ya escrito
+ * guarda las últimas 20 entradas de la conversación de cada persona. Si hay
+ * una clave de Gemini (Google AI Studio) en config.php le pasa la
+ * conversación al modelo; si no la hay, o si Gemini no responde, contesta con
+ * el "modo básico", que busca palabras clave como "pomodoro" o "agenda" y
+ * responde con un texto ya escrito
  *
  */
 declare(strict_types=1);
 
 /**
  *
- * trae las funciones compartidas para leer y guardar datos por visitante
- * (futuria_leer, futuria_guardar, futuria_responder, futuria_leer_json_entrada)
+ * trae las funciones compartidas para leer y guardar datos (futuria_leer,
+ * futuria_guardar, futuria_responder, futuria_leer_json_entrada) y para leer
+ * config.php (config)
  *
  */
 require __DIR__ . '/inc/datos.php';
 
 /**
  *
- * la clave de la API de OpenAI. Mientras esté vacía el asistente funciona en
- * modo básico
+ * la clave de la API de Gemini (Google AI Studio), que se escribe en
+ * api/inc/config.php como 'ia_api_key'. Mientras esté vacía el asistente
+ * funciona en modo básico
  *
  */
-const FUTURIA_IA_API_KEY = '';
+define('FUTURIA_IA_API_KEY', (string)(config()['ia_api_key'] ?? ''));
 
 /**
  *
- * el modelo de inteligencia artificial que se usa y la dirección de la API a
- * la que se le envían los mensajes
+ * los modelos de Gemini que se prueban, en orden: si el primero está
+ * saturado o no responde, se usa el siguiente
+ *
+ * por defecto son los alias "latest", que Google mantiene apuntando al
+ * modelo Flash más nuevo. Se pueden cambiar en config.php con 'ia_modelos'
  *
  */
-const FUTURIA_IA_MODELO  = 'gpt-4o-mini';
-const FUTURIA_IA_URL     = 'https://api.openai.com/v1/chat/completions';
+define('FUTURIA_IA_MODELOS', (array)(config()['ia_modelos'] ?? ['gemini-flash-latest', 'gemini-flash-lite-latest']));
+
+/**
+ *
+ * la dirección de la API de Gemini; {modelo} se cambia por el nombre de cada
+ * modelo
+ *
+ */
+const FUTURIA_IA_URL = 'https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent';
 
 /**
  *
@@ -66,6 +78,10 @@ Tu forma de ser:
   legales o académicos oficiales.
 - Respuestas breves y claras (máximo un par de párrafos), salvo que te
   pidan explícitamente más detalle.
+- Escribes en texto simple, sin formato Markdown: nada de asteriscos,
+  numerales ni guiones para dar formato.
+- No supones el género de la persona: usas palabras neutras (por ejemplo
+  "te doy la bienvenida" en lugar de "bienvenido" o "bienvenida").
 - Nunca rompes tu personaje ni dices que eres "solo un modelo de lenguaje
   genérico"; eres Futuria, la asistente de este sitio.
 TXT;
@@ -122,14 +138,16 @@ futuria_responder(['ok' => true, 'respuesta' => $respuesta]);
 
 /**
  *
- * le pregunta al modelo de OpenAI y devuelve su respuesta como texto
+ * le pregunta a Gemini y devuelve su respuesta como texto
  *
  * si no hay clave o el servidor no tiene cURL (la herramienta de PHP para
  * llamar a otras páginas) responde en modo básico. Si hay clave, arma la
- * lista de mensajes: primero la personalidad, después las últimas entradas de
- * la conversación y al final el mensaje nuevo. Pide como máximo 400 tokens
- * (pedazos de palabra) y espera hasta 25 segundos. Si la llamada falla o
- * llega sin texto, también responde en modo básico
+ * conversación: la personalidad va como instrucción de sistema y después las
+ * últimas entradas de la conversación (la persona como "user" y Futuria como
+ * "model") con el mensaje nuevo al final. Prueba los modelos en orden, cada
+ * uno con 40 segundos como máximo: si uno está saturado, no existe o tarda
+ * demasiado, pasa al siguiente; si la clave es rechazada (400, 401 o 403) no
+ * sigue probando. Si ninguno responde, usa el modo básico
  *
  */
 function futuria_llamar_modelo(string $mensaje, array $historial): string
@@ -138,60 +156,92 @@ function futuria_llamar_modelo(string $mensaje, array $historial): string
         return futuria_modo_basico($mensaje);
     }
 
-    $mensajes = [['role' => 'system', 'content' => FUTURIA_PERSONA]];
+    $contenidos = [];
     foreach (array_slice($historial, -10, -1) as $turno) {
-        $mensajes[] = [
-            'role'    => $turno['rol'] === 'usuario' ? 'user' : 'assistant',
-            'content' => (string)$turno['texto'],
-        ];
+        $rol = $turno['rol'] === 'usuario' ? 'user' : 'model';
+        if (!$contenidos && $rol === 'model') {
+            continue;
+        }
+        $contenidos[] = ['role' => $rol, 'parts' => [['text' => (string)$turno['texto']]]];
     }
-    $mensajes[] = ['role' => 'user', 'content' => $mensaje];
+    $contenidos[] = ['role' => 'user', 'parts' => [['text' => $mensaje]]];
 
     $cuerpo = json_encode([
-        'model'       => FUTURIA_IA_MODELO,
-        'messages'    => $mensajes,
-        'max_tokens'  => 400,
-        'temperature' => 0.7,
+        'system_instruction' => ['parts' => [['text' => FUTURIA_PERSONA]]],
+        'contents'           => $contenidos,
+        'generationConfig'   => ['maxOutputTokens' => 2048, 'temperature' => 0.7],
     ], JSON_UNESCAPED_UNICODE);
 
-    $ch = curl_init(FUTURIA_IA_URL);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $cuerpo,
-        CURLOPT_TIMEOUT        => 25,
-        CURLOPT_HTTPHEADER     => [
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . FUTURIA_IA_API_KEY,
-        ],
-    ]);
-    $resultado = curl_exec($ch);
-    $error     = curl_error($ch);
-    curl_close($ch);
+    set_time_limit(120);
+    foreach (FUTURIA_IA_MODELOS as $modelo) {
+        $ch = curl_init(str_replace('{modelo}', rawurlencode((string)$modelo), FUTURIA_IA_URL));
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $cuerpo,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT        => 40,
+            CURLOPT_HTTPHEADER     => [
+                'Content-Type: application/json',
+                'x-goog-api-key: ' . FUTURIA_IA_API_KEY,
+            ],
+        ]);
+        $resultado = curl_exec($ch);
+        $codigo    = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error     = curl_error($ch);
+        curl_close($ch);
 
-    if ($resultado === false || $error !== '') {
-        return futuria_modo_basico($mensaje);
+        if ($resultado !== false && $codigo === 200) {
+            $texto = futuria_texto_respuesta((string)$resultado);
+            if ($texto !== '') {
+                return $texto;
+            }
+        }
+
+        error_log("Futuria IA: el modelo $modelo respondió $codigo $error");
+        if (in_array($codigo, [400, 401, 403], true)) {
+            break;
+        }
     }
 
-    $json = json_decode($resultado, true);
-    $texto = $json['choices'][0]['message']['content'] ?? null;
+    return futuria_modo_basico($mensaje);
+}
 
-    return $texto !== null ? trim($texto) : futuria_modo_basico($mensaje);
+/**
+ *
+ * saca el texto de la respuesta de Gemini
+ *
+ * la respuesta trae una lista de candidatos y cada uno trae partes; se juntan
+ * las partes de texto del primero, sin las de "pensamiento" (thought). Si no
+ * hay texto devuelve una cadena vacía
+ *
+ */
+function futuria_texto_respuesta(string $json): string
+{
+    $datos = json_decode($json, true);
+    $partes = $datos['candidates'][0]['content']['parts'] ?? [];
+    $texto = '';
+    foreach ($partes as $parte) {
+        if (empty($parte['thought']) && isset($parte['text'])) {
+            $texto .= $parte['text'];
+        }
+    }
+    return trim($texto);
 }
 
 /**
  *
  * las respuestas del modo básico, cuando no hay modelo de IA conectado
  *
- * pasa el mensaje a minúsculas y busca, en este orden, las palabras pomodoro,
- * flashcard, tarjeta, mapa, agenda, vocacion, estres y hola. Devuelve el texto
- * de la primera que encuentre; si no encuentra ninguna, devuelve un saludo que
- * explica que está en modo básico
+ * pasa el mensaje a minúsculas y sin tildes y busca, en este orden, las
+ * palabras pomodoro, flashcard, tarjeta, mapa, agenda, vocacion, estres y
+ * hola. Devuelve el texto de la primera que encuentre; si no encuentra
+ * ninguna, devuelve un saludo que explica que está en modo básico
  *
  */
 function futuria_modo_basico(string $mensaje): string
 {
-    $m = mb_strtolower($mensaje);
+    $m = strtr(mb_strtolower($mensaje), ['á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u', 'ü' => 'u']);
 
     $reglas = [
         'pomodoro'  => 'El método Pomodoro divide tu estudio en bloques de 25 minutos con descansos de 5. Puedes usar el temporizador real en nuestra sección de Pomodoro. ¿Quieres que te explique cómo armar tu primer bloque de estudio?',

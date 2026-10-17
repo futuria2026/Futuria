@@ -14,7 +14,8 @@ declare(strict_types=1);
 
 /**
  *
- * trae las funciones compartidas para leer y guardar datos por visitante
+ * trae las funciones compartidas para leer y guardar los datos de la
+ * persona (en su cuenta si inició sesión, o en la sesión del navegador)
  *
  */
 require __DIR__ . '/inc/datos.php';

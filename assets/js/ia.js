@@ -56,7 +56,7 @@
   /**
    *
    * muestra la burbuja "Futuria está escribiendo…" mientras llega la
-   * respuesta
+   * respuesta. Cuando llega, se borra la fila completa (avatar y burbuja)
    *
    */
   function mostrarEscribiendo() {
@@ -89,7 +89,7 @@
         body: JSON.stringify({ mensaje: texto })
       });
       var datos = await res.json();
-      indicador.remove();
+      indicador.parentElement.remove();
 
       if (datos.ok) {
         crearBurbuja(datos.respuesta, 'futuria');
@@ -97,7 +97,7 @@
         crearBurbuja('⚠️ ' + (datos.error || 'No pude responder, intenta de nuevo.'), 'futuria');
       }
     } catch (err) {
-      indicador.remove();
+      indicador.parentElement.remove();
       crearBurbuja('⚠️ No pude conectarme con el servidor. Revisa tu conexión e intenta de nuevo.', 'futuria');
     } finally {
       enviarBtn.disabled = false;

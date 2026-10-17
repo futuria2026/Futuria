@@ -15,6 +15,14 @@ header('Cache-Control: no-store');
 
 /**
  *
+ * las fechas y horas se calculan con la hora de Colombia (Bogotá), por
+ * ejemplo para saber cuántos Pomodoros se hicieron "hoy"
+ *
+ */
+date_default_timezone_set('America/Bogota');
+
+/**
+ *
  * inicia la sesión de PHP con una cookie más segura
  *
  * la cookie no la puede leer JavaScript (httponly), no viaja en peticiones de
@@ -58,6 +66,22 @@ function entrada_json(): array
 
 /**
  *
+ * los datos de config.php (base de datos y clave de la IA), leídos una sola
+ * vez. Si el archivo no existe devuelve una lista vacía
+ *
+ */
+function config(): array
+{
+    static $config = null;
+    if ($config === null) {
+        $archivo = __DIR__ . '/config.php';
+        $config = is_file($archivo) ? (require $archivo) : [];
+    }
+    return $config;
+}
+
+/**
+ *
  * la conexión a la base de datos, que se abre una sola vez y se reutiliza
  *
  * lee los datos de config.php. Si el archivo no existe o la base no responde,
@@ -73,11 +97,11 @@ function bd(): PDO
         return $pdo;
     }
 
-    $archivo = __DIR__ . '/config.php';
-    if (!is_file($archivo)) {
+    $c = config();
+    if (!isset($c['host'], $c['base'], $c['usuario'])) {
         responder(['ok' => false, 'error' => 'Falta configurar la base de datos (api/inc/config.php).'], 500);
     }
-    $c = require $archivo;
+    $c += ['puerto' => 3306, 'contrasena' => ''];
 
     try {
         $pdo = new PDO(
