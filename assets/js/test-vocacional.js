@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
           'Responde una serie de preguntas sobre actividades que te gustan o disgustan y ' +
           'el resultado te muestra las áreas donde tendrías mayor probabilidad de éxito y satisfacción.',
         etiquetas: ['9 áreas', 'Intereses', 'Aptitudes', '~15 min'],
-        boton: 'Hacer el test CHASIDE',
-        enlace: 'https://orientacion-psicopedagogica.net/test/test-chaside/',
+        botón: '<a href="https://orientacion-psicopedagogica.net/test/test-chaside/" target="_blank" rel="noopener">Hacer el test CHASIDE</a>',
+    rodear a: 'https://orientacion-psicopedagogica.net/test/test-chaside/',
         imagen: '../assets/img/test-vocacional-1.jpg'
       },
       {
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
           'Investigador, Artístico, Social, Emprendedor y Convencional). Conoce cuál es tu ' +
           'código RIASEC y descubre las carreras y ocupaciones que mejor combinan con tu forma de ser.',
         etiquetas: ['6 tipos', 'RIASEC', 'Carreras', '~10 min'],
-        boton: 'Hacer el test de Holland',
-        enlace: 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
+        botón: '<a href="https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/" target="_blank" rel="noopener">Hacer el test de Holland</a>',
+    rodear a: 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
         imagen: '../assets/img/test-vocacional-2.jpg'
       }
     ]
