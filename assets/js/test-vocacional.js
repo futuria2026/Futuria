@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
         nombre: 'Test CHASIDE',
         etiqueta: 'Intereses y aptitudes',
         descripcion:
-          'El test CHASIDE mide tus intereses y aptitudes en nueve áreas profesionales. Responde ' +
-          'una serie de preguntas sobre actividades que te gustan o disgustan y el resultado te ' +
-          'muestra las áreas donde tendrías mayor probabilidad de éxito y satisfacción.',
+          'El test CHASIDE mide tus intereses y aptitudes en nueve áreas profesionales. ' +
+          'Responde una serie de preguntas sobre actividades que te gustan o disgustan y ' +
+          'el resultado te muestra las áreas donde tendrías mayor probabilidad de éxito y satisfacción.',
         etiquetas: ['9 áreas', 'Intereses', 'Aptitudes', '~15 min'],
-        boton: 'Hacer el test CHASIDE',
-        enlace: 'https://orientacion-psicopedagogica.net/test/test-chaside/',
+        botón: '<a href="https://orientacion-psicopedagogica.net/test/test-chaside/" target="_blank" rel="noopener">Hacer el test CHASIDE</a>',
+    rodear a: 'https://orientacion-psicopedagogica.net/test/test-chaside/',
         imagen: '../assets/img/test-vocacional-1.jpg'
       },
       {
@@ -45,38 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
         etiqueta: 'Personalidad profesional',
         descripcion:
           'El test de Holland clasifica tu personalidad profesional en seis tipos (Realista, ' +
-          'Investigador, Artístico, Social, Emprendedor y Convencional). Conoce cuál es tu código ' +
-          'RIASEC y descubre las carreras y ocupaciones que mejor combinan con tu forma de ser.',
+          'Investigador, Artístico, Social, Emprendedor y Convencional). Conoce cuál es tu ' +
+          'código RIASEC y descubre las carreras y ocupaciones que mejor combinan con tu forma de ser.',
         etiquetas: ['6 tipos', 'RIASEC', 'Carreras', '~10 min'],
-        boton: 'Hacer el test de Holland',
-        enlace: 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
+        botón: '<a href="https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/" target="_blank" rel="noopener">Hacer el test de Holland</a>',
+    rodear a: 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
         imagen: '../assets/img/test-vocacional-2.jpg'
-      },
-      {
-        id: 'filadd',
-        nombre: 'Test vocacional Filadd',
-        etiqueta: 'Tu carrera ideal',
-        descripcion:
-          'Test vocacional interactivo y gratuito pensado para estudiantes colombianos. En menos de ' +
-          '8 minutos te sugiere carreras que van contigo y te muestra universidades donde podrías ' +
-          'estudiarlas.',
-        etiquetas: ['Gratis', '~8 min', 'Carreras', 'Universidades'],
-        boton: 'Hacer el test de Filadd',
-        enlace: 'https://test-vocacional.filadd.com.co/?hl=es-US',
-        imagen: '../assets/img/test-vocacional-3.jpg'
-      },
-      {
-        id: 'edumatch',
-        nombre: 'Test EduMatch',
-        etiqueta: 'Carreras y universidades',
-        descripcion:
-          'EduMatch combina un test vocacional online gratuito con tus preferencias de estudio ' +
-          '(presencial o en línea, duración y horarios) para mostrarte carreras y universidades que ' +
-          'encajan con tu perfil. Pide crear una cuenta con tu nombre y correo.',
-        etiquetas: ['Gratis', 'Preferencias', 'Universidades', 'Requiere cuenta'],
-        boton: 'Hacer el test de EduMatch',
-        enlace: 'https://www.cursosycarreras.co/test_vocacional_orientacion_vocacional.php?hl=es-US',
-        imagen: '../assets/img/test-vocacional-4.jpg'
       }
     ]
   };
@@ -91,11 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((d) => {
       if (d.resumen && resumenEl) resumenEl.textContent = d.resumen;
-      const delServidor = d.tests || [];
-      const ids = delServidor.map((t) => t.id);
-      // los tests que el servidor no trae (los nuevos) se agregan desde aquí
-      const extras = RESPALDO.tests.filter((t) => !ids.includes(t.id));
-      pintar(delServidor.concat(extras));
+      pintar(d.tests || RESPALDO.tests);
     })
     .catch(() => pintar(RESPALDO.tests));
 
@@ -131,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     article.innerHTML = `
       <div class="test__imagen">
         <span class="test__etiqueta">${t.etiqueta}</span>
-        <img src="${t.imagen}" alt="Ilustración del ${t.nombre}" width="800" height="600" loading="lazy" onerror="this.onerror=null;this.src='../assets/img/logo-futuria.jpeg'">
+        <img src="${t.imagen}" alt="Ilustración del ${t.nombre}" width="800" height="600" loading="lazy">
       </div>
       <div class="test__cuerpo">
         <h3 class="test__titulo">${t.nombre}</h3>
@@ -149,3 +119,4 @@ document.addEventListener('DOMContentLoaded', () => {
     return article;
   }
 });
+
