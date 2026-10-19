@@ -10,9 +10,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('tests-grid');
   if (!grid) return;
-
+ 
   const resumenEl = document.getElementById('test-resumen');
-
+ 
   /**
    *
    * los datos de respaldo: el mismo resumen y los mismos dos tests (CHASIDE y
@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
         nombre: 'Test CHASIDE',
         etiqueta: 'Intereses y aptitudes',
         descripcion:
-          'El test CHASIDE mide tus intereses y aptitudes en nueve áreas profesionales. ' +
-          'Responde una serie de preguntas sobre actividades que te gustan o disgustan y ' +
-          'el resultado te muestra las áreas donde tendrías mayor probabilidad de éxito y satisfacción.',
+          'El test CHASIDE mide tus intereses y aptitudes en nueve áreas profesionales. Responde ' +
+          'una serie de preguntas sobre actividades que te gustan o disgustan y el resultado te ' +
+          'muestra las áreas donde tendrías mayor probabilidad de éxito y satisfacción.',
         etiquetas: ['9 áreas', 'Intereses', 'Aptitudes', '~15 min'],
-        botón: '<a href="https://orientacion-psicopedagogica.net/test/test-chaside/" target="_blank" rel="noopener">Hacer el test CHASIDE</a>',
-    rodear a: 'https://orientacion-psicopedagogica.net/test/test-chaside/',
+        boton: 'Hacer el test CHASIDE',
+        enlace: 'https://orientacion-psicopedagogica.net/test/test-chaside/',
         imagen: '../assets/img/test-vocacional-1.jpg'
       },
       {
@@ -45,16 +45,42 @@ document.addEventListener('DOMContentLoaded', () => {
         etiqueta: 'Personalidad profesional',
         descripcion:
           'El test de Holland clasifica tu personalidad profesional en seis tipos (Realista, ' +
-          'Investigador, Artístico, Social, Emprendedor y Convencional). Conoce cuál es tu ' +
-          'código RIASEC y descubre las carreras y ocupaciones que mejor combinan con tu forma de ser.',
+          'Investigador, Artístico, Social, Emprendedor y Convencional). Conoce cuál es tu código ' +
+          'RIASEC y descubre las carreras y ocupaciones que mejor combinan con tu forma de ser.',
         etiquetas: ['6 tipos', 'RIASEC', 'Carreras', '~10 min'],
-        botón: '<a href="https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/" target="_blank" rel="noopener">Hacer el test de Holland</a>',
-    rodear a: 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
+        boton: 'Hacer el test de Holland',
+        enlace: 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
         imagen: '../assets/img/test-vocacional-2.jpg'
+      },
+      {
+        id: 'filadd',
+        nombre: 'Test vocacional Filadd',
+        etiqueta: 'Tu carrera ideal',
+        descripcion:
+          'Test vocacional interactivo y gratuito pensado para estudiantes colombianos. En menos de ' +
+          '8 minutos te sugiere carreras que van contigo y te muestra universidades donde podrías ' +
+          'estudiarlas.',
+        etiquetas: ['Gratis', '~8 min', 'Carreras', 'Universidades'],
+        boton: 'Hacer el test de Filadd',
+        enlace: 'https://test-vocacional.filadd.com.co/?hl=es-US',
+        imagen: '../assets/img/test-vocacional-3.jpg'
+      },
+      {
+        id: 'edumatch',
+        nombre: 'Test EduMatch',
+        etiqueta: 'Carreras y universidades',
+        descripcion:
+          'EduMatch combina un test vocacional online gratuito con tus preferencias de estudio ' +
+          '(presencial o en línea, duración y horarios) para mostrarte carreras y universidades que ' +
+          'encajan con tu perfil. Pide crear una cuenta con tu nombre y correo.',
+        etiquetas: ['Gratis', 'Preferencias', 'Universidades', 'Requiere cuenta'],
+        boton: 'Hacer el test de EduMatch',
+        enlace: 'https://www.cursosycarreras.co/test_vocacional_orientacion_vocacional.php?hl=es-US',
+        imagen: '../assets/img/test-vocacional-4.jpg'
       }
     ]
   };
-
+ 
   /**
    *
    * pide los datos al servidor. Si llegan, cambia el resumen y pinta sus
@@ -65,10 +91,14 @@ document.addEventListener('DOMContentLoaded', () => {
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((d) => {
       if (d.resumen && resumenEl) resumenEl.textContent = d.resumen;
-      pintar(d.tests || RESPALDO.tests);
+      const delServidor = d.tests || [];
+      const ids = delServidor.map((t) => t.id);
+      // los tests que el servidor no trae (los nuevos) se agregan desde aquí
+      const extras = RESPALDO.tests.filter((t) => !ids.includes(t.id));
+      pintar(delServidor.concat(extras));
     })
     .catch(() => pintar(RESPALDO.tests));
-
+ 
   /**
    *
    * vacía la cuadrícula y agrega una tarjeta por cada test
@@ -78,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.innerHTML = '';
     tests.forEach((t, i) => grid.appendChild(tarjeta(t, i)));
   }
-
+ 
   /**
    *
    * arma la tarjeta de un test: la imagen con su etiqueta encima, el nombre,
@@ -93,15 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const article = document.createElement('article');
     article.className = 'test' + (i % 2 === 1 ? ' test--alterno' : '');
     article.id = t.id;
-
+ 
     const etiquetas = (t.etiquetas || [])
       .map((e) => `<li>${e}</li>`)
       .join('');
-
+ 
     article.innerHTML = `
       <div class="test__imagen">
         <span class="test__etiqueta">${t.etiqueta}</span>
-        <img src="${t.imagen}" alt="Ilustración del ${t.nombre}" width="800" height="600" loading="lazy">
+        <img src="${t.imagen}" alt="Ilustración del ${t.nombre}" width="800" height="600" loading="lazy" onerror="this.onerror=null;this.src='img/logo-futuria.jpeg'">
       </div>
       <div class="test__cuerpo">
         <h3 class="test__titulo">${t.nombre}</h3>
@@ -115,7 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
           ${t.boton}
         </a>
       </div>`;
-
+ 
     return article;
   }
 });
+ 
