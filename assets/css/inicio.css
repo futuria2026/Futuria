@@ -103,4 +103,4 @@
  * el título MISIÓN o VISIÓN, en morado con letras separadas
  *
  */
-.rombo__titulo{font-family:var(--fuente-demi);letter-spacing:.18em;font-size:1.75rem;color:var(--morado)}
+.rombo__titulo{font-family:var(--fuente-demi);letter-spacing:.18em;font-size:2 rem;color:var(--morado)}
