@@ -10,9 +10,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('tests-grid');
   if (!grid) return;
- 
+
   const resumenEl = document.getElementById('test-resumen');
- 
+
   /**
    *
    * los datos de respaldo: el mismo resumen y los mismos dos tests (CHASIDE y
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     ]
   };
- 
+
   /**
    *
    * pide los datos al servidor. Si llegan, cambia el resumen y pinta sus
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       pintar(delServidor.concat(extras));
     })
     .catch(() => pintar(RESPALDO.tests));
- 
+
   /**
    *
    * vacía la cuadrícula y agrega una tarjeta por cada test
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.innerHTML = '';
     tests.forEach((t, i) => grid.appendChild(tarjeta(t, i)));
   }
- 
+
   /**
    *
    * arma la tarjeta de un test: la imagen con su etiqueta encima, el nombre,
@@ -123,15 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const article = document.createElement('article');
     article.className = 'test' + (i % 2 === 1 ? ' test--alterno' : '');
     article.id = t.id;
- 
+
     const etiquetas = (t.etiquetas || [])
       .map((e) => `<li>${e}</li>`)
       .join('');
- 
+
     article.innerHTML = `
       <div class="test__imagen">
         <span class="test__etiqueta">${t.etiqueta}</span>
-        <img src="${t.imagen}" alt="Ilustración del ${t.nombre}" width="800" height="600" loading="lazy" onerror="this.onerror=null;this.src='img/logo-futuria.jpeg'">
+        <img src="${t.imagen}" alt="Ilustración del ${t.nombre}" width="800" height="600" loading="lazy" onerror="this.onerror=null;this.src='../assets/img/logo-futuria.jpeg'">
       </div>
       <div class="test__cuerpo">
         <h3 class="test__titulo">${t.nombre}</h3>
@@ -145,8 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ${t.boton}
         </a>
       </div>`;
- 
+
     return article;
   }
 });
- 
