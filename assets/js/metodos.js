@@ -72,6 +72,35 @@
 
   /**
    *
+   * pone estrellas pequeñas que brillan sobre el degradado del pie de página
+   *
+   */
+  function pintarEstrellasPie() {
+    var pie = document.querySelector('.footer');
+    if (!pie || pie.querySelector('.estrellas-pie')) return;
+    var capa = document.createElement('div');
+    capa.className = 'estrellas-pie';
+    var colores = ['%23DBB6E0', '%2383AEE3', '%23FCFCFB'];
+    for (var i = 0; i < 22; i++) {
+      var s = document.createElement('span');
+      s.className = 'estrella';
+      var color = colores[Math.floor(Math.random() * colores.length)];
+      s.style.backgroundImage = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\'%3E%3Cpath fill=\'' + color + '\' d=\'M12 0c1 7 5 11 12 12-7 1-11 5-12 12C11 17 7 13 0 12 7 11 11 7 12 0z\'/%3E%3C/svg%3E")';
+      s.style.backgroundSize = '100% 100%';
+      s.style.width = (6 + Math.random() * 12) + 'px';
+      s.style.height = s.style.width;
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.top = (Math.random() * 100) + '%';
+      s.style.animationDuration = (2.6 + Math.random() * 3.4) + 's';
+      s.style.animationDelay = (Math.random() * 4) + 's';
+      capa.appendChild(s);
+    }
+    pie.insertBefore(capa, pie.firstChild);
+  }
+  pintarEstrellasPie();
+
+  /**
+   *
    * las fotos de las mascotas y de cada método, que todavía no se han subido
    *
    * si una imagen ya tiene foto (src), se muestra y se esconde el cuadro de
