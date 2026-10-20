@@ -101,6 +101,31 @@ function config(): array
                 }
             }
         }
+        $url = getenv('MYSQL_URL');
+        if ($url === false || $url === '') {
+            $url = $_ENV['MYSQL_URL'] ?? false;
+        }
+        if ($url === false || $url === '') {
+            $url = $_SERVER['MYSQL_URL'] ?? false;
+        }
+
+        if (is_string($url) && $url !== '') {
+            $partes = parse_url($url);
+            if (is_array($partes) && isset($partes['host'], $partes['path'])) {
+                $desdeUrl = [
+                    'host'       => $partes['host'],
+                    'puerto'     => $partes['port'] ?? 3306,
+                    'base'       => rawurldecode(ltrim($partes['path'], '/')),
+                    'usuario'    => isset($partes['user']) ? rawurldecode($partes['user']) : '',
+                    'contrasena' => isset($partes['pass']) ? rawurldecode($partes['pass']) : '',
+                ];
+                foreach ($desdeUrl as $clave => $valor) {
+                    if (!isset($config[$clave]) || $config[$clave] === '') {
+                        $config[$clave] = (string)$valor;
+                    }
+                }
+            }
+        }
     }
     return $config;
 }
