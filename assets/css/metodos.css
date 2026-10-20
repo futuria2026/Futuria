@@ -1127,7 +1127,8 @@ img { max-width: 100%; display: block; }
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  background: var(--morado-oscuro);
+  background: linear-gradient(100deg, #2d2c57 0%, #4b1c71 45%, #EB5727 100%);
+  overflow: hidden;
   color: var(--blanco);
   text-align: center;
   padding: 56px 22px 30px;
@@ -1199,9 +1200,9 @@ img { max-width: 100%; display: block; }
   max-width: 520px;
   margin: 10px 0 0;
   padding-top: 18px;
-  border-top: 1px solid rgba(252, 252, 251, 0.18);
-  font-size: 0.85rem;
-  opacity: 0.75;
+  border-top: 0;
+  font-size: 0.95rem;
+  opacity: 0.85;
 }
 
 /**
@@ -1305,3 +1306,29 @@ main {
 .cal-form button {
   max-width: 100%;
 }
+
+/**
+ *
+ * se quitan los círculos de las mascotas (zorro, búho, gato y conejo)
+ *
+ */
+.animalito,
+.animal-lateral,
+.mascota-globo { display: none !important; }
+.intro { grid-template-columns: 1fr; }
+
+/**
+ *
+ * el pie de página: sin la palabra FUTURIA y con estrellas encima del
+ * degradado (las pone metodos.js)
+ *
+ */
+.footer .marca { display: none; }
+.footer .estrellas-pie {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.footer > *:not(.estrellas-pie) { position: relative; z-index: 1; }
