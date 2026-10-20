@@ -1,6 +1,6 @@
 /**
  *
- * la página de integrantes: pide a api/integrantes.php los 8 miembros del
+ * la página de integrantes: pide a api/integrantes.json los 8 miembros del
  * equipo y pinta una tarjeta por cada uno. Al hacer clic en el círculo, la
  * tarjeta cambia entre la persona y su personaje ilustrado
  *
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
    * pide los integrantes al servidor; si no llegan, usa los de respaldo
    *
    */
-  fetch('../api/integrantes.php')
+  fetch('../api/integrantes.json')
     .then(function (res) { return res.json(); })
     .then(function (data) {
       if (data && data.ok && data.integrantes && data.integrantes.length) {
