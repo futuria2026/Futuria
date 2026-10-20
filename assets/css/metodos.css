@@ -1316,6 +1316,8 @@ main {
 .animal-lateral,
 .mascota-globo { display: none !important; }
 .intro { grid-template-columns: 1fr; }
+.intro-texto { max-width: 640px; margin: 0 auto; }
+.intro-texto p { margin: 0 0 14px; line-height: 1.7; }
 
 /**
  *
