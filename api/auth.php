@@ -70,13 +70,13 @@ if ($accion === 'registro') {
         responder(['ok' => false, 'error' => 'Las contraseñas no coinciden.', 'campo' => 'confirmar'], 422);
     }
 
-    $existe = bd()->prepare('SELECT 1 FROM usuarios WHERE correo = ?');
+    $existe = bd()->prepare('SELECT 1 FROM usuarios WHERE email = ?');
     $existe->execute([$correo]);
     if ($existe->fetchColumn()) {
         responder(['ok' => false, 'error' => 'Ese correo ya está registrado.', 'campo' => 'correo'], 409);
     }
 
-    $nuevo = bd()->prepare('INSERT INTO usuarios (nombre, correo, contrasena) VALUES (?, ?, ?)');
+    $nuevo = bd()->prepare('INSERT INTO usuarios (nombre, email, password_hash) VALUES (?, ?, ?)');
     $nuevo->execute([$nombre, $correo, password_hash($contrasena, PASSWORD_DEFAULT)]);
 
     session_regenerate_id(true);
@@ -103,16 +103,16 @@ if ($accion === 'login') {
         responder(['ok' => false, 'error' => 'Escribe tu correo y tu contraseña.'], 422);
     }
 
-    $consulta = bd()->prepare('SELECT id, contrasena FROM usuarios WHERE correo = ?');
+    $consulta = bd()->prepare('SELECT id_usuario, password_hash FROM usuarios WHERE email = ?');
     $consulta->execute([$correo]);
     $fila = $consulta->fetch();
 
-    if (!$fila || !password_verify($contrasena, $fila['contrasena'])) {
+    if (!$fila || !password_verify($contrasena, $fila['password_hash'])) {
         responder(['ok' => false, 'error' => 'Correo o contraseña incorrectos.'], 401);
     }
 
     session_regenerate_id(true);
-    $_SESSION['usuario_id'] = (int)$fila['id'];
+    $_SESSION['usuario_id'] = (int)$fila['id_usuario'];
 
     $usuario = usuario_actual();
     responder(['ok' => true, 'usuario' => $usuario, 'carrito' => cantidad_carrito($usuario['id'])]);

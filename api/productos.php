@@ -4,7 +4,7 @@
  * le entrega a la página de productos el catálogo de Futuria en JSON, leído
  * de la tabla productos de la base de datos
  *
- * solo devuelve los productos activos, en orden de id. Cada uno lleva su id
+ * devuelve los productos en orden de id. Cada uno lleva su id
  * (para agregarlo al carrito), su precio como número y como texto
  * ("$65.000 COP"), sus características y las rutas de sus fotos
  *
@@ -15,31 +15,34 @@ require __DIR__ . '/inc/app.php';
 
 /**
  *
- * los productos activos, convertidos al formato que usa productos.js
+ * los productos, convertidos al formato que usa productos.js
  *
- * las características y las imágenes están guardadas como JSON en la base;
- * aquí se convierten en listas y a cada imagen se le agrega la carpeta
+ * el eslogan, las características y las imágenes salen de inc/catalogo.php
+ * (la tabla productos no las tiene); a cada imagen se le agrega la carpeta
  * ../assets/img/
  *
  */
+require __DIR__ . '/inc/catalogo.php';
+
 $filas = bd()->query(
-    'SELECT id, nombre, eslogan, descripcion, caracteristicas, precio, imagenes
+    'SELECT id_producto, nombre, descripcion, precio
        FROM productos
-      WHERE activo = 1
-      ORDER BY id'
+      ORDER BY id_producto'
 )->fetchAll();
 
 $productos = [];
 foreach ($filas as $f) {
+    $extra  = datos_extra_producto((int)$f['id_producto']);
+    $precio = (int)round((float)$f['precio']);
     $productos[] = [
-        'id'              => (int)$f['id'],
+        'id'              => (int)$f['id_producto'],
         'nombre'          => $f['nombre'],
-        'eslogan'         => $f['eslogan'],
+        'eslogan'         => $extra['eslogan'],
         'descripcion'     => $f['descripcion'],
-        'caracteristicas' => json_decode($f['caracteristicas'], true) ?: [],
-        'precio'          => formato_precio((int)$f['precio']),
-        'precio_valor'    => (int)$f['precio'],
-        'imagenes'        => array_map(fn($img) => '../assets/img/' . $img, json_decode($f['imagenes'], true) ?: []),
+        'caracteristicas' => $extra['caracteristicas'],
+        'precio'          => formato_precio($precio),
+        'precio_valor'    => $precio,
+        'imagenes'        => array_map(fn($img) => '../assets/img/' . $img, $extra['imagenes']),
     ];
 }
 

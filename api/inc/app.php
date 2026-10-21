@@ -76,6 +76,30 @@ function config(): array
     if ($config === null) {
         $archivo = __DIR__ . '/config.php';
         $config = is_file($archivo) ? (require $archivo) : [];
+
+        /**
+         *
+         * en Vercel no existe config.php (no se sube a git): los datos se
+         * leen de las variables de entorno del proyecto (DB_HOST, DB_PORT,
+         * DB_NAME, DB_USER, DB_PASSWORD, DB_SSL, DB_SSL_CA e IA_API_KEY). Si config.php
+         * existe, sus valores tienen prioridad
+         *
+         */
+        $entorno = [
+            'host'       => getenv('DB_HOST'),
+            'puerto'     => getenv('DB_PORT'),
+            'base'       => getenv('DB_NAME'),
+            'usuario'    => getenv('DB_USER'),
+            'contrasena' => getenv('DB_PASSWORD'),
+            'ssl'        => getenv('DB_SSL'),
+            'ssl_ca'     => getenv('DB_SSL_CA'),
+            'ia_api_key' => getenv('IA_API_KEY'),
+        ];
+        foreach ($entorno as $clave => $valor) {
+            if ($valor !== false && $valor !== '' && !isset($config[$clave])) {
+                $config[$clave] = $clave === 'ssl' ? in_array(strtolower($valor), ['1', 'true', 'si'], true) : $valor;
+            }
+        }
     }
     return $config;
 }
@@ -101,18 +125,40 @@ function bd(): PDO
     if (!isset($c['host'], $c['base'], $c['usuario'])) {
         responder(['ok' => false, 'error' => 'Falta configurar la base de datos (api/inc/config.php).'], 500);
     }
-    $c += ['puerto' => 3306, 'contrasena' => ''];
+    $c += ['puerto' => 3306, 'contrasena' => '', 'ssl' => false];
+
+    $opciones = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+    ];
+
+    /**
+     *
+     * TiDB Cloud solo acepta conexiones cifradas (TLS). Con 'ssl' => true se
+     * usa el certificado de autoridades del sistema; si el servidor lo tiene
+     * en otra ruta se indica con 'ssl_ca'
+     *
+     */
+    if (!empty($c['ssl'])) {
+        $ca = $c['ssl_ca'] ?? null;
+        if (!$ca) {
+            foreach (['/etc/ssl/certs/ca-certificates.crt', '/etc/pki/tls/certs/ca-bundle.crt', '/etc/ssl/cert.pem'] as $ruta) {
+                if (is_file($ruta)) { $ca = $ruta; break; }
+            }
+        }
+        if ($ca) {
+            $opciones[PDO::MYSQL_ATTR_SSL_CA] = $ca;
+        }
+        $opciones[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = (bool)$ca;
+    }
 
     try {
         $pdo = new PDO(
             "mysql:host={$c['host']};port={$c['puerto']};dbname={$c['base']};charset=utf8mb4",
             $c['usuario'],
             $c['contrasena'],
-            [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES   => false,
-            ]
+            $opciones
         );
     } catch (PDOException $e) {
         responder(['ok' => false, 'error' => 'No se pudo conectar a la base de datos.'], 500);
@@ -135,7 +181,7 @@ function usuario_actual(): ?array
     if (!$id) {
         return null;
     }
-    $consulta = bd()->prepare('SELECT id, nombre, correo FROM usuarios WHERE id = ?');
+    $consulta = bd()->prepare('SELECT id_usuario AS id, nombre, email AS correo FROM usuarios WHERE id_usuario = ?');
     $consulta->execute([$id]);
     $usuario = $consulta->fetch();
     if (!$usuario) {
@@ -148,13 +194,16 @@ function usuario_actual(): ?array
 
 /**
  *
- * cuántos productos en total (sumando las cantidades) tiene un usuario en su
- * carrito
+ * cuántos productos en total tiene un usuario en su carrito
+ *
+ * el carrito se guarda en la tabla productos_usuarios del diagrama: una fila
+ * por cada unidad (3 libros = 3 filas), así no hace falta una columna de
+ * cantidad
  *
  */
 function cantidad_carrito(int $usuarioId): int
 {
-    $consulta = bd()->prepare('SELECT COALESCE(SUM(cantidad), 0) FROM carrito WHERE usuario_id = ?');
+    $consulta = bd()->prepare('SELECT COUNT(*) FROM productos_usuarios WHERE id_usuario = ?');
     $consulta->execute([$usuarioId]);
     return (int)$consulta->fetchColumn();
 }

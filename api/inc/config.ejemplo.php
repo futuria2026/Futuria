@@ -37,6 +37,17 @@ return [
 
     /**
      *
+     * TiDB Cloud exige conexión cifrada: con 'ssl' => true se activa. Si el
+     * servidor no encuentra solo el certificado de autoridades, se indica su
+     * ruta en 'ssl_ca' (por ejemplo '/etc/ssl/certs/ca-certificates.crt').
+     * Con TiDB el puerto es 4000 y el host termina en tidbcloud.com
+     *
+     */
+    'ssl' => false,
+    // 'ssl_ca' => '/etc/ssl/certs/ca-certificates.crt',
+
+    /**
+     *
      * la clave de la API de inteligencia artificial para el chat de la página
      * IA. Vacía, el chat responde en modo básico con textos ya escritos
      *

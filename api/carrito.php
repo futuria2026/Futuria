@@ -10,10 +10,15 @@
  * quita), { accion: "quitar", producto_id } lo saca y { accion: "vaciar" }
  * lo deja vacío. Si nadie inició sesión responde con el error 401
  *
+ * el carrito se guarda en la tabla productos_usuarios del diagrama, con una
+ * fila por cada unidad: 3 libros son 3 filas del mismo id_producto. La
+ * cantidad de un producto es cuántas filas tiene
+ *
  */
 declare(strict_types=1);
 
 require __DIR__ . '/inc/app.php';
+require __DIR__ . '/inc/catalogo.php';
 
 /**
  *
@@ -37,11 +42,12 @@ if (!$usuario) {
 function carrito_completo(int $usuarioId): array
 {
     $consulta = bd()->prepare(
-        'SELECT p.id, p.nombre, p.precio, p.imagenes, c.cantidad
-           FROM carrito c
-           JOIN productos p ON p.id = c.producto_id
-          WHERE c.usuario_id = ?
-          ORDER BY c.agregado_en, c.id'
+        'SELECT p.id_producto, p.nombre, p.precio, COUNT(*) AS cantidad, MIN(pu.id_adquisicion) AS orden
+           FROM productos_usuarios pu
+           JOIN productos p ON p.id_producto = pu.id_producto
+          WHERE pu.id_usuario = ?
+          GROUP BY p.id_producto, p.nombre, p.precio
+          ORDER BY orden'
     );
     $consulta->execute([$usuarioId]);
 
@@ -49,14 +55,15 @@ function carrito_completo(int $usuarioId): array
     $total = 0;
     $cantidad = 0;
     foreach ($consulta->fetchAll() as $fila) {
-        $imagenes = json_decode($fila['imagenes'], true) ?: [];
-        $subtotal = (int)$fila['precio'] * (int)$fila['cantidad'];
+        $imagenes = datos_extra_producto((int)$fila['id_producto'])['imagenes'];
+        $precio   = (int)round((float)$fila['precio']);
+        $subtotal = $precio * (int)$fila['cantidad'];
         $items[] = [
-            'producto_id'     => (int)$fila['id'],
+            'producto_id'     => (int)$fila['id_producto'],
             'nombre'          => $fila['nombre'],
             'imagen'          => $imagenes ? '../assets/img/' . $imagenes[0] : '',
-            'precio'          => (int)$fila['precio'],
-            'precio_texto'    => formato_precio((int)$fila['precio']),
+            'precio'          => $precio,
+            'precio_texto'    => formato_precio($precio),
             'cantidad'        => (int)$fila['cantidad'],
             'subtotal'        => $subtotal,
             'subtotal_texto'  => formato_precio($subtotal),
@@ -98,17 +105,16 @@ $cantidad   = (int)($entrada['cantidad'] ?? 1);
  *
  */
 if ($accion === 'vaciar') {
-    bd()->prepare('DELETE FROM carrito WHERE usuario_id = ?')->execute([$usuario['id']]);
+    bd()->prepare('DELETE FROM productos_usuarios WHERE id_usuario = ?')->execute([$usuario['id']]);
     responder(carrito_completo($usuario['id']));
 }
 
 /**
  *
- * para las demás acciones el producto tiene que existir y estar activo; si
- * no, responde con el error 404
+ * para las demás acciones el producto tiene que existir; si no, responde con el error 404
  *
  */
-$existe = bd()->prepare('SELECT 1 FROM productos WHERE id = ? AND activo = 1');
+$existe = bd()->prepare('SELECT 1 FROM productos WHERE id_producto = ?');
 $existe->execute([$productoId]);
 if (!$existe->fetchColumn()) {
     responder(['ok' => false, 'error' => 'Ese producto no existe.'], 404);
@@ -116,18 +122,61 @@ if (!$existe->fetchColumn()) {
 
 /**
  *
+ * cuántas unidades de este producto tiene ya el usuario (cuántas filas)
+ *
+ */
+function unidades_en_carrito(int $usuarioId, int $productoId): int
+{
+    $c = bd()->prepare('SELECT COUNT(*) FROM productos_usuarios WHERE id_usuario = ? AND id_producto = ?');
+    $c->execute([$usuarioId, $productoId]);
+    return (int)$c->fetchColumn();
+}
+
+/**
+ *
+ * deja el producto con exactamente esa cantidad de unidades (de 0 a 99):
+ * agrega las filas que falten o borra las que sobren (las más recientes).
+ * Todo en una transacción para que nunca quede a medias
+ *
+ */
+function fijar_unidades(int $usuarioId, int $productoId, int $meta): void
+{
+    $meta = max(0, min($meta, MAXIMO_POR_PRODUCTO));
+    $pdo  = bd();
+    $pdo->beginTransaction();
+    try {
+        $actual = unidades_en_carrito($usuarioId, $productoId);
+        if ($meta > $actual) {
+            $nueva = $pdo->prepare('INSERT INTO productos_usuarios (id_usuario, id_producto) VALUES (?, ?)');
+            for ($i = $actual; $i < $meta; $i++) {
+                $nueva->execute([$usuarioId, $productoId]);
+            }
+        } elseif ($meta < $actual) {
+            $sobran = $actual - $meta;
+            $pdo->prepare(
+                "DELETE FROM productos_usuarios
+                  WHERE id_usuario = ? AND id_producto = ?
+                  ORDER BY id_adquisicion DESC
+                  LIMIT $sobran"
+            )->execute([$usuarioId, $productoId]);
+        }
+        $pdo->commit();
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        responder(['ok' => false, 'error' => 'No se pudo actualizar el carrito.'], 500);
+    }
+}
+
+/**
+ *
  * agregar unidades de un producto (1 si no se dice cuántas)
  *
- * si el producto ya estaba en el carrito, se suma a lo que había (ON
- * DUPLICATE KEY UPDATE), sin pasar de 99
+ * se suman a las que ya había, sin pasar de 99
  *
  */
 if ($accion === 'agregar') {
     $cantidad = max(1, min($cantidad, MAXIMO_POR_PRODUCTO));
-    bd()->prepare(
-        'INSERT INTO carrito (usuario_id, producto_id, cantidad) VALUES (?, ?, ?)
-         ON DUPLICATE KEY UPDATE cantidad = LEAST(cantidad + VALUES(cantidad), ?)'
-    )->execute([$usuario['id'], $productoId, $cantidad, MAXIMO_POR_PRODUCTO]);
+    fijar_unidades($usuario['id'], $productoId, unidades_en_carrito($usuario['id'], $productoId) + $cantidad);
     responder(carrito_completo($usuario['id']));
 }
 
@@ -138,15 +187,8 @@ if ($accion === 'agregar') {
  *
  */
 if ($accion === 'cambiar') {
-    if ($cantidad <= 0) {
-        $accion = 'quitar';
-    } else {
-        bd()->prepare(
-            'INSERT INTO carrito (usuario_id, producto_id, cantidad) VALUES (?, ?, ?)
-             ON DUPLICATE KEY UPDATE cantidad = VALUES(cantidad)'
-        )->execute([$usuario['id'], $productoId, min($cantidad, MAXIMO_POR_PRODUCTO)]);
-        responder(carrito_completo($usuario['id']));
-    }
+    fijar_unidades($usuario['id'], $productoId, max(0, $cantidad));
+    responder(carrito_completo($usuario['id']));
 }
 
 /**
@@ -155,7 +197,7 @@ if ($accion === 'cambiar') {
  *
  */
 if ($accion === 'quitar') {
-    bd()->prepare('DELETE FROM carrito WHERE usuario_id = ? AND producto_id = ?')->execute([$usuario['id'], $productoId]);
+    fijar_unidades($usuario['id'], $productoId, 0);
     responder(carrito_completo($usuario['id']));
 }
 

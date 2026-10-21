@@ -30,7 +30,7 @@ function futuria_leer(string $clave, array $defecto): array
         return $_SESSION['herramientas'][$clave] ?? $defecto;
     }
 
-    $consulta = bd()->prepare('SELECT datos FROM herramientas_datos WHERE usuario_id = ? AND herramienta = ?');
+    $consulta = bd()->prepare('SELECT datos FROM herramientas_datos WHERE id_usuario = ? AND herramienta = ?');
     $consulta->execute([$usuario['id'], $clave]);
     $json = $consulta->fetchColumn();
     if ($json === false) {
@@ -58,7 +58,7 @@ function futuria_guardar(string $clave, array $datos): void
     }
 
     bd()->prepare(
-        'INSERT INTO herramientas_datos (usuario_id, herramienta, datos) VALUES (?, ?, ?)
+        'INSERT INTO herramientas_datos (id_usuario, herramienta, datos) VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE datos = VALUES(datos)'
     )->execute([$usuario['id'], $clave, json_encode($datos, JSON_UNESCAPED_UNICODE)]);
 }
