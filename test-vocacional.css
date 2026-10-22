@@ -1,0 +1,169 @@
+/* =========================================================
+   FUTURIA - Test vocacional (tarjetas de tests)
+   Se usa junto con estilos.css (paleta, hero, menú y pie).
+   Paleta: #2d2c57  #83AEE3  #4b1c71  #dbb6e8  #EB5727  #FE6A00  #FCFCFB
+   ========================================================= */
+
+/* ---------- Resumen ---------- */
+.test-resumen {
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+/* ---------- Cuadrícula de tests ---------- */
+.tests-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+  text-align: left;
+}
+@media (min-width: 900px) {
+  .tests-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------- Tarjeta ---------- */
+.test {
+  display: flex;
+  flex-direction: column;
+  background: var(--hueso, #FCFCFB);
+  border: 2px solid var(--lila, #dbb6e8);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: var(--sombra, 0 18px 50px -20px rgba(45, 44, 87, .45));
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.test:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 56px -20px rgba(75, 28, 113, .55);
+}
+
+/* Imagen con su etiqueta encima */
+.test__imagen {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, var(--lila, #dbb6e8), var(--azul-cielo, #83AEE3));
+  overflow: hidden;
+}
+.test__imagen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.test__etiqueta {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1;
+  padding: .4rem 1rem;
+  border-radius: 999px;
+  background: var(--naranja-vivo, #FE6A00);
+  color: var(--hueso, #FCFCFB);
+  font-family: var(--fuente-demi, "Jost", sans-serif);
+  font-size: .8rem;
+  letter-spacing: .08em;
+  box-shadow: 0 6px 16px -6px rgba(235, 87, 39, .7);
+}
+
+/* Cuerpo */
+.test__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  padding: 1.75rem;
+}
+.test__titulo {
+  font-family: var(--fuente-demi, "Jost", sans-serif);
+  font-size: 1.4rem;
+  line-height: 1.2;
+  color: var(--morado, #4b1c71);
+}
+.test__texto {
+  color: rgba(45, 44, 87, .85);
+}
+
+/* Etiquetas pequeñas */
+.test__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.test__lista li {
+  padding: .3rem .8rem;
+  border-radius: 999px;
+  background: rgba(219, 182, 232, .45);
+  color: var(--morado, #4b1c71);
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+/* Botón con flecha (queda siempre al fondo de la tarjeta) */
+.test__boton {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: .6rem;
+  margin-top: auto;
+  padding: .85rem 1.6rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--naranja-vivo, #FE6A00), var(--naranja, #EB5727));
+  color: var(--hueso, #FCFCFB);
+  font-family: var(--fuente-demi, "Jost", sans-serif);
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 0 10px 24px -8px rgba(254, 106, 0, .55);
+  transition: filter .25s ease, transform .25s ease;
+}
+.test__boton:hover { filter: brightness(1.08); transform: translateY(-2px); }
+.test__boton:focus-visible {
+  outline: 3px solid var(--azul-cielo, #83AEE3);
+  outline-offset: 3px;
+}
+.test__boton svg { flex-shrink: 0; transition: transform .25s ease; }
+.test__boton:hover svg { transform: translateX(4px); }
+
+/* ---------- Tarjetas alternas (2, 4, 6...) ---------- */
+.test--alterno {
+  background: var(--morado, #4b1c71);
+  border-color: var(--azul-cielo, #83AEE3);
+}
+.test--alterno .test__imagen {
+  background: linear-gradient(135deg, var(--azul-cielo, #83AEE3), var(--lila, #dbb6e8));
+}
+.test--alterno .test__titulo { color: var(--lila, #dbb6e8); }
+.test--alterno .test__texto { color: rgba(252, 252, 251, .88); }
+.test--alterno .test__lista li {
+  background: rgba(219, 182, 232, .22);
+  color: var(--lila, #dbb6e8);
+}
+.test--alterno .test__boton {
+  background: var(--hueso, #FCFCFB);
+  color: var(--morado, #4b1c71);
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, .35);
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 480px) {
+  .test__cuerpo { padding: 1.4rem; }
+  .test__titulo { font-size: 1.25rem; }
+  .test__boton { align-self: stretch; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .test, .test__boton, .test__boton svg { transition: none; }
+  .test:hover, .test__boton:hover { transform: none; }
+}
+
+/* ---------- Logo del menú (antes estaba en línea en el HTML) ---------- */
+.nb-logo img {
+  object-fit: cover;   /* el logo llena el círculo */
+  padding: 3px;
+}
+
+/* ---------- Imagen que no carga: se oculta y queda el degradado ---------- */
+.test__imagen img.sin-imagen { display: none; }

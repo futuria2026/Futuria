@@ -1,0 +1,106 @@
+/**
+ *
+ * los estilos propios de la página de inicio: la sección "¿Quiénes somos?" con
+ * su carrusel y la misión y visión en forma de hexágono
+ *
+ * se carga después de comun.css
+ *
+ */
+
+/**
+ *
+ * dos columnas iguales (texto y carrusel) desde 900px de ancho; en pantallas
+ * más pequeñas van una debajo de la otra
+ *
+ */
+.grid-2{display:grid;gap:3rem;align-items:center}
+@media(min-width:900px){.grid-2{grid-template-columns:1fr 1fr}}
+
+/**
+ *
+ * el marco del carrusel: esquinas redondeadas, borde lila y lo que se sale
+ * queda oculto
+ *
+ */
+.carrusel{position:relative;overflow:hidden;border-radius:1.5rem;border:4px solid var(--lila);box-shadow:var(--sombra)}
+
+/**
+ *
+ * la fila con las 3 fotos, una al lado de la otra; inicio.js la corre hacia la
+ * izquierda y el movimiento dura 0,7 segundos
+ *
+ */
+.carrusel__pista{display:flex;transition:transform .7s ease}
+
+/**
+ *
+ * cada foto ocupa todo el ancho del carrusel y 24rem de alto, recortada para
+ * llenar el espacio
+ *
+ */
+.carrusel__img{flex:0 0 100%;height:24rem;object-fit:cover}
+
+/**
+ *
+ * las flechas redondas moradas a los lados, centradas de arriba a abajo; se
+ * ponen naranjas al pasar el mouse
+ *
+ */
+.carrusel__btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:2.6rem;height:2.6rem;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(75,28,113,.8);color:var(--hueso);font-size:1rem;transition:background .2s;
+}
+.carrusel__btn:hover{background:var(--naranja-vivo)}
+.carrusel__btn--prev{left:.8rem}
+.carrusel__btn--next{right:.8rem}
+
+/**
+ *
+ * la fila de puntitos centrada abajo de las fotos
+ *
+ */
+.carrusel__puntos{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem}
+
+/**
+ *
+ * cada puntito blanco; el de la foto actual (.activo) se alarga y se pone
+ * naranja
+ *
+ */
+.carrusel__punto{width:10px;height:10px;border:0;border-radius:999px;background:rgba(252,252,251,.7);cursor:pointer;transition:all .3s}
+.carrusel__punto.activo{width:28px;background:var(--naranja-vivo)}
+
+/**
+ *
+ * la columna con la misión arriba y la visión abajo
+ *
+ */
+.pila{display:flex;flex-direction:column;gap:3.5rem;position:relative;z-index:1}
+
+/**
+ *
+ * la tarjeta clara con forma de hexágono, recortada con clip-path; desde 700px
+ * de ancho tiene más espacio a los lados
+ *
+ */
+.rombo{
+  width:min(48rem,100%);margin-inline:auto;background:var(--hueso);
+  padding:4rem 2.5rem;text-align:center;
+  clip-path:polygon(18% 0,82% 0,100% 50%,82% 100%,18% 100%,0 50%);
+}
+@media(min-width:700px){.rombo{padding:4rem 6rem}}
+
+/**
+ *
+ * el texto de adentro del hexágono, entre una línea morada arriba y otra abajo
+ *
+ */
+.rombo__interior{max-width:28rem;margin-inline:auto;padding:2rem 0;border-top:2px solid rgba(75,28,113,.7);border-bottom:2px solid rgba(75,28,113,.7)}
+
+/**
+ *
+ * el título MISIÓN o VISIÓN, en morado con letras separadas
+ *
+ */
+.rombo__titulo{font-family:var(--fuente-demi);letter-spacing:.18em;font-size:2 rem;color:var(--morado)}

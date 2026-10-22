@@ -1,0 +1,319 @@
+/**
+ *
+ * los estilos de las páginas de cuenta, el registro y el inicio de sesión: un
+ * fondo de colores con manchas que se mueven y una tarjeta blanca
+ * semitransparente en el centro con el formulario
+ *
+ * esta página no usa comun.css; tiene sus propios colores y usa la fuente del
+ * sistema (Segoe UI o la que tenga el equipo)
+ *
+ */
+
+/**
+ *
+ * quita los márgenes que el navegador pone por defecto y hace que el ancho de
+ * las cajas incluya su relleno y su borde
+ *
+ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/**
+ *
+ * los colores de esta página guardados como variables: azul, rosa, azul
+ * marino, naranja, naranja rojizo y morado
+ *
+ */
+:root {
+  --blue: #83AEE3;
+  --pink: #dbb6ee;
+  --navy: #152069;
+  --orange: #FE6A00;
+  --red-orange: #EB5727;
+  --purple: #4b1c71;
+}
+
+/**
+ *
+ * la página ocupa al menos todo el alto de la pantalla, con un degradado de
+ * azul cielo a rosa de fondo y el texto azul marino
+ *
+ */
+html, body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--navy);
+  background: linear-gradient(135deg, #83AEE3 0%, #dbb6ee 100%);
+  overflow-x: hidden;
+}
+
+/**
+ *
+ * centra la tarjeta en la mitad de la pantalla, de arriba a abajo y de lado a
+ * lado
+ *
+ */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  position: relative;
+}
+
+/**
+ *
+ * la capa de fondo fija detrás de todo, donde flotan las manchas; no se puede
+ * tocar
+ *
+ */
+.bg-blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+
+/**
+ *
+ * cada mancha: un círculo muy borroso y semitransparente que se mueve con la
+ * animación "float" cada 12 segundos
+ *
+ * las tres manchas tienen distinto tamaño, color (naranja, morado y naranja
+ * rojizo) y lugar, y empiezan la animación en momentos distintos
+ *
+ */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: float 12s ease-in-out infinite;
+}
+.blob-1 { width: 380px; height: 380px; background: var(--orange); top: -80px; left: -100px; }
+.blob-2 { width: 320px; height: 320px; background: var(--purple); bottom: -80px; right: -80px; animation-delay: -4s; }
+.blob-3 { width: 260px; height: 260px; background: var(--red-orange); top: 40%; left: 60%; animation-delay: -8s; opacity: 0.35; }
+
+/**
+ *
+ * el movimiento de las manchas: a la mitad se corren 30px a la derecha, suben
+ * 40px y crecen un poco, y vuelven
+ *
+ */
+@keyframes float {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50%      { transform: translate(30px,-40px) scale(1.08); }
+}
+
+/**
+ *
+ * la tarjeta del formulario: blanca casi opaca, con el fondo de atrás borroso,
+ * esquinas redondeadas y sombra morada
+ *
+ * al abrir la página sube y aparece suavemente (animación "rise", 0,7
+ * segundos)
+ *
+ */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 24px;
+  padding: 40px 32px 32px;
+  box-shadow:
+    0 20px 60px -20px rgba(75, 28, 113, 0.35),
+    0 8px 24px -12px rgba(21, 32, 105, 0.25);
+  animation: rise 0.7s cubic-bezier(.2,.8,.2,1) both;
+}
+
+/**
+ *
+ * la entrada de la tarjeta: empieza transparente y 24px más abajo, y termina
+ * en su lugar
+ *
+ */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/**
+ *
+ * la caja del logo, centrada y subida 90px: el logo queda montado sobre el
+ * borde de arriba de la tarjeta
+ *
+ */
+.logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: -90px;
+  margin-bottom: 8px;
+}
+
+/**
+ *
+ * el logo en un círculo blanco de 130px con borde y sombra naranjas
+ *
+ */
+.logo {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 10px 30px -10px rgba(254, 106, 0, 0.6);
+  border: 3px solid var(--orange);
+}
+
+/**
+ *
+ * el título ("Crea tu cuenta" o "Inicia sesión"), centrado y morado
+ *
+ */
+h1 {
+  text-align: center;
+  font-size: 1.75rem;
+  color: var(--purple);
+  margin-top: 12px;
+}
+
+/**
+ *
+ * la frase debajo del título, centrada y gris. .brand pone la palabra
+ * "Futuria" en naranja y negrita
+ *
+ */
+.subtitle {
+  text-align: center;
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+.brand { color: var(--orange); font-weight: 700; }
+
+/**
+ *
+ * cada campo del formulario: su etiqueta arriba y el cuadro de texto debajo
+ *
+ * el cuadro se ve casi blanco y sin borde; al escribir en él (focus) aparece
+ * un borde naranja con un halo, y si tiene error (.invalid) el borde y el halo
+ * son naranja rojizo
+ *
+ */
+.field { margin-bottom: 14px; }
+.field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: var(--navy);
+  transition: all 0.2s ease;
+  outline: none;
+}
+.field input::placeholder { color: #9aa4b8; }
+.field input:focus {
+  border-color: var(--orange);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(254, 106, 0, 0.15);
+}
+.field input.invalid {
+  border-color: var(--red-orange);
+  box-shadow: 0 0 0 4px rgba(235, 87, 39, 0.15);
+}
+
+/**
+ *
+ * el mensaje de error debajo de cada campo, pequeño y naranja rojizo. Siempre
+ * guarda 16px de alto, aunque esté vacío
+ *
+ */
+.error {
+  display: block;
+  min-height: 16px;
+  color: var(--red-orange);
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
+/**
+ *
+ * el aviso de un error del servidor (por ejemplo "Correo o contraseña
+ * incorrectos"), en una caja naranja suave arriba del botón
+ *
+ */
+.aviso-form {
+  margin: 6px 0 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(235, 87, 39, 0.1);
+  color: var(--red-orange);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+/**
+ *
+ * el botón "Registrarme" o "Entrar": ancho completo, con degradado naranja y
+ * sombra
+ *
+ * al pasar el mouse sube 2px y se aclara un poco; al presionarlo vuelve a su
+ * lugar
+ *
+ */
+.submit-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--orange), var(--red-orange));
+  box-shadow: 0 10px 24px -8px rgba(254, 106, 0, 0.55);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s;
+  letter-spacing: 0.3px;
+}
+.submit-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.submit-btn:active { transform: translateY(0); }
+
+/**
+ *
+ * los enlaces de abajo ("Volver al inicio" y el que lleva al otro formulario),
+ * centrados; el enlace va morado y se pone naranja al pasar el mouse
+ *
+ */
+.login-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: #444;
+}
+.login-link a {
+  color: var(--purple);
+  font-weight: 700;
+  text-decoration: none;
+}
+.login-link a:hover { color: var(--orange); }
+
+/**
+ *
+ * en celulares pequeños la tarjeta tiene menos relleno, el logo mide 110px y
+ * el título es más pequeño
+ *
+ */
+@media (max-width: 480px) {
+  .card { padding: 32px 22px 24px; }
+  .logo { width: 110px; height: 110px; }
+  h1 { font-size: 1.45rem; }
+}

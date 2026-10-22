@@ -1,0 +1,316 @@
+/**
+ *
+ * los estilos propios de la página de entrevistas: la introducción, el
+ * acordeón de áreas, cada entrevista con sus consejos y su reproductor de
+ * audio, y el pie de página
+ *
+ * se carga después de comun.css y repite o cambia varias de sus reglas
+ * (colores, fuentes, títulos, estrellas y footer) con valores propios de esta
+ * página
+ *
+ */
+
+/**
+ *
+ * los colores de Futuria, el degradado, la sombra y las fuentes de esta página
+ * guardados como variables (--titulo, --demi y --book son las fuentes)
+ *
+ */
+:root{
+  --azul-noche:#2d2c57;--azul-cielo:#83AEE3;--morado:#4b1c71;--lila:#dbb6e8;
+  --naranja:#EB5727;--naranja-vivo:#FE6A00;--hueso:#FCFCFB;
+  --degradado:linear-gradient(105deg,#2d2c57 0%,#4b1c71 48%,#EB5727 100%);
+  --sombra:0 20px 55px -25px rgba(45,44,87,.55);
+  --titulo:"Ringtall Sans Serif Personal Use","AvantGardeDemi","Jost","Century Gothic",sans-serif;
+  --demi:"Avant Garde Demi BT","AvantGardeDemi","Jost","Century Gothic",sans-serif;
+  --book:"Avant Garde Book BT","AvantGardeBook","Jost","Century Gothic",sans-serif;
+}
+
+/**
+ *
+ * lo básico de la página: sin márgenes del navegador, desplazamiento suave,
+ * fondo hueso, imágenes que no se salen, enlaces sin subrayado, listas sin
+ * viñetas y botones con la misma letra del texto
+ *
+ */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--book);background:var(--hueso);color:var(--azul-noche);line-height:1.65}
+img{display:block;max-width:100%}
+a{text-decoration:none}
+ul{list-style:none}
+button{font:inherit}
+
+/**
+ *
+ * la caja centrada del contenido (92% del ancho, 1120px como máximo) y las
+ * secciones con espacio arriba y abajo
+ *
+ */
+.contenedor{width:min(1120px,92%);margin-inline:auto}
+.seccion{position:relative;overflow:hidden;padding:5.5rem 0}
+
+/**
+ *
+ * la capa de estrellas de fondo y cada estrella de cuatro puntas, que brilla y
+ * gira un poco con la animación "brillo"
+ *
+ */
+.estrellas{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.estrella{position:absolute;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);animation:brillo 3.6s ease-in-out infinite}
+@keyframes brillo{0%,100%{opacity:.18;transform:scale(.75) rotate(0)}50%{opacity:.9;transform:scale(1.12) rotate(20deg)}}
+
+/**
+ *
+ * un botón naranja redondeado que sube 3px al pasar el mouse. Esta página no
+ * lo usa
+ *
+ */
+.btn-cohete{display:inline-flex;align-items:center;gap:.65rem;margin-top:2rem;padding:.95rem 1.8rem;border-radius:999px;background:var(--naranja-vivo);color:var(--hueso);font-family:var(--demi);box-shadow:var(--sombra);transition:transform .25s,filter .25s}
+.btn-cohete:hover{transform:translateY(-3px);filter:brightness(1.07)}
+
+/**
+ *
+ * la introducción sobre fondo hueso; su contenido va en dos columnas por
+ * encima de las estrellas
+ *
+ */
+.intro{background:var(--hueso)}
+.intro__contenido{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr;gap:2.5rem;align-items:start}
+
+/**
+ *
+ * el texto pequeño en mayúsculas que va encima de un título ("VOCES QUE
+ * ORIENTAN"), en naranja; la versión --clara va en lila para fondos oscuros
+ *
+ */
+.seccion__sobrelinea{font-family:var(--demi);font-size:.78rem;letter-spacing:.2em;color:var(--naranja);margin-bottom:.7rem}
+.seccion__sobrelinea--clara{color:var(--lila)}
+
+/**
+ *
+ * los títulos de esta página: alineados a la izquierda, con la fuente de
+ * títulos y sin letras separadas. .titulo--claro los pone blancos
+ *
+ */
+.titulo{font-family:var(--titulo);font-size:clamp(2rem,5vw,3.25rem);line-height:1.12;color:var(--morado);letter-spacing:0}
+.titulo--claro{color:var(--hueso)}
+
+/**
+ *
+ * la rayita naranja debajo de los títulos, alineada a la izquierda
+ *
+ */
+.subrayado{display:block;width:5rem;height:4px;border-radius:999px;background:var(--naranja-vivo);margin:1rem 0 0}
+
+/**
+ *
+ * el párrafo de la introducción, de 48rem de ancho como máximo
+ *
+ */
+.texto{max-width:48rem;margin-top:1.5rem;color:rgba(45,44,87,.8);font-size:1.04rem}
+
+/**
+ *
+ * la sección morada donde va el acordeón
+ *
+ */
+.entrevistas-seccion{background:var(--morado)}
+
+/**
+ *
+ * el encabezado del acordeón: el título a la izquierda y la ayuda "Selecciona
+ * un área" a la derecha
+ *
+ */
+.encabezado-lista{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:end;gap:2rem;margin-bottom:2.5rem}
+.encabezado-lista__ayuda{max-width:20rem;text-align:right;color:rgba(252,252,251,.72)}
+
+/**
+ *
+ * la lista de áreas, una debajo de otra con poco espacio entre ellas
+ *
+ */
+.acordeon{position:relative;z-index:1;display:grid;gap:.8rem}
+
+/**
+ *
+ * cada área del acordeón: borde lila transparente y fondo un poco más claro
+ * que el morado. La primera lleva una línea naranja arriba
+ *
+ */
+.area{border:1px solid rgba(219,182,232,.35);background:rgba(252,252,251,.07);overflow:hidden}
+.area:first-child{border-top:3px solid var(--naranja-vivo)}
+
+/**
+ *
+ * la fila que se toca para abrir el área: el número, el nombre y el ícono + en
+ * tres columnas
+ *
+ */
+.area__boton{width:100%;min-height:86px;border:0;background:transparent;color:var(--hueso);display:grid;grid-template-columns:3.2rem 1fr auto;align-items:center;gap:1.1rem;padding:1.15rem 1.4rem;text-align:left;cursor:pointer}
+
+/**
+ *
+ * el número del área (01, 02...) en lila
+ *
+ */
+.area__numero{color:var(--lila);font-family:var(--demi);font-size:.82rem}
+
+/**
+ *
+ * el nombre del área, grande y con la fuente de títulos
+ *
+ */
+.area__nombre{font-family:var(--titulo);font-size:clamp(1.3rem,3vw,1.8rem)}
+
+/**
+ *
+ * el círculo con el +; cuando el área está abierta gira 45 grados (se ve como
+ * una ×) y se pone naranja
+ *
+ */
+.area__icono{width:2.3rem;height:2.3rem;border:1px solid rgba(252,252,251,.4);border-radius:50%;display:grid;place-items:center;font-size:1.4rem;transition:transform .35s,background .35s}
+.area.abierta .area__icono{transform:rotate(45deg);background:var(--naranja-vivo);border-color:var(--naranja-vivo)}
+
+/**
+ *
+ * el panel que se abre y se cierra
+ *
+ * usa una fila de cuadrícula que pasa de 0 a todo su alto (grid-template-rows
+ * de 0fr a 1fr) en 0,45 segundos: el panel se despliega suave sin necesitar su
+ * alto exacto
+ *
+ */
+.area__panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
+.area.abierta .area__panel{grid-template-rows:1fr}
+
+/**
+ *
+ * el contenido del panel; oculta lo que se sale mientras el panel está cerrado
+ *
+ */
+.area__interior{min-height:0;overflow:hidden}
+
+/**
+ *
+ * la entrevista abierta: la imagen y el contenido, uno debajo del otro, con
+ * una línea arriba
+ *
+ */
+.entrevista{display:grid;gap:2rem;padding:0 1.4rem 2rem;border-top:1px solid rgba(219,182,232,.25);padding-top:2rem}
+
+/**
+ *
+ * la caja de la imagen en proporción 9:7, con la imagen recortada para
+ * llenarla
+ *
+ */
+.entrevista__imagen{aspect-ratio:9/7;overflow:hidden;background:var(--azul-noche)}
+.entrevista__imagen img{width:100%;height:100%;object-fit:cover}
+
+/**
+ *
+ * el nombre de la persona, grande y blanco
+ *
+ */
+.entrevista__nombre{font-family:var(--titulo);color:var(--hueso);font-size:2rem;line-height:1.1}
+
+/**
+ *
+ * la profesión, en naranja
+ *
+ */
+.entrevista__profesion{margin-top:.35rem;color:var(--naranja-vivo);font-family:var(--demi)}
+
+/**
+ *
+ * los dos consejos, uno debajo del otro
+ *
+ */
+.consejos{display:grid;gap:1rem;margin-top:1.5rem}
+
+/**
+ *
+ * cada consejo con una línea a la izquierda: azul cielo en el primero y
+ * naranja en el segundo. El título va en lila y mayúsculas y el texto en
+ * blanco suave
+ *
+ */
+.consejo{padding-left:1rem;border-left:3px solid var(--azul-cielo)}
+.consejo:nth-child(2){border-left-color:var(--naranja)}
+.consejo h4{font-family:var(--demi);color:var(--lila);font-size:.85rem;text-transform:uppercase}
+.consejo p{margin-top:.3rem;color:rgba(252,252,251,.82);font-size:.95rem}
+
+/**
+ *
+ * el reproductor: el botón y la barra de progreso en fila. La etiqueta <audio>
+ * del navegador se esconde; en su lugar se ve el reproductor propio
+ *
+ */
+.audio{display:flex;align-items:center;gap:1rem;margin-top:1.6rem}
+
+/**
+ *
+ * el botón naranja "Reproducir entrevista"; sube 2px y se aclara al pasar el
+ * mouse
+ *
+ */
+.audio__boton{border:0;border-radius:999px;background:var(--naranja-vivo);color:var(--hueso);display:inline-flex;align-items:center;gap:.65rem;padding:.85rem 1.25rem;font-family:var(--demi);cursor:pointer;transition:transform .2s,filter .2s}
+.audio__boton:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.audio__icono{font-size:1rem}
+.audio audio{display:none}
+
+/**
+ *
+ * desde 800px de ancho la entrevista pasa a dos columnas, imagen y contenido;
+ * en las áreas pares la imagen queda a la derecha
+ *
+ */
+@media(min-width:800px){
+  .entrevista{grid-template-columns:minmax(260px,.78fr) 1.22fr;gap:2.6rem;padding:2rem}
+  .area:nth-child(even) .entrevista__imagen{order:2}
+  .area:nth-child(even) .entrevista__contenido{order:1}
+}
+
+/**
+ *
+ * el pie de página de esta página: el degradado, el contenido centrado en
+ * columna, el logo de 66px, la fila de redes (que suben y se ponen naranjas al
+ * pasar el mouse) y la línea de derechos
+ *
+ */
+.footer{position:relative;overflow:hidden;background:var(--degradado);padding:3.5rem 0}
+.footer__inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:1.4rem;text-align:center}
+.footer__logo{width:66px;height:66px;border-radius:50%;object-fit:contain;background:var(--hueso);padding:4px}
+.footer__redes{display:flex;gap:.8rem}
+.footer__redes a{display:grid;place-items:center;width:43px;height:43px;border-radius:50%;background:rgba(252,252,251,.12);color:var(--hueso);transition:transform .2s,background .2s}
+.footer__redes a:hover{transform:translateY(-3px);background:var(--naranja-vivo)}
+.footer__legal{color:rgba(252,252,251,.72);font-size:.88rem}
+
+/**
+ *
+ * en pantallas de 850px o menos: la introducción y el encabezado del acordeón
+ * pasan a una columna, la ayuda se alinea a la izquierda, la fila de cada área
+ * tiene menos espacio y el reproductor queda en columna
+ *
+ */
+@media(max-width:850px){
+  .intro__contenido{grid-template-columns:1fr;gap:1rem}
+  .encabezado-lista{align-items:start;flex-direction:column}
+  .encabezado-lista__ayuda{text-align:left}
+  .area__boton{grid-template-columns:2.4rem 1fr auto;padding:1rem}
+  .entrevista{padding-inline:1rem}
+  .audio{align-items:flex-start;flex-direction:column}
+}
+
+/**
+ *
+ * si la persona pidió en su sistema menos movimiento, se apagan todas las
+ * animaciones y transiciones, y el desplazamiento deja de ser suave
+ *
+ */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
