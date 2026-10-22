@@ -66,8 +66,10 @@ que la página funcione sin configuración. Para conectarla a un modelo real:
   navegador, no verá los mismos datos. Si más adelante conectas el sistema de
   registro que ya tienes en `INICIO DE SECCIÓN/`, puedes cambiar
   `inc/datos.php` para usar el usuario logueado en lugar de la sesión.
-- Todos los archivos siguen el mismo estilo que ya usabas en `contacto.php`
-  (PHP puro, `declare(strict_types=1)`, respuestas en JSON).
+- Todos los archivos de `api/` siguen el mismo estilo (PHP puro,
+  `declare(strict_types=1)`, respuestas en JSON).
+- El formulario de contacto no usa PHP: se envía a FormSubmit
+  (formsubmit.co), que lo reenvía por correo a futuria2026@gmail.com.
 
 
 ---

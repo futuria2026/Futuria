@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña, la
+  descripción que muestran los buscadores y las redes al compartir, el ícono,
+  la fuente Jost de Google Fonts y las hojas de estilo
+
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel de administración · Futuria</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/img/logo-futuria.jpeg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/comun.css">
+  <link rel="stylesheet" href="../assets/css/barra.css">
+  <link rel="stylesheet" href="../assets/css/productos.css">
+</head>
+<body id="top">
+
+<!--
+
+  la barra de navegación de arriba, que se queda pegada al bajar: el logo
+  (lleva al inicio), el botón de las 3 rayas que abre el menú en celular y los
+  enlaces a todas las páginas
+
+  el enlace de la página en la que se está lleva la clase nb-activo, que lo
+  muestra marcado
+
+  los dos últimos enlaces (#navCarrito y #navCuenta) los actualiza comun.js
+  según la sesión: el número de productos del carrito y "Ingresar" o "Salir"
+
+-->
+<header class="nb">
+    <div class="nb-inner">
+      <a class="nb-logo" href="../index.html">
+        <img src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" style="object-fit:cover;padding:3px;" />
+        <span>FUTURIA</span>
+      </a>
+
+      <button class="nb-btn" id="nbBtn" aria-label="Abrir menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+
+      <nav aria-label="Menú principal">
+        <ul class="nb-items" id="nbItems">
+          <li><a href="../index.html" >Quiénes somos</a></li>
+          <li><a href="integrantes.html">Integrantes</a></li>
+          <li><a href="test-vocacional.html">Test vocacional</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="metodos.html">Métodos</a></li>
+          <li><a href="entrevistas.html">Entrevistas</a></li>
+          <li><a href="ia.html">IA</a></li>
+          <li><a href="contacto.html">Contáctanos</a></li>
+          <li id="navCarrito"><a href="carrito.html">Carrito</a></li>
+          <li id="navCuenta"><a href="login.html">Ingresar</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <style>
+    .adm{max-width:1000px;margin:2rem auto;padding:0 1rem;font-family:'Jost',sans-serif}
+    .adm h1{margin-bottom:.5rem}
+    .adm__tabs{display:flex;gap:.5rem;margin:1rem 0}
+    .adm__tabs button,.adm button.b{padding:.5rem 1rem;border:0;border-radius:8px;background:#dbb6e8;cursor:pointer;font:inherit}
+    .adm__tabs button.on{background:#FE6A00;color:#fff}
+    .adm table{width:100%;border-collapse:collapse;margin-top:1rem}
+    .adm th,.adm td{padding:.5rem;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}
+    .adm input,.adm select,.adm textarea{width:100%;padding:.4rem;font:inherit;box-sizing:border-box}
+    .adm__form{display:grid;gap:.5rem;background:#f6eefa;padding:1rem;border-radius:12px;margin-top:1rem}
+    .adm__msg{margin-top:.75rem;font-weight:600}
+    .adm__msg.err{color:#b00020}
+  </style>
+  <main class="adm">
+    <h1>Panel de administración</h1>
+    <p id="admEstado">Verificando permisos…</p>
+    <div id="admPanel" hidden>
+      <div class="adm__tabs">
+        <button type="button" id="tabProd" class="on">Productos</button>
+        <button type="button" id="tabUsu">Usuarios</button>
+      </div>
+      <p id="admMsg" class="adm__msg" role="status"></p>
+      <section id="secProd">
+        <form id="formProd" class="adm__form">
+          <input type="hidden" id="pId">
+          <label>Nombre <input id="pNombre" maxlength="100" required></label>
+          <label>Tipo <select id="pTipo"><option>Plantilla</option><option>Guia</option><option>Software</option><option>Curso</option></select></label>
+          <label>Descripción <textarea id="pDesc" rows="3"></textarea></label>
+          <label>Precio (COP) <input id="pPrecio" type="number" min="0" step="1" required></label>
+          <div><button class="b" type="submit" id="pGuardar">Crear producto</button> <button class="b" type="button" id="pCancelar" hidden>Cancelar edición</button></div>
+        </form>
+        <table><thead><tr><th>ID</th><th>Nombre</th><th>Tipo</th><th>Precio</th><th></th></tr></thead><tbody id="tbProd"></tbody></table>
+      </section>
+      <section id="secUsu" hidden>
+        <table><thead><tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Rol</th><th></th></tr></thead><tbody id="tbUsu"></tbody></table>
+      </section>
+    </div>
+  </main>
+  <script src="../assets/js/comun.js"></script>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

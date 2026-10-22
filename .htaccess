@@ -1,0 +1,10 @@
+#
+# la configuración del servidor de Hostinger (Apache o LiteSpeed) para todo
+# el sitio
+#
+# la página que se abre al entrar al dominio es index.html, y si alguien abre
+# una carpeta que no tiene página (por ejemplo assets/img/) no ve la lista de
+# sus archivos
+#
+DirectoryIndex index.html
+Options -Indexes

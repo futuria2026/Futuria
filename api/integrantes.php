@@ -2,7 +2,7 @@
 /**
  *
  * le entrega a la página de integrantes los 8 miembros del equipo en JSON,
- * cada uno con su foto, su descripción y el personaje animal que lo representa
+ * cada uno con su foto, su descripción y el personaje que lo representa
  *
  * los datos están escritos aquí mismo, no salen de una base de datos. La
  * página los pide con fetch() y al hacer clic en cada círculo cambia entre la
@@ -17,88 +17,88 @@ header('Cache-Control: no-store');
 /**
  *
  * la lista del equipo. Cada integrante tiene su nombre, su foto, qué hace en
- * el proyecto y su animal (con nombre, descripción y foto propios)
+ * el proyecto y su personaje (con nombre, descripción y foto propios)
  *
  */
 $integrantes = [
   [
     'nombre'      => 'Isabela M.',
-    'imagen'      => '../assets/img/2.jpg',
-    'descripcion' => 'Líder creativa del equipo: coordinó la identidad visual de Futuria y definió la paleta y el logo del zorro. Le encanta transformar ideas sueltas en piezas gráficas claras.',
+    'imagen'      => '../assets/img/isabela.jpeg',
+    'descripcion' => 'Diseñadora gráfica, diseña los personajes y la estructura visual y gráfica de la guía, juego, etc…',
     'animal'      => [
-      'nombre'      => 'Zorra Aurora',
-      'descripcion' => 'Astuta y visionaria, siempre encuentra el camino corto hacia una buena idea. Representa la chispa creativa que abre cada proyecto de Futuria.',
-      'imagen'      => '../assets/img/10.jpg',
+      'nombre'      => 'Pipo',
+      'imagen'      => '../assets/img/pipo.jpeg',
+      'descripcion' => 'Soy el experto en artes, me encanta trabajar con matices de luz y sombra, hacer ilustraciones coloridas y divertirme contando historias o desarrollando canciones.',
     ],
   ],
   [
     'nombre'      => 'Maria R.',
-    'imagen'      => '../assets/img/3.jpg',
-    'descripcion' => 'Encargada de la investigación vocacional: diseñó las preguntas del test y estudió los perfiles de interés de los estudiantes para que cada resultado tenga sentido.',
+    'imagen'      => '../assets/img/maria.jpeg',
+    'descripcion' => 'Redactora, revisa la adecuada estructura escrita en las cosas respecto al proyecto tales como la guía y otros textos oficiales del mismo.',
     'animal'      => [
-      'nombre'      => 'Búho Sabio',
-      'descripcion' => 'Observador y paciente, analiza antes de decidir. Simboliza la investigación cuidadosa detrás de cada recomendación vocacional.',
-      'imagen'      => '../assets/img/11.jpg',
+      'nombre'      => 'Ellie',
+      'imagen'      => '../assets/img/ellie.jpeg',
+      'descripcion' => 'Soy la experta en ciencias sociales, si analizas la realidad, cuestionas las estructuras sociales, indagas sobre los conflictos a través del mundo y muestras empatia por los demas, definitivamente eres de los mios.',
     ],
   ],
   [
     'nombre'      => 'Estefania A.',
-    'imagen'      => '../assets/img/4.jpg',
-    'descripcion' => 'Responsable de pre-prensa y diagramación: preparó los folletos, revisó márgenes, tipografías y colores para que todo se imprima impecable.',
+    'imagen'      => '../assets/img/estefania.jpeg',
+    'descripcion' => 'Publicitaria, se encarga de la gestión de las redes y la parte de publicidad y marketing respecto a la marca.',
     'animal'      => [
-      'nombre'      => 'Abeja Meticulosa',
-      'descripcion' => 'Ordenada y constante, cuida cada detalle del panal. Representa el trabajo minucioso que hace que lo impreso quede perfecto.',
-      'imagen'      => '../assets/img/12.jpg',
+      'nombre'      => 'Willow',
+      'imagen'      => '../assets/img/willow.jpeg',
+      'descripcion' => 'Soy la experta en lenguas, soy capaz de cambiar el idoma a mitad de la oración, puedo llegar todos los dias con nuevas palabras en otro idioma y soy capaz de identificar en menos de 3sg que idioma suena.',
     ],
   ],
   [
     'nombre'      => 'Carolina P.',
-    'imagen'      => '../assets/img/5.jpg',
-    'descripcion' => 'Community manager del proyecto: administra las redes de Futuria, escribe los textos de las publicaciones y responde a los estudiantes que escriben.',
+    'imagen'      => '../assets/img/caro.jpeg',
+    'descripcion' => 'Investigadora, se dedica a buscar la información necesaria que ayude a complementar las ideas para una mejor construcción de la marca.',
     'animal'      => [
-      'nombre'      => 'Delfín Sociable',
-      'descripcion' => 'Comunicativo y alegre, se entiende con todos. Es la voz cercana de Futuria en cada mensaje y comentario.',
-      'imagen'      => '../assets/img/13.jpg',
+      'nombre'      => 'Copito',
+      'imagen'      => '../assets/img/copito.jpeg',
+      'descripcion' => 'Soy Copito la experta en ciencias naturales, siempre busco entender el "porque" de todo, buscar patrones, clasificar, experimentar y no quedarme solo en la teoria.',
     ],
   ],
   [
     'nombre'      => 'Mariana V.',
-    'imagen'      => '../assets/img/6.jpg',
-    'descripcion' => 'Especialista en gestión del tiempo: construyó la agenda inteligente y las plantillas de horarios que ayudan a organizar semanas de estudio reales.',
+    'imagen'      => '../assets/img/mariana.jpeg',
+    'descripcion' => 'Líder del equipo y programadora.',
     'animal'      => [
-      'nombre'      => 'Colibrí Puntual',
-      'descripcion' => 'Rápido y preciso, aprovecha cada segundo sin agotarse. Encarna la buena administración del tiempo que propone Futuria.',
-      'imagen'      => '../assets/img/14.jpg',
+      'nombre'      => 'Mini',
+      'imagen'      => '../assets/img/mini.jpeg',
+      'descripcion' => 'Soy la experta en negocios y la administracion, disfruto pasar horas navegando y consultando sobre oportunidades en el mercado, puedo anticipar tendencias de crecimiento, amo tomar decisiones calculadas y disfruto de inspirar el equipo .',
     ],
   ],
   [
     'nombre'      => 'Paulina L.',
-    'imagen'      => '../assets/img/7.jpg',
-    'descripcion' => 'Encargada de los métodos de estudio: recopiló técnicas como Pomodoro, mapas mentales y repaso espaciado, y las adaptó al ritmo del colegio.',
+    'imagen'      => '../assets/img/pau.jpeg',
+    'descripcion' => 'Constructora de ideas, organiza y recopila la información, brinda ideas y aportes para una mejor construcción del proyecto, programadora.',
     'animal'      => [
-      'nombre'      => 'Ardilla Estratega',
-      'descripcion' => 'Guarda y organiza todo para el momento justo. Representa los métodos que convierten el repaso en un hábito sencillo.',
-      'imagen'      => '../assets/img/15.jpg',
+      'nombre'      => 'Alix',
+      'imagen'      => '../assets/img/alix.jpeg',
+      'descripcion' => 'Soy la experta en matemticas, me resulta facil comprender conceptos abtracto, tengo un pensamiento critico y creativo para los problemas y no me frustro rapidamente si no encuentro una respuesta inmediatamente.',
     ],
   ],
   [
     'nombre'      => 'Luciana D.',
-    'imagen'      => '../assets/img/8.jpg',
-    'descripcion' => 'Responsable de las entrevistas: contactó a profesionales y estudiantes para recoger sus historias y mostrar caminos vocacionales distintos.',
+    'imagen'      => '../assets/img/luciana.jpeg',
+    'descripcion' => 'Diseñadora Ilustrativa, diseña las gráficas, imágenes y toda la parte del diseño gráfico del proyecto, programadora fronted.',
     'animal'      => [
-      'nombre'      => 'Gata Curiosa',
-      'descripcion' => 'Atenta y preguntona, se acerca a lo desconocido sin miedo. Simboliza la curiosidad que da vida a cada entrevista.',
-      'imagen'      => '../assets/img/16.jpg',
+      'nombre'      => 'Pequitas',
+      'imagen'      => '../assets/img/pequitas.jpeg',
+      'descripcion' => 'Soy experta en recreacion fisica, busco distraerme del estres con actividades fisicas, disfruto sentirme bien tanto fisica como mentalmente, amo la competitividad y disfruto de la compañia de los demas.',
     ],
   ],
   [
     'nombre'      => 'Juan C.',
-    'imagen'      => '../assets/img/9.jpg',
-    'descripcion' => 'Desarrollador del sitio y de la sección de IA: programó la página, el formulario de contacto y el asistente que orienta a los estudiantes.',
+    'imagen'      => '../assets/img/juan.jpeg',
+    'descripcion' => 'Programador, aplica los lenguajes de programación en la creación de los distintos aplicativos web del proyecto.',
     'animal'      => [
-      'nombre'      => 'Lobo Técnico',
-      'descripcion' => 'Resistente y trabajador en equipo, sostiene la manada. Representa la parte técnica que mantiene Futuria funcionando.',
-      'imagen'      => '../assets/img/17.jpg',
+      'nombre'      => 'Luka',
+      'imagen'      => '../assets/img/luka.jpeg',
+      'descripcion' => 'Soy el experto en artes culinarias, desde siempre me a gustado experimentar y descubrir los nuevos sabores, texturas y culturas gastronomicas, y a su vez disfruto de la estetica en los platilos.',
     ],
   ],
 ];
@@ -121,3 +121,4 @@ echo json_encode(
   ['ok' => true, 'integrantes' => $integrantes],
   JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
 );
+

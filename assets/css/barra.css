@@ -1,0 +1,190 @@
+/**
+ *
+ * la barra de navegación lila de arriba, la misma en todas las páginas que la
+ * tienen (inicio, integrantes, test vocacional, productos, métodos,
+ * entrevistas, IA, contacto, carrito y las herramientas)
+ *
+ * cada página carga este archivo además de sus propios estilos. El botón de
+ * las 3 rayas lo hace funcionar comun.js
+ *
+ */
+
+/**
+ *
+ * la barra completa: lila, pegada arriba al bajar (sticky) y por encima del
+ * resto de la página
+ *
+ */
+.nb {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #DBB6E0;
+  color: #4b1c71;
+  font-family: 'Jost', 'Avant Garde Demi BT', 'Century Gothic', 'Trebuchet MS', sans-serif;
+  box-shadow: 0 6px 24px -10px rgba(45, 44, 87, 0.35);
+}
+
+/**
+ *
+ * el contenido de la barra en una sola fila de 1340px como máximo: el logo a
+ * la izquierda y el menú ocupando el resto del espacio
+ *
+ */
+.nb-inner {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/**
+ *
+ * el logo redondo y la palabra FUTURIA, que llevan al inicio; nunca se
+ * achican aunque falte espacio
+ *
+ */
+.nb-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  color: #4b1c71;
+  text-decoration: none;
+}
+.nb-logo img {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #FCFCFB;
+  padding: 3px;
+  box-shadow: 0 4px 12px -6px rgba(45, 44, 87, 0.6);
+}
+.nb-logo span {
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  font-weight: 700;
+}
+
+/**
+ *
+ * el menú ocupa todo el espacio que deja el logo; min-width: 0 le permite
+ * ser más angosto que sus enlaces, así comun.js puede medir si caben
+ *
+ */
+.nb nav {
+  flex: 1;
+  min-width: 0;
+}
+
+/**
+ *
+ * la lista de enlaces en una sola fila, centrada en el espacio del menú
+ *
+ * cada enlace es una pastilla morada que se aclara y sube 2px al pasar el
+ * mouse. El de la página actual (.nb-activo) va en blanco con letra morada
+ *
+ */
+.nb-items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nb-items a {
+  display: inline-block;
+  padding: 8px 11px;
+  border-radius: 999px;
+  color: #4b1c71;
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s, transform 0.25s;
+}
+.nb-items a:hover { background: rgba(255, 255, 255, 0.45); transform: translateY(-2px); }
+.nb-items a.nb-activo {
+  background: #FCFCFB;
+  color: #4b1c71;
+  box-shadow: 0 4px 12px -6px rgba(45, 44, 87, 0.5);
+}
+
+/**
+ *
+ * "Carrito" e "Ingresar" se separan del resto con una rayita vertical a la
+ * izquierda del carrito, e "Ingresar" (o "Salir") es una pastilla naranja
+ *
+ */
+#navCarrito {
+  margin-left: 8px;
+  padding-left: 10px;
+  border-left: 2px solid rgba(75, 28, 113, 0.25);
+}
+#navCuenta a {
+  background: linear-gradient(135deg, #FE6A00, #EB5727);
+  color: #FCFCFB;
+  margin-left: 4px;
+  padding-inline: 16px;
+}
+#navCuenta a:hover { filter: brightness(1.08); }
+
+/**
+ *
+ * el botón de las 3 rayas, escondido en pantallas grandes; queda pegado a la
+ * derecha
+ *
+ */
+.nb-btn {
+  display: none;
+  margin-left: auto;
+  background: transparent;
+  border: 2px solid #4b1c71;
+  border-radius: 12px;
+  padding: 6px 8px;
+  color: #4b1c71;
+  cursor: pointer;
+}
+
+/**
+ *
+ * el modo compacto, cuando los enlaces no caben en una fila: aparece el botón
+ * de las 3 rayas y el menú se esconde
+ *
+ * comun.js le pone la clase .nb--compacta a la barra cuando mide que los
+ * enlaces no caben; depende del ancho de la pantalla y de cuántos enlaces hay
+ * (con sesión iniciada se suman "Mi perfil" y, para el admin, "Admin").
+ * Cuando el botón le pone la clase .nb-abierto, el menú baja como una caja
+ * lila debajo de la barra, con los enlaces uno debajo del otro y centrados
+ *
+ */
+.nb--compacta .nb-btn { display: inline-flex; }
+.nb--compacta nav { flex: 0; }
+.nb--compacta .nb-items {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 10px 22px 16px;
+  background: #DBB6E0;
+  box-shadow: 0 14px 24px -14px rgba(45, 44, 87, 0.45);
+  text-align: center;
+}
+.nb--compacta .nb-items.nb-abierto { display: flex; }
+.nb--compacta .nb-items a { display: block; }
+.nb--compacta #navCarrito {
+  margin: 6px 0 0;
+  padding: 8px 0 0;
+  border-left: 0;
+  border-top: 2px solid rgba(75, 28, 113, 0.2);
+}
+.nb--compacta #navCuenta a { margin: 0; }

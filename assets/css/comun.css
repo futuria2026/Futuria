@@ -1,11 +1,12 @@
 /**
  *
  * los estilos que comparten las páginas de contenido (inicio, integrantes,
- * test vocacional, productos, entrevistas y contacto): colores, fuentes, la
- * barra de navegación, el encabezado grande, las secciones, las estrellas, los
- * títulos y el pie de página
+ * test vocacional, productos, entrevistas y contacto): colores, fuentes, el
+ * encabezado grande, las secciones, las estrellas, los títulos y el pie de
+ * página
  *
- * cada página carga primero este archivo y después el suyo propio. Los colores
+ * cada página carga primero este archivo, después barra.css (la barra de
+ * navegación) y por último el suyo propio. Los colores
  * de la marca son azul noche #2d2c57, azul cielo #83AEE3, morado #4b1c71, lila
  * #dbb6e8, naranja #EB5727, naranja vivo #FE6A00 y hueso #FCFCFB
  *
@@ -45,6 +46,14 @@
  *
  */
 *{box-sizing:border-box;margin:0;padding:0}
+
+/**
+ *
+ * todo lo que lleva el atributo hidden queda escondido, aunque otra regla le
+ * ponga display
+ *
+ */
+[hidden]{display:none!important}
 
 /**
  *
@@ -92,130 +101,6 @@ ul{list-style:none}
  */
 .seccion{padding:5rem 0;position:relative;overflow:hidden}
 .seccion--morada{background:var(--morado)}
-
-/**
- *
- * la barra de navegación lila de arriba, que se queda pegada al bajar (sticky)
- *
- */
-.nb {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: #DBB6E0;
-  color: #FCFCFB;
-  font-family: 'Avant Garde Demi BT', 'Century Gothic', 'Trebuchet MS', sans-serif;
-  box-shadow: 0 6px 24px -10px rgba(45, 44, 87, 0.35);
-}
-
-/**
- *
- * el contenido de la barra: el logo a la izquierda y el menú a la derecha, en
- * una fila de 1280px como máximo
- *
- */
-.nb-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 10px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-/**
- *
- * el logo redondo y la palabra FUTURIA, que llevan al inicio
- *
- */
-.nb-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #FCFCFB;
-  text-decoration: none;
-}
-.nb-logo img {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
-  padding: 4px;
-}
-.nb-logo span {
-  font-size: 1.35rem;
-  letter-spacing: 3px;
-  font-weight: 800;
-  text-shadow: 0 2px 6px rgba(45, 44, 87, 0.4);
-}
-
-/**
- *
- * la lista de enlaces del menú, en fila y alineada a la derecha
- *
- * cada enlace es una pastilla que se aclara y sube 2px al pasar el mouse. El
- * de la página actual (.nb-activo) se ve más claro y con un borde blanco
- *
- */
-.nb-items {
-  display: flex;
-  list-style: none;
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-.nb-items a {
-  display: inline-block;
-  padding: 9px 13px;
-  border-radius: 999px;
-  color: #FCFCFB;
-  font-size: 0.95rem;
-  letter-spacing: 0.4px;
-  text-decoration: none;
-  transition: background 0.25s, transform 0.25s;
-}
-.nb-items a:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
-.nb-items a.nb-activo {
-  background: rgba(255, 255, 255, 0.42);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.55);
-}
-
-/**
- *
- * el botón de las 3 rayas, escondido en pantallas grandes
- *
- */
-.nb-btn {
-  display: none;
-  background: transparent;
-  border: 2px solid #FCFCFB;
-  border-radius: 12px;
-  padding: 8px 10px;
-  color: #FCFCFB;
-}
-
-/**
- *
- * en pantallas de 920px o menos el encabezado pasa a una sola columna,
- * centrada, con el círculo debajo del texto
- *
- */
-@media (max-width: 920px) {
-  .nb-btn { display: inline-flex; }
-  .nb-items {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    padding: 8px 0 14px;
-    align-items: stretch;
-    text-align: center;
-  }
-  .nb-items.nb-abierto { display: flex; }
-}
 
 /**
  *
@@ -408,9 +293,8 @@ ul{list-style:none}
 
 /**
  *
- * en pantallas de 920px o menos aparece el botón de las 3 rayas y el menú se
- * esconde; cuando el botón le pone la clase .nb-abierto, el menú se muestra en
- * columna debajo de la barra
+ * en pantallas de 920px o menos el encabezado pasa a una sola columna,
+ * centrada, con el círculo debajo del texto
  *
  */
 @media (max-width: 920px) {

@@ -3,3 +3,6 @@ datos/
 
 # Datos de conexión a la base de datos (cada servidor tiene los suyos)
 api/inc/config.php
+
+# Los paquetes para subir a Hostinger (llevan config.php con las claves)
+despliegue/

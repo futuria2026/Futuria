@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<!--
+
+  la información de la página para el navegador: el título de la pestaña, la
+  descripción que muestran los buscadores y las redes al compartir, el ícono,
+  la fuente Jost de Google Fonts y las hojas de estilo
+
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi perfil · Futuria</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/img/logo-futuria.jpeg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/comun.css">
+  <link rel="stylesheet" href="../assets/css/barra.css">
+  <link rel="stylesheet" href="../assets/css/productos.css">
+</head>
+<body id="top">
+
+<!--
+
+  la barra de navegación de arriba, que se queda pegada al bajar: el logo
+  (lleva al inicio), el botón de las 3 rayas que abre el menú en celular y los
+  enlaces a todas las páginas
+
+  el enlace de la página en la que se está lleva la clase nb-activo, que lo
+  muestra marcado
+
+  los dos últimos enlaces (#navCarrito y #navCuenta) los actualiza comun.js
+  según la sesión: el número de productos del carrito y "Ingresar" o "Salir"
+
+-->
+<header class="nb">
+    <div class="nb-inner">
+      <a class="nb-logo" href="../index.html">
+        <img src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" style="object-fit:cover;padding:3px;" />
+        <span>FUTURIA</span>
+      </a>
+
+      <button class="nb-btn" id="nbBtn" aria-label="Abrir menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+
+      <nav aria-label="Menú principal">
+        <ul class="nb-items" id="nbItems">
+          <li><a href="../index.html" >Quiénes somos</a></li>
+          <li><a href="integrantes.html">Integrantes</a></li>
+          <li><a href="test-vocacional.html">Test vocacional</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="metodos.html">Métodos</a></li>
+          <li><a href="entrevistas.html">Entrevistas</a></li>
+          <li><a href="ia.html">IA</a></li>
+          <li><a href="contacto.html">Contáctanos</a></li>
+          <li id="navCarrito"><a href="carrito.html">Carrito</a></li>
+          <li id="navCuenta"><a href="login.html">Ingresar</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <style>
+    .pf{max-width:480px;margin:2rem auto;padding:0 1rem;font-family:'Jost',sans-serif}
+    .pf__av{width:128px;height:128px;border-radius:50%;background:#dbb6e8;margin:1rem auto;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff;overflow:hidden}
+    .pf__av img{width:100%;height:100%;object-fit:cover}
+    .pf form{display:grid;gap:.75rem;background:#f6eefa;padding:1rem;border-radius:12px}
+    .pf input[type=text]{width:100%;padding:.5rem;font:inherit;box-sizing:border-box}
+    .pf button{padding:.5rem 1rem;border:0;border-radius:8px;background:#dbb6e8;cursor:pointer;font:inherit}
+    .pf button.p{background:#FE6A00;color:#fff}
+    .pf__msg{font-weight:600;min-height:1.5em}
+    .pf__msg.err{color:#b00020}
+  </style>
+  <main class="pf">
+    <h1>Mi perfil</h1>
+    <p id="pfEstado">Cargando…</p>
+    <form id="pfForm" hidden>
+      <div class="pf__av"><img id="pfFoto" alt="Tu foto" hidden><span id="pfInicial">?</span></div>
+      <input type="file" id="pfArchivo" accept="image/*" hidden>
+      <div style="text-align:center">
+        <button type="button" id="pfElegir">Elegir foto</button>
+        <button type="button" id="pfQuitar">Quitar foto</button>
+      </div>
+      <label>Nombre <input type="text" id="pfNombre" maxlength="100" required></label>
+      <p id="pfMsg" class="pf__msg" role="status"></p>
+      <button type="submit" class="p">Guardar cambios</button>
+    </form>
+  </main>
+  <script src="../assets/js/comun.js"></script>
+  <script src="../assets/js/perfil.js"></script>
+</body>
+</html>

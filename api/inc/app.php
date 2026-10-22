@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * lo que comparten auth.php, carrito.php y productos.php: la conexión a la
- * base de datos, la sesión del usuario y las respuestas en JSON
+ * lo que comparten los archivos de la API: la conexión a la base de datos,
+ * la sesión del usuario, las respuestas en JSON y el permiso de administrador
  *
  * cada archivo de la API lo carga con require al principio. Al cargarse
  * inicia la sesión de PHP, que recuerda quién inició sesión con una cookie
@@ -122,8 +122,8 @@ function bd(): PDO
 
 /**
  *
- * el usuario que inició sesión ({ id, nombre, correo }), o null si nadie ha
- * iniciado sesión
+ * el usuario que inició sesión ({ id, nombre, correo, rol, foto }), o null si
+ * nadie ha iniciado sesión
  *
  * busca en la base el id guardado en la sesión. Si ese usuario ya no existe,
  * cierra la sesión
@@ -135,7 +135,7 @@ function usuario_actual(): ?array
     if (!$id) {
         return null;
     }
-    $consulta = bd()->prepare('SELECT id, nombre, correo FROM usuarios WHERE id = ?');
+    $consulta = bd()->prepare('SELECT id_usuario AS id, nombre, email AS correo, rol, foto FROM usuarios WHERE id_usuario = ?');
     $consulta->execute([$id]);
     $usuario = $consulta->fetch();
     if (!$usuario) {
@@ -148,13 +148,13 @@ function usuario_actual(): ?array
 
 /**
  *
- * cuántos productos en total (sumando las cantidades) tiene un usuario en su
- * carrito
+ * cuántos productos en total tiene un usuario en su carrito (una fila por
+ * unidad en productos_usuarios)
  *
  */
 function cantidad_carrito(int $usuarioId): int
 {
-    $consulta = bd()->prepare('SELECT COALESCE(SUM(cantidad), 0) FROM carrito WHERE usuario_id = ?');
+    $consulta = bd()->prepare('SELECT COUNT(*) FROM productos_usuarios WHERE id_usuario = ?');
     $consulta->execute([$usuarioId]);
     return (int)$consulta->fetchColumn();
 }
@@ -168,4 +168,23 @@ function cantidad_carrito(int $usuarioId): int
 function formato_precio(int $pesos): string
 {
     return '$' . number_format($pesos, 0, ',', '.') . ' COP';
+}
+
+/**
+ *
+ * deja pasar solo a un administrador. Si nadie inició sesión responde 401;
+ * si inició sesión pero su rol no es "admin" responde 403. Devuelve el
+ * usuario administrador para que el endpoint pueda usar su id
+ *
+ */
+function requerir_admin(): array
+{
+    $usuario = usuario_actual();
+    if (!$usuario) {
+        responder(['ok' => false, 'error' => 'Inicia sesión para continuar.'], 401);
+    }
+    if (($usuario['rol'] ?? 'usuario') !== 'admin') {
+        responder(['ok' => false, 'error' => 'Solo los administradores pueden hacer esto.'], 403);
+    }
+    return $usuario;
 }

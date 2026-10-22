@@ -1,13 +1,11 @@
 /**
  *
- * los estilos de la página de métodos de estudio: el cielo de estrellas, la
- * barra de navegación, el encabezado, la presentación con las mascotas, las
- * tarjetas de cada método, el calendario, la ventana de la guía y el pie de
- * página
+ * los estilos de la página de métodos de estudio: el cielo de estrellas, el
+ * encabezado, la presentación con las mascotas, las tarjetas de cada método,
+ * el calendario, la ventana de la guía y el pie de página
  *
- * esta página no usa comun.css: tiene su propio diseño, sus propios nombres de
- * colores y su propia barra de navegación (.navbar), parecida a la del resto
- * del sitio
+ * esta página no usa comun.css: tiene su propio diseño y sus propios nombres
+ * de colores. La barra de navegación la toma de barra.css, igual que las demás
  *
  */
 
@@ -127,97 +125,6 @@ img { max-width: 100%; display: block; }
 @keyframes brillar {
   0%, 100% { opacity: 0.15; transform: scale(0.7) rotate(0deg); }
   50% { opacity: 1; transform: scale(1.15) rotate(20deg); }
-}
-
-/**
- *
- * la barra de navegación lavanda que se queda pegada arriba al bajar
- *
- */
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: var(--lavanda);
-  color: var(--blanco);
-  font-family: var(--fuente-titulo);
-  box-shadow: 0 6px 24px -10px rgba(45, 44, 87, 0.35);
-}
-
-/**
- *
- * el contenido de la barra: el logo a la izquierda y el menú a la derecha, en
- * una fila de 1280px como máximo
- *
- */
-.navbar-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 10px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-/**
- *
- * el logo redondo y la palabra FUTURIA
- *
- */
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--blanco);
-}
-.nav-logo img { width: 42px; height: 42px; object-fit: contain; border-radius: 50%; background: rgba(255, 255, 255, 0.35); padding: 4px; }
-.nav-logo span { font-size: 1.35rem; letter-spacing: 3px; font-weight: 800; text-shadow: 0 2px 6px rgba(45, 44, 87, 0.4); }
-
-/**
- *
- * la lista de enlaces del menú en fila, alineada a la derecha
- *
- * cada enlace es una pastilla que se aclara y sube 2px al pasar el mouse; el
- * de esta página (.activo) se ve más claro y con borde blanco
- *
- */
-.nav-items {
-  display: flex;
-  list-style: none;
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-.nav-items a {
-  display: inline-block;
-  padding: 9px 13px;
-  border-radius: 999px;
-  color: var(--blanco);
-  font-size: 0.95rem;
-  letter-spacing: 0.4px;
-  transition: background 0.25s, transform 0.25s;
-}
-.nav-items a:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
-.nav-items a.activo {
-  background: rgba(255, 255, 255, 0.42);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.55);
-}
-
-/**
- *
- * el botón de las 3 rayas, escondido en pantallas grandes
- *
- */
-.menu-btn {
-  display: none;
-  background: transparent;
-  border: 2px solid var(--blanco);
-  border-radius: 12px;
-  padding: 8px 10px;
-  color: var(--blanco);
 }
 
 /**
@@ -1127,7 +1034,8 @@ img { max-width: 100%; display: block; }
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  background: var(--morado-oscuro);
+  background: linear-gradient(100deg, #2d2c57 0%, #4b1c71 45%, #EB5727 100%);
+  overflow: hidden;
   color: var(--blanco);
   text-align: center;
   padding: 56px 22px 30px;
@@ -1199,9 +1107,9 @@ img { max-width: 100%; display: block; }
   max-width: 520px;
   margin: 10px 0 0;
   padding-top: 18px;
-  border-top: 1px solid rgba(252, 252, 251, 0.18);
-  font-size: 0.85rem;
-  opacity: 0.75;
+  border-top: 0;
+  font-size: 0.95rem;
+  opacity: 0.85;
 }
 
 /**
@@ -1216,24 +1124,12 @@ img { max-width: 100%; display: block; }
 
 /**
  *
- * en pantallas de 920px o menos: aparece el botón de las 3 rayas y el menú se
- * esconde (se muestra en columna con .abierto), el encabezado y la
- * presentación pasan a una columna, las burbujas de las mascotas salen debajo
- * de ellas y sin colita, y las tarjetas de métodos pasan a una columna con
- * menos espacio
+ * en pantallas de 920px o menos: el encabezado y la presentación pasan a una
+ * columna, las burbujas de las mascotas salen debajo de ellas y sin colita, y
+ * las tarjetas de métodos pasan a una columna con menos espacio
  *
  */
 @media (max-width: 920px) {
-  .menu-btn { display: inline-flex; }
-  .nav-items {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    padding: 8px 0 14px;
-    align-items: stretch;
-    text-align: center;
-  }
-  .nav-items.abierto { display: flex; }
   .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 46px; }
   .hero-badge { justify-self: center; }
   .hero-etiqueta { margin: 0 auto 18px; }
@@ -1305,3 +1201,31 @@ main {
 .cal-form button {
   max-width: 100%;
 }
+
+/**
+ *
+ * se quitan los círculos de las mascotas (zorro, búho, gato y conejo)
+ *
+ */
+.animalito,
+.animal-lateral,
+.mascota-globo { display: none !important; }
+.intro { grid-template-columns: 1fr; }
+.intro-texto { max-width: 640px; margin: 0 auto; }
+.intro-texto p { margin: 0 0 14px; line-height: 1.7; }
+
+/**
+ *
+ * el pie de página: sin la palabra FUTURIA y con estrellas encima del
+ * degradado (las pone metodos.js)
+ *
+ */
+.footer .marca { display: none; }
+.footer .estrellas-pie {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.footer > *:not(.estrellas-pie) { position: relative; z-index: 1; }

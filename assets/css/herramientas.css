@@ -2,12 +2,13 @@
  *
  * los estilos de las cinco herramientas (IA, Pomodoro, Flashcards, Mapas
  * mentales y Agenda) y del carrito de compras. Primero va la base que
- * comparten (colores, encabezado, barra de navegación, tarjetas, botones,
- * campos y pie de página) y después lo propio de cada herramienta
+ * comparten (colores, encabezado, tarjetas, botones, campos y pie de página)
+ * y después lo propio de cada herramienta
  *
- * estas páginas no usan comun.css: este archivo tiene su propia copia de la
- * barra de navegación. Cada herramienta usa clases con su propio prefijo (pm-
- * Pomodoro, fc- Flashcards, mm- Mapas, ag- Agenda, ia- IA, ca- Carrito)
+ * estas páginas no usan comun.css; la barra de navegación la toman de
+ * barra.css, igual que las demás. Cada herramienta usa clases con su propio
+ * prefijo (pm- Pomodoro, fc- Flashcards, mm- Mapas, ag- Agenda, ia- IA, ca-
+ * Carrito)
  *
  */
 
@@ -49,6 +50,14 @@ img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 ul{list-style:none}
 button{font-family:inherit}
+
+/**
+ *
+ * todo lo que lleva el atributo hidden queda escondido, aunque otra regla le
+ * ponga display (por ejemplo el resumen del carrito cuando está vacío)
+ *
+ */
+[hidden]{display:none!important}
 
 /**
  *
@@ -104,37 +113,6 @@ button{font-family:inherit}
  */
 .ht-desc{
   max-width:640px;margin:14px auto 0;opacity:.95;font-size:1.05rem;position:relative;z-index:1;
-}
-
-/**
- *
- * la barra de navegación lila que se queda pegada arriba, igual a la de las
- * páginas de contenido: el logo, los enlaces en forma de pastilla (que se
- * aclaran y suben al pasar el mouse) y el botón de las 3 rayas, escondido en
- * pantallas grandes
- *
- */
-.nb{position:sticky;top:0;z-index:50;background:#DBB6E0;color:#FCFCFB;box-shadow:0 6px 24px -10px rgba(45,44,87,.35)}
-.nb-inner{max-width:1280px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
-.nb-logo{display:flex;align-items:center;gap:10px;color:#FCFCFB}
-.nb-logo img{width:42px;height:42px;object-fit:contain;border-radius:50%;background:rgba(255,255,255,.35);padding:4px}
-.nb-logo span{font-size:1.35rem;letter-spacing:3px;font-weight:800;text-shadow:0 2px 6px rgba(45,44,87,.4)}
-.nb-items{display:flex;list-style:none;gap:4px;margin:0;padding:0;flex-wrap:wrap;justify-content:flex-end}
-.nb-items a{display:inline-block;padding:9px 13px;border-radius:999px;color:#FCFCFB;font-size:.95rem;letter-spacing:.4px;transition:background .25s,transform .25s}
-.nb-items a:hover{background:rgba(255,255,255,.3);transform:translateY(-2px)}
-.nb-items a.nb-activo{background:rgba(255,255,255,.42);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
-.nb-btn{display:none;background:transparent;border:2px solid #FCFCFB;border-radius:12px;padding:8px 10px;color:#FCFCFB;cursor:pointer}
-
-/**
- *
- * en pantallas de 920px o menos aparece el botón de las 3 rayas y el menú se
- * esconde; con la clase .nb-abierto se muestra en columna
- *
- */
-@media (max-width:920px){
-  .nb-btn{display:inline-flex}
-  .nb-items{display:none;flex-direction:column;width:100%;padding:8px 0 14px;align-items:stretch;text-align:center}
-  .nb-items.nb-abierto{display:flex}
 }
 
 /**

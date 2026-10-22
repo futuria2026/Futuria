@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * le entrega a la página de test vocacional el texto de resumen y los dos
- * tests recomendados (CHASIDE y Holland), en JSON
+ * le entrega a la página de test vocacional el texto de resumen y los cuatro
+ * tests recomendados (CHASIDE, Holland, Filadd y Edumatch), en JSON
  *
  * los datos están escritos aquí mismo, no salen de una base de datos. La
  * página los pide con fetch() y arma una tarjeta por cada test
@@ -65,6 +65,29 @@ $tests = [
     'etiquetas'   => ['6 tipos', 'RIASEC', 'Carreras', '~10 min'],
     'boton'       => 'Hacer el test de Holland',
     'enlace'      => 'https://www.orientacionuniversitaria.com/test-vocacional/test-de-holland/',
+    'imagen'      => '../assets/img/test-vocacional-2.jpg',
+  ],
+  [
+    'id'          => 'filadd',
+    'nombre'      => 'Test vocacional Filadd',
+    'etiqueta'    => 'Carrera ideal',
+    'descripcion' => 'Test interactivo y gratuito pensado para estudiantes colombianos. En menos de 8 minutos '
+                   . 'te sugiere tu carrera ideal y te muestra recomendaciones de universidades.',
+    'etiquetas'   => ['Gratis', 'Menos de 8 min', 'Colombia', 'Universidades'],
+    'boton'       => 'Hacer el test de Filadd',
+    'enlace'      => 'https://test-vocacional.filadd.com.co/?hl=es-US',
+    'imagen'      => '../assets/img/test-vocacional-1.jpg',
+  ],
+  [
+    'id'          => 'edumatch',
+    'nombre'      => 'Test vocacional Edumatch',
+    'etiqueta'    => 'Carreras y universidades',
+    'descripcion' => 'Test de orientación vocacional online y gratuito de Cursos y Carreras. Te ayuda a descubrir '
+                   . 'tu vocación y a encontrar carreras y universidades que se ajusten a tu perfil. Para usarlo '
+                   . 'te pide crear una cuenta.',
+    'etiquetas'   => ['Gratis', 'En línea', 'Carreras', 'Universidades'],
+    'boton'       => 'Hacer el test de Edumatch',
+    'enlace'      => 'https://www.cursosycarreras.co/test_vocacional_orientacion_vocacional.php?hl=es-US',
     'imagen'      => '../assets/img/test-vocacional-2.jpg',
   ],
 ];

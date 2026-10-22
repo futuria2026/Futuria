@@ -1,0 +1,8 @@
+#
+# nadie puede abrir desde el navegador los archivos de esta carpeta (la
+# configuración con las contraseñas y las funciones compartidas)
+#
+# los archivos de api/ los siguen cargando sin problema con require, porque
+# eso pasa dentro del servidor y no por el navegador
+#
+Require all denied

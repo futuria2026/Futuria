@@ -20,8 +20,52 @@
   <link rel="icon" href="../assets/img/logo-futuria.jpeg" type="image/jpeg">
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/comun.css">
+  <link rel="stylesheet" href="../assets/css/barra.css">
 </head>
 <body>
+
+  <!--
+
+    la barra de navegación de arriba, que se queda pegada al bajar: el logo
+    (lleva al inicio), el botón de las 3 rayas que abre el menú en celular y los
+    enlaces a todas las páginas
+
+    el enlace de la página en la que se está lleva la clase nb-activo, que lo
+    muestra marcado
+
+    los dos últimos enlaces (#navCarrito y #navCuenta) los actualiza comun.js
+    según la sesión: el número de productos del carrito y "Ingresar" o "Salir"
+
+  -->
+  <header class="nb">
+    <div class="nb-inner">
+      <a class="nb-logo" href="../index.html">
+        <img src="../assets/img/logo-futuria.jpeg" alt="Logo Futuria" style="object-fit:cover;padding:3px;" />
+        <span>FUTURIA</span>
+      </a>
+
+      <button class="nb-btn" id="nbBtn" aria-label="Abrir menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+
+      <nav aria-label="Menú principal">
+        <ul class="nb-items" id="nbItems">
+          <li><a href="../index.html">Quiénes somos</a></li>
+          <li><a href="integrantes.html">Integrantes</a></li>
+          <li><a href="test-vocacional.html">Test vocacional</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="metodos.html">Métodos</a></li>
+          <li><a href="entrevistas.html">Entrevistas</a></li>
+          <li><a href="ia.html">IA</a></li>
+          <li><a href="contacto.html" class="nb-activo">Contáctanos</a></li>
+          <li id="navCarrito"><a href="carrito.html">Carrito</a></li>
+          <li id="navCuenta"><a href="login.html">Ingresar</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!--
 
@@ -44,22 +88,39 @@
 
       <!--
 
-        el formulario con nombre, correo y mensaje
+        el formulario con nombre, correo y mensaje, que llega por correo a
+        futuria2026@gmail.com a través de FormSubmit (formsubmit.co, un
+        servicio gratis que reenvía formularios a un correo)
 
-        contacto.js lo envía a api/contacto.php sin recargar la página. Si
-        JavaScript no funciona, el formulario se envía de la forma normal a
-        esa misma dirección
+        contacto.js lo envía sin recargar la página. Si JavaScript no
+        funciona, el formulario se envía de la forma normal a FormSubmit. El
+        campo del correo se llama "email" porque así FormSubmit lo pone como
+        "responder a" en Gmail
 
       -->
-      <form id="form-contacto" method="post" action="../api/contacto.php" style="display:grid;gap:1rem;margin-top:2rem;text-align:left">
+      <form id="form-contacto" method="post" action="https://formsubmit.co/futuria2026@gmail.com" style="display:grid;gap:1rem;margin-top:2rem;text-align:left">
+
+        <!--
+
+          las opciones de FormSubmit: el asunto del correo, el mensaje en
+          forma de tabla, sin la página de "no soy un robot" y _honey, una
+          trampa para robots: está escondida, una persona nunca la llena y
+          si llega llena FormSubmit descarta el mensaje
+
+        -->
+        <input type="hidden" name="_subject" value="Nuevo mensaje desde Futuria">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
+
         <label>Nombre
           <input name="nombre" required style="width:100%;padding:.8rem;border:2px solid #dbb6e8;border-radius:.75rem">
         </label>
         <label>Correo
-          <input type="email" name="correo" required style="width:100%;padding:.8rem;border:2px solid #dbb6e8;border-radius:.75rem">
+          <input type="email" name="email" required style="width:100%;padding:.8rem;border:2px solid #dbb6e8;border-radius:.75rem">
         </label>
         <label>Mensaje
-          <textarea name="mensaje" rows="5" required style="width:100%;padding:.8rem;border:2px solid #dbb6e8;border-radius:.75rem"></textarea>
+          <textarea name="mensaje" rows="5" required minlength="10" style="width:100%;padding:.8rem;border:2px solid #dbb6e8;border-radius:.75rem"></textarea>
         </label>
         <button class="btn-cohete" type="submit">Enviar mensaje</button>
       </form>
@@ -70,9 +131,11 @@
 
   <!--
 
-    el script que envía el formulario y muestra el resultado
+    los scripts: comun.js (el menú en celular y los enlaces de la sesión de la
+    barra) y el que envía el formulario y muestra el resultado
 
   -->
+  <script src="../assets/js/comun.js"></script>
   <script src="../assets/js/contacto.js"></script>
 </body>
 </html>
