@@ -79,6 +79,9 @@
    *
    */
   var API_AUTH = new URL('../../api/auth.php', document.currentScript.src).href;
+  
+  var URL_ADMIN = new URL('../../pages/admin.html', document.currentScript.src).href;
+ 
 
   /**
    *
@@ -138,6 +141,15 @@
     .then(function (datos) {
       if (!datos.ok || !datos.usuario) return;
       pintarCarrito(datos.carrito);
+         if (datos.usuario.rol === 'admin' && !document.getElementById('navAdmin')) {
+     var li = document.createElement('li');
+     li.id = 'navAdmin';
+     var a = document.createElement('a');
+     a.href = URL_ADMIN;
+     a.textContent = 'Admin';
+     li.appendChild(a);
+     enlaceCarrito.parentNode.parentNode.insertBefore(li, enlaceCarrito.parentNode);
+   }
       enlaceCuenta.textContent = 'Salir';
       enlaceCuenta.title = 'Cerrar la sesión de ' + datos.usuario.nombre;
       enlaceCuenta.href = '#';
