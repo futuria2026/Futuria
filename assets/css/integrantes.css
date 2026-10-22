@@ -1,0 +1,145 @@
+/**
+ *
+ * los estilos propios de la página de integrantes: las tarjetas del equipo con
+ * su círculo de foto que cambia entre la persona y su personaje
+ *
+ * se carga después de comun.css y cambia algunas de sus reglas solo para esta
+ * página
+ *
+ */
+
+/**
+ *
+ * en esta página los bloques centrados quedan por encima de las estrellas
+ *
+ */
+.quienes{text-align:center;position:relative;z-index:1}
+
+/**
+ *
+ * en esta página los títulos usan la fuente de títulos (Ringtall si está
+ * instalada) y van centrados
+ *
+ */
+.titulo{font-family:var(--fuente-titulo);text-align:center}
+
+/**
+ *
+ * la cuadrícula de tarjetas: una columna en celular y dos desde 820px de ancho
+ *
+ */
+.integrantes{
+  position:relative;z-index:1;
+  margin-top:3.5rem;display:grid;gap:3.5rem 3rem;
+}
+@media (min-width:820px) {
+  .integrantes{grid-template-columns:repeat(2,1fr)}
+}
+
+/**
+ *
+ * la tarjeta de un integrante, centrada
+ *
+ */
+.integrante{text-align:center}
+
+/**
+ *
+ * el nombre, en blanco; se desvanece durante el cambio de persona a personaje
+ *
+ */
+.integrante__nombre{
+  font-family:var(--fuente-demi);font-size:1.5rem;letter-spacing:.06em;
+  color:var(--hueso);margin-bottom:1.25rem;min-height:2.2rem;
+  transition:opacity .35s ease;
+}
+
+/**
+ *
+ * el círculo con la foto, con borde lila y sombra. Se puede tocar y se maneja
+ * con el teclado
+ *
+ * al pasar el mouse crece un poco y el borde se pone naranja; al enfocarlo con
+ * el teclado muestra un contorno naranja
+ *
+ */
+.integrante__circulo{
+  position:relative;width:min(16rem,70vw);aspect-ratio:1;margin-inline:auto;
+  border-radius:50%;overflow:hidden;cursor:pointer;
+  border:5px solid var(--lila);background:var(--azul-noche);
+  box-shadow:var(--sombra);
+  transition:transform .45s cubic-bezier(.34,1.4,.5,1),border-color .35s;
+}
+.integrante__circulo:hover{transform:scale(1.04);border-color:var(--naranja-vivo)}
+.integrante__circulo:focus-visible{outline:3px solid var(--naranja-vivo);outline-offset:4px}
+
+/**
+ *
+ * la foto grande, que llena todo el círculo
+ *
+ */
+.integrante__principal{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:all .55s cubic-bezier(.34,1.2,.5,1);
+}
+
+/**
+ *
+ * la foto pequeña redonda de la esquina de abajo a la derecha (el otro lado de
+ * la tarjeta), con borde blanco; crece al pasar el mouse por el círculo
+ *
+ */
+.integrante__mini{
+  position:absolute;right:6%;bottom:6%;
+  width:34%;aspect-ratio:1;object-fit:cover;
+  border-radius:50%;border:3px solid var(--hueso);
+  background:var(--hueso);
+  box-shadow:0 10px 24px -10px rgba(0,0,0,.6);
+  transition:all .55s cubic-bezier(.34,1.2,.5,1);
+  z-index:2;
+}
+.integrante__circulo:hover .integrante__mini{transform:scale(1.12)}
+
+/**
+ *
+ * cuando se muestra el personaje, el círculo tiene borde naranja y queda un
+ * poco más grande
+ *
+ */
+.integrante.es-animal .integrante__circulo{border-color:var(--naranja);transform:scale(1.06)}
+
+/**
+ *
+ * durante el cambio (clase .cambiando, 300 milisegundos) las fotos se achican,
+ * giran un poco y casi desaparecen, y el texto se desvanece
+ *
+ */
+.integrante.cambiando .integrante__principal,
+.integrante.cambiando .integrante__mini{opacity:.15;transform:scale(.9) rotate(-4deg)}
+.integrante.cambiando .integrante__nombre,
+.integrante.cambiando .integrante__descripcion{opacity:0}
+
+/**
+ *
+ * la descripción debajo del círculo, en blanco suave y de 26rem de ancho como
+ * máximo
+ *
+ */
+.integrante__descripcion{
+  margin-top:1.5rem;max-width:26rem;margin-inline:auto;
+  color:rgba(252,252,251,.86);font-size:1rem;
+  transition:opacity .35s ease;
+}
+
+/**
+ *
+ * la pastilla "INTEGRANTE" o "PERSONAJE ILUSTRADO" debajo de la descripción;
+ * con el personaje se pone naranja
+ *
+ */
+.integrante__etiqueta{
+  display:inline-block;margin-top:1rem;padding:.35rem 1rem;border-radius:999px;
+  font-family:var(--fuente-demi);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(252,252,251,.14);color:var(--hueso);
+}
+.integrante.es-animal .integrante__etiqueta{background:var(--naranja-vivo)}
