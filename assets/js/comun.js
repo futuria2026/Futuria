@@ -79,9 +79,8 @@
    *
    */
   var API_AUTH = new URL('../../api/auth.php', document.currentScript.src).href;
-  
   var URL_ADMIN = new URL('../../pages/admin.html', document.currentScript.src).href;
- 
+  var URL_PERFIL = new URL('../../pages/perfil.html', document.currentScript.src).href;
 
   /**
    *
@@ -141,15 +140,32 @@
     .then(function (datos) {
       if (!datos.ok || !datos.usuario) return;
       pintarCarrito(datos.carrito);
-         if (datos.usuario.rol === 'admin' && !document.getElementById('navAdmin')) {
-     var li = document.createElement('li');
-     li.id = 'navAdmin';
-     var a = document.createElement('a');
-     a.href = URL_ADMIN;
-     a.textContent = 'Admin';
-     li.appendChild(a);
-     enlaceCarrito.parentNode.parentNode.insertBefore(li, enlaceCarrito.parentNode);
-   }
+      if (datos.usuario.rol === 'admin' && !document.getElementById('navAdmin')) {
+        var li = document.createElement('li');
+        li.id = 'navAdmin';
+        var a = document.createElement('a');
+        a.href = URL_ADMIN;
+        a.textContent = 'Admin';
+        li.appendChild(a);
+        enlaceCarrito.parentNode.parentNode.insertBefore(li, enlaceCarrito.parentNode);
+      }
+      if (!document.getElementById('navPerfil')) {
+        var lp = document.createElement('li');
+        lp.id = 'navPerfil';
+        var ap = document.createElement('a');
+        ap.href = URL_PERFIL;
+        ap.title = 'Editar mi perfil';
+        if (datos.usuario.foto) {
+          var im = document.createElement('img');
+          im.src = datos.usuario.foto;
+          im.alt = '';
+          im.style.cssText = 'width:26px;height:26px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px';
+          ap.appendChild(im);
+        }
+        ap.appendChild(document.createTextNode('Mi perfil'));
+        lp.appendChild(ap);
+        enlaceCarrito.parentNode.parentNode.insertBefore(lp, enlaceCarrito.parentNode);
+      }
       enlaceCuenta.textContent = 'Salir';
       enlaceCuenta.title = 'Cerrar la sesión de ' + datos.usuario.nombre;
       enlaceCuenta.href = '#';
