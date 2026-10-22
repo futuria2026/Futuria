@@ -194,7 +194,7 @@ session_start();
 
 /**
  *
- * el usuario que inició sesión ({ id, nombre, correo, rol }), o null
+ * el usuario que inició sesión ({ id, nombre, correo, rol, foto }), o null
  *
  */
 function usuario_actual(): ?array
@@ -203,7 +203,7 @@ function usuario_actual(): ?array
     if (!$id) {
         return null;
     }
-    $consulta = bd()->prepare('SELECT id_usuario AS id, nombre, email AS correo, rol FROM usuarios WHERE id_usuario = ?');
+    $consulta = bd()->prepare('SELECT id_usuario AS id, nombre, email AS correo, rol, foto FROM usuarios WHERE id_usuario = ?');
     $consulta->execute([$id]);
     $usuario = $consulta->fetch();
     if (!$usuario) {
