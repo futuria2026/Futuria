@@ -4,8 +4,9 @@
  * las cuentas de usuario: registrarse, iniciar sesión, cerrar sesión y saber
  * quién inició sesión. Siempre contesta en JSON
  *
- * con GET ?accion=sesion devuelve el usuario conectado (o null) y cuántos
- * productos tiene en el carrito. Con POST recibe un JSON con la acción:
+ * con GET ?accion=sesion devuelve el usuario conectado (con su rol) o null y
+ * cuántos productos tiene en el carrito. Con GET ?accion=usuarios (solo admin)
+ * devuelve todos los usuarios. Con POST recibe un JSON con la acción:
  * { accion: "registro", nombre, correo, contrasena, confirmar },
  * { accion: "login", correo, contrasena } o { accion: "logout" }
  *
@@ -23,7 +24,22 @@ $metodo = $_SERVER['REQUEST_METHOD'];
  *
  */
 if ($metodo === 'GET') {
-    if (($_GET['accion'] ?? 'sesion') !== 'sesion') {
+    $accionGet = $_GET['accion'] ?? 'sesion';
+
+    /**
+     *
+     * solo para administradores: la lista de todos los usuarios con su rol
+     *
+     */
+    if ($accionGet === 'usuarios') {
+        requerir_admin();
+        $filas = bd()->query(
+            'SELECT id_usuario AS id, nombre, email AS correo, rol, fecha_registro FROM usuarios ORDER BY id_usuario'
+        )->fetchAll();
+        responder(['ok' => true, 'usuarios' => $filas]);
+    }
+
+    if ($accionGet !== 'sesion') {
         responder(['ok' => false, 'error' => 'Acción no reconocida.'], 400);
     }
     $usuario = usuario_actual();
@@ -134,6 +150,42 @@ if ($accion === 'logout') {
         'samesite' => $p['samesite'],
     ]);
     session_destroy();
+    responder(['ok' => true]);
+}
+
+
+/**
+ *
+ * solo para administradores: cambiar el rol de un usuario ("usuario" o
+ * "admin") o eliminar su cuenta
+ *
+ * un administrador no puede cambiarse el rol ni eliminarse a sí mismo, así
+ * siempre queda al menos un administrador. Al eliminar un usuario la base
+ * borra también sus tareas, su carrito y sus datos (ON DELETE CASCADE)
+ *
+ */
+if ($accion === 'cambiar_rol' || $accion === 'eliminar_usuario') {
+    $admin = requerir_admin();
+    $id    = (int)($entrada['id'] ?? 0);
+
+    $existe = bd()->prepare('SELECT 1 FROM usuarios WHERE id_usuario = ?');
+    $existe->execute([$id]);
+    if (!$existe->fetchColumn()) {
+        responder(['ok' => false, 'error' => 'Ese usuario no existe.'], 404);
+    }
+    if ($id === $admin['id']) {
+        responder(['ok' => false, 'error' => 'No puedes cambiar ni eliminar tu propia cuenta.'], 422);
+    }
+
+    if ($accion === 'cambiar_rol') {
+        $rol = (string)($entrada['rol'] ?? '');
+        if (!in_array($rol, ['usuario', 'admin'], true)) {
+            responder(['ok' => false, 'error' => 'Rol no válido.'], 422);
+        }
+        bd()->prepare('UPDATE usuarios SET rol = ? WHERE id_usuario = ?')->execute([$rol, $id]);
+    } else {
+        bd()->prepare('DELETE FROM usuarios WHERE id_usuario = ?')->execute([$id]);
+    }
     responder(['ok' => true]);
 }
 
