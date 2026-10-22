@@ -7,37 +7,18 @@
  * cada archivo de la API lo carga con require al principio. Al cargarse
  * inicia la sesión de PHP, que recuerda quién inició sesión con una cookie
  *
+ * CAMBIOS: (1) lee también las variables MYSQLHOST, MYSQLPORT, MYSQLDATABASE,
+ * MYSQLUSER y MYSQLPASSWORD que ya tienes en Vercel; (2) activa TLS solo si el
+ * host es de TiDB Cloud; (3) guarda las sesiones en la tabla "sesiones",
+ * porque en Vercel no hay disco compartido entre peticiones
+ *
  */
 declare(strict_types=1);
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
-/**
- *
- * las fechas y horas se calculan con la hora de Colombia (Bogotá), por
- * ejemplo para saber cuántos Pomodoros se hicieron "hoy"
- *
- */
 date_default_timezone_set('America/Bogota');
-
-/**
- *
- * inicia la sesión de PHP con una cookie más segura
- *
- * la cookie no la puede leer JavaScript (httponly), no viaja en peticiones de
- * otros sitios (samesite Lax) y, si la página está en https, solo viaja por
- * https (secure)
- *
- */
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path'     => '/',
-    'secure'   => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
-    'httponly' => true,
-    'samesite' => 'Lax',
-]);
-session_start();
 
 /**
  *
@@ -66,8 +47,11 @@ function entrada_json(): array
 
 /**
  *
- * los datos de config.php (base de datos y clave de la IA), leídos una sola
- * vez. Si el archivo no existe devuelve una lista vacía
+ * los datos de config.php o de las variables de entorno, leídos una sola vez
+ *
+ * en Vercel se leen de las variables del proyecto. Se aceptan los dos
+ * nombres: DB_HOST... o MYSQLHOST... Si config.php existe, sus valores
+ * tienen prioridad
  *
  */
 function config(): array
@@ -77,28 +61,25 @@ function config(): array
         $archivo = __DIR__ . '/config.php';
         $config = is_file($archivo) ? (require $archivo) : [];
 
-        /**
-         *
-         * en Vercel no existe config.php (no se sube a git): los datos se
-         * leen de las variables de entorno del proyecto (DB_HOST, DB_PORT,
-         * DB_NAME, DB_USER, DB_PASSWORD, DB_SSL, DB_SSL_CA e IA_API_KEY). Si config.php
-         * existe, sus valores tienen prioridad
-         *
-         */
         $entorno = [
-            'host'       => getenv('DB_HOST'),
-            'puerto'     => getenv('DB_PORT'),
-            'base'       => getenv('DB_NAME'),
-            'usuario'    => getenv('DB_USER'),
-            'contrasena' => getenv('DB_PASSWORD'),
+            'host'       => getenv('DB_HOST')     ?: getenv('MYSQLHOST'),
+            'puerto'     => getenv('DB_PORT')     ?: getenv('MYSQLPORT'),
+            'base'       => getenv('DB_NAME')     ?: getenv('MYSQLDATABASE'),
+            'usuario'    => getenv('DB_USER')     ?: getenv('MYSQLUSER'),
+            'contrasena' => getenv('DB_PASSWORD') ?: getenv('MYSQLPASSWORD'),
             'ssl'        => getenv('DB_SSL'),
             'ssl_ca'     => getenv('DB_SSL_CA'),
             'ia_api_key' => getenv('IA_API_KEY'),
         ];
         foreach ($entorno as $clave => $valor) {
             if ($valor !== false && $valor !== '' && !isset($config[$clave])) {
-                $config[$clave] = $clave === 'ssl' ? in_array(strtolower($valor), ['1', 'true', 'si'], true) : $valor;
+                $config[$clave] = $clave === 'ssl' ? in_array(strtolower((string)$valor), ['1', 'true', 'si'], true) : $valor;
             }
+        }
+
+        // TiDB Cloud solo acepta conexiones cifradas: se activa solo si el host lo es
+        if (!isset($config['ssl']) && isset($config['host']) && str_contains((string)$config['host'], 'tidbcloud.com')) {
+            $config['ssl'] = true;
         }
     }
     return $config;
@@ -107,11 +88,6 @@ function config(): array
 /**
  *
  * la conexión a la base de datos, que se abre una sola vez y se reutiliza
- *
- * lee los datos de config.php. Si el archivo no existe o la base no responde,
- * contesta con el error 500 y un mensaje claro. Usa PDO (la forma de PHP de
- * hablar con bases de datos): si una consulta falla lanza un error y las
- * filas llegan como listas con el nombre de cada columna
  *
  */
 function bd(): PDO
@@ -123,7 +99,7 @@ function bd(): PDO
 
     $c = config();
     if (!isset($c['host'], $c['base'], $c['usuario'])) {
-        responder(['ok' => false, 'error' => 'Falta configurar la base de datos (api/inc/config.php).'], 500);
+        responder(['ok' => false, 'error' => 'Falta configurar la base de datos (variables de entorno o api/inc/config.php).'], 500);
     }
     $c += ['puerto' => 3306, 'contrasena' => '', 'ssl' => false];
 
@@ -133,13 +109,6 @@ function bd(): PDO
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
 
-    /**
-     *
-     * TiDB Cloud solo acepta conexiones cifradas (TLS). Con 'ssl' => true se
-     * usa el certificado de autoridades del sistema; si el servidor lo tiene
-     * en otra ruta se indica con 'ssl_ca'
-     *
-     */
     if (!empty($c['ssl'])) {
         $ca = $c['ssl_ca'] ?? null;
         if (!$ca) {
@@ -168,11 +137,64 @@ function bd(): PDO
 
 /**
  *
- * el usuario que inició sesión ({ id, nombre, correo }), o null si nadie ha
- * iniciado sesión
+ * guarda las sesiones de PHP en la tabla "sesiones" en vez de en archivos
  *
- * busca en la base el id guardado en la sesión. Si ese usuario ya no existe,
- * cierra la sesión
+ * la base solo se toca cuando PHP realmente lee o escribe la sesión
+ *
+ */
+class SesionEnBD implements SessionHandlerInterface
+{
+    public function open(string $path, string $name): bool { return true; }
+    public function close(): bool { return true; }
+
+    public function read(string $id): string|false
+    {
+        $c = bd()->prepare('SELECT datos FROM sesiones WHERE id = ?');
+        $c->execute([$id]);
+        $datos = $c->fetchColumn();
+        return $datos === false ? '' : (string)$datos;
+    }
+
+    public function write(string $id, string $data): bool
+    {
+        bd()->prepare('REPLACE INTO sesiones (id, datos, actualizado) VALUES (?, ?, ?)')
+            ->execute([$id, $data, time()]);
+        return true;
+    }
+
+    public function destroy(string $id): bool
+    {
+        bd()->prepare('DELETE FROM sesiones WHERE id = ?')->execute([$id]);
+        return true;
+    }
+
+    public function gc(int $max_lifetime): int|false
+    {
+        $c = bd()->prepare('DELETE FROM sesiones WHERE actualizado < ?');
+        $c->execute([time() - $max_lifetime]);
+        return $c->rowCount();
+    }
+}
+
+/**
+ *
+ * inicia la sesión con una cookie más segura (httponly, samesite Lax y secure
+ * en https). Si la base no está lista, bd() responde con el error 500
+ *
+ */
+session_set_save_handler(new SesionEnBD(), true);
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path'     => '/',
+    'secure'   => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
+session_start();
+
+/**
+ *
+ * el usuario que inició sesión ({ id, nombre, correo }), o null
  *
  */
 function usuario_actual(): ?array
@@ -194,11 +216,8 @@ function usuario_actual(): ?array
 
 /**
  *
- * cuántos productos en total tiene un usuario en su carrito
- *
- * el carrito se guarda en la tabla productos_usuarios del diagrama: una fila
- * por cada unidad (3 libros = 3 filas), así no hace falta una columna de
- * cantidad
+ * cuántos productos en total tiene un usuario en su carrito (una fila por
+ * unidad en productos_usuarios)
  *
  */
 function cantidad_carrito(int $usuarioId): int
@@ -210,8 +229,7 @@ function cantidad_carrito(int $usuarioId): int
 
 /**
  *
- * convierte un precio en pesos en el texto que se muestra, por ejemplo
- * 65000 → "$65.000 COP"
+ * convierte un precio en pesos en el texto que se muestra: 65000 → "$65.000 COP"
  *
  */
 function formato_precio(int $pesos): string
