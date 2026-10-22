@@ -7,6 +7,8 @@
  * se carga antes del script propio de cada página. Todo va dentro de una
  * función que se ejecuta sola, y sus variables solo existen ahí adentro
  *
+
+ 
  */
 (function () {
   'use strict';
