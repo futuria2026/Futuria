@@ -1,5 +1,0 @@
-# Datos generados por el servidor (usuarios, sesiones de herramientas)
-datos/
-
-# Datos de conexión a la base de datos (cada servidor tiene los suyos)
-api/inc/config.php
