@@ -194,7 +194,7 @@ session_start();
 
 /**
  *
- * el usuario que inició sesión ({ id, nombre, correo }), o null
+ * el usuario que inició sesión ({ id, nombre, correo, rol }), o null
  *
  */
 function usuario_actual(): ?array
@@ -203,7 +203,7 @@ function usuario_actual(): ?array
     if (!$id) {
         return null;
     }
-    $consulta = bd()->prepare('SELECT id_usuario AS id, nombre, email AS correo FROM usuarios WHERE id_usuario = ?');
+    $consulta = bd()->prepare('SELECT id_usuario AS id, nombre, email AS correo, rol FROM usuarios WHERE id_usuario = ?');
     $consulta->execute([$id]);
     $usuario = $consulta->fetch();
     if (!$usuario) {
@@ -235,4 +235,23 @@ function cantidad_carrito(int $usuarioId): int
 function formato_precio(int $pesos): string
 {
     return '$' . number_format($pesos, 0, ',', '.') . ' COP';
+}
+
+/**
+ *
+ * deja pasar solo a un administrador. Si nadie inició sesión responde 401;
+ * si inició sesión pero su rol no es "admin" responde 403. Devuelve el
+ * usuario administrador para que el endpoint pueda usar su id
+ *
+ */
+function requerir_admin(): array
+{
+    $usuario = usuario_actual();
+    if (!$usuario) {
+        responder(['ok' => false, 'error' => 'Inicia sesión para continuar.'], 401);
+    }
+    if (($usuario['rol'] ?? 'usuario') !== 'admin') {
+        responder(['ok' => false, 'error' => 'Solo los administradores pueden hacer esto.'], 403);
+    }
+    return $usuario;
 }
