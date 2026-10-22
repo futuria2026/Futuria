@@ -156,6 +156,44 @@ if ($accion === 'logout') {
 
 /**
  *
+ * editar el perfil del usuario que inició sesión: su nombre y su foto
+ *
+ * { accion: "perfil", nombre, foto }. El nombre debe tener entre 3 y 100
+ * caracteres. La foto es opcional: si viene, es una imagen pequeña en base64
+ * (data:image/jpeg;base64,...) de hasta 60 KB; si viene vacía ("") se quita
+ * la foto; si no viene el campo, la foto no cambia
+ *
+ */
+if ($accion === 'perfil') {
+    $usuario = usuario_actual();
+    if (!$usuario) {
+        responder(['ok' => false, 'error' => 'Inicia sesión para editar tu perfil.'], 401);
+    }
+    $nombre = trim((string)($entrada['nombre'] ?? $usuario['nombre']));
+    if (mb_strlen($nombre) < 3 || mb_strlen($nombre) > 100) {
+        responder(['ok' => false, 'error' => 'El nombre debe tener entre 3 y 100 caracteres.', 'campo' => 'nombre'], 422);
+    }
+
+    if (array_key_exists('foto', $entrada)) {
+        $foto = (string)$entrada['foto'];
+        if ($foto === '') {
+            $valor = null;
+        } elseif (strlen($foto) > 60000 || !preg_match('#^data:image/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$#', $foto)) {
+            responder(['ok' => false, 'error' => 'La foto no es válida o pesa demasiado.', 'campo' => 'foto'], 422);
+        } else {
+            $valor = $foto;
+        }
+        bd()->prepare('UPDATE usuarios SET nombre = ?, foto = ? WHERE id_usuario = ?')
+            ->execute([$nombre, $valor, $usuario['id']]);
+    } else {
+        bd()->prepare('UPDATE usuarios SET nombre = ? WHERE id_usuario = ?')
+            ->execute([$nombre, $usuario['id']]);
+    }
+    responder(['ok' => true, 'usuario' => usuario_actual()]);
+}
+
+/**
+ *
  * solo para administradores: cambiar el rol de un usuario ("usuario" o
  * "admin") o eliminar su cuenta
  *
