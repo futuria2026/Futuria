@@ -2,7 +2,7 @@
 /**
  *
  * le entrega a la página de entrevistas la lista de profesionales
- * entrevistados en JSON, uno por cada área (salud, humanidades, ciencias...)
+ * entrevistados en JSON, una por cada área
  *
  * los datos están escritos aquí mismo. La página los pide con fetch() y arma
  * un acordeón: cada área se abre y muestra la foto, los dos consejos y el
@@ -20,13 +20,33 @@ header('Cache-Control: no-store');
  *
  */
 $entrevistas = [
- ['area'=>'Salud','nombre'=>'Dra. Valentina Ríos','profesion'=>'Médica general','imagen'=>'../assets/img/salud.jpg','audio'=>'../assets/audio/salud.mp3','orientacion'=>'Conoce qué problemas disfrutas resolver y busca experiencias reales antes de elegir. Una conversación o un voluntariado puede aclararte mucho más que una lista de carreras.','carrera'=>'La medicina exige constancia y empatía. Aprende a pedir ayuda, cuida tu descanso y recuerda que detrás de cada caso hay una persona.'],
- ['area'=>'Salud','nombre'=>'Dra. Valentina Ríos','profesion'=>'Médica general','imagen'=>'../assets/img/salud.jpg','audio'=>'../assets/audio/salud.mp3','orientacion'=>'Conoce qué problemas disfrutas resolver y busca experiencias reales antes de elegir. Una conversación o un voluntariado puede aclararte mucho más que una lista de carreras.','carrera'=>'La medicina exige constancia y empatía. Aprende a pedir ayuda, cuida tu descanso y recuerda que detrás de cada caso hay una persona.'],
- ['area'=>'Humanidades','nombre'=>'Santiago Mejía','profesion'=>'Abogado y mediador','imagen'=>'../assets/img/humanidades.jpg','audio'=>'../assets/audio/humanidades.mp3','orientacion'=>'Pregúntate qué conversaciones despiertan tu curiosidad. Si disfrutas comprender a las personas, argumentar y transformar conflictos, explora las humanidades.','carrera'=>'Lee más allá de las materias obligatorias y practica explicar ideas complejas con claridad. La escucha es tan importante como una buena argumentación.'],
- ['area'=>'Ciencias','nombre'=>'Laura Fernández','profesion'=>'Bióloga investigadora','imagen'=>'../assets/img/ciencias.jpg','audio'=>'../assets/audio/ciencias.mp3','orientacion'=>'No busques una carrera perfecta: identifica las preguntas que te emocionaría investigar durante años y prueba talleres o semilleros relacionados.','carrera'=>'Acepta que equivocarse es parte del método. Documenta tus procesos, fortalece las matemáticas y conserva siempre la curiosidad.'],
- ['area'=>'Tecnología','nombre'=>'Daniel Torres','profesion'=>'Ingeniero de software','imagen'=>'../assets/img/tecnologia.jpg','audio'=>'../assets/audio/tecnologia.mp3','orientacion'=>'Construye un proyecto pequeño antes de decidir. La tecnología tiene muchos caminos y experimentar te mostrará si disfrutas crear soluciones digitales.','carrera'=>'Practica con proyectos propios, aprende a trabajar en equipo y no memorices herramientas: comprende los fundamentos y mantente aprendiendo.'],
- ['area'=>'Arte y Diseño','nombre'=>'Camila Ortiz','profesion'=>'Diseñadora visual','imagen'=>'../assets/img/arte-diseno.jpg','audio'=>'../assets/audio/arte-diseno.mp3','orientacion'=>'Observa qué haces incluso cuando nadie te lo pide. Si dibujar, imaginar o comunicar visualmente te absorbe, convierte esa curiosidad en un portafolio.','carrera'=>'Guarda cada proceso, no solo el resultado. Aprende a recibir críticas sin perder tu voz y diseña pensando en las personas que usarán tu trabajo.'],
- ['area'=>'Entretenimiento','nombre'=>'Mateo Salazar','profesion'=>'Productor audiovisual','imagen'=>'../assets/img/entretenimiento.jpg','audio'=>'../assets/audio/entretenimiento.mp3','orientacion'=>'Explora teatro, música, cine o producción con proyectos cortos. El entretenimiento reúne perfiles creativos, técnicos y de gestión.','carrera'=>'Sé puntual, crea una red de colaboradores y termina lo que empiezas. Un proyecto completo enseña más que muchas ideas guardadas.']
+  [
+    'area'        => 'Transporte - Piloto',
+    'nombre'      => 'Jacobo Román',
+    'profesion'   => 'Aviación',
+    'imagen'      => '../assets/img/piloto.jpg',
+    'audio'       => '../assets/audio/jacobo.mp3',
+    'orientacion' => 'Le diría que primero estudie algo que le guste; a mí me parece que estudiar algo que a uno no le guste es un infierno  y me he dado cuenta de que en cualquier área o cualquier campo que uno escoja, uno mismo se hace su destino',
+    'carrera'     => 'SIIII.',
+  ],
+  [
+    'area'        => 'Entretenimiento - Streamer',
+    'nombre'      => 'Juan Felipe Restrepo (Ñe)',
+    'profesion'   => 'Streamer - Estudiante',
+    'imagen'      => '../assets/img/stremer.jpg',
+    'audio'       => '../assets/audio/ñe.mp3',
+    'orientacion' => '.',
+    'carrera'     => 'La verdad es muy complejo, pero también trato de asimilarlo mucho con las personas que trabajan y estudian al mismo tiempo ya que la creación de contenido es como un trabajo y se le tiene que dedicar mucho tiempo para que pueda ser rentable.',
+  ],
+  [
+    'area'        => 'Social y Humanidades - Abogado',
+    'nombre'      => 'Santiago Mejía',
+    'profesion'   => 'Abogado',
+    'imagen'      => '../assets/img/abogado.jpg',
+    'audio'       => '../assets/audio/sebastian.mp3',
+    'orientacion' => 'SIIIII.',
+    'carrera'     => 'Si vas a estudiar derecho, dedícate completamente, lee más de lo que te dan en clases, estudia muchos libros, busca prácticas adicionales, no te quedes con lo mínimo',
+  ],
 ];
 
 /**
@@ -34,4 +54,4 @@ $entrevistas = [
  * envía la lista con ok: true y cuántas entrevistas hay
  *
  */
-echo json_encode(['ok'=>true,'total'=>count($entrevistas),'entrevistas'=>$entrevistas], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+echo json_encode(['ok' => true, 'total' => count($entrevistas), 'entrevistas' => $entrevistas], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
