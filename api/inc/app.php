@@ -66,8 +66,8 @@ function entrada_json(): array
 
 /**
  *
- * los datos de config.php (base de datos y clave de la IA), leídos una sola
- * vez. Si el archivo no existe devuelve una lista vacía
+ * lee config.php y las variables MYSQL del entorno una sola vez. Si el archivo
+ * no existe, usa solo las variables de entorno disponibles
  *
  */
 function config(): array
@@ -75,7 +75,32 @@ function config(): array
     static $config = null;
     if ($config === null) {
         $archivo = __DIR__ . '/config.php';
-        $config = is_file($archivo) ? (require $archivo) : [];
+        $datos = is_file($archivo) ? (require $archivo) : [];
+        $config = is_array($datos) ? $datos : [];
+
+        $variables = [
+            'host'       => ['MYSQLHOST', 'MYSQL_HOST'],
+            'puerto'     => ['MYSQLPORT', 'MYSQL_PORT'],
+            'base'       => ['MYSQLDATABASE', 'MYSQL_DATABASE'],
+            'usuario'    => ['MYSQLUSER', 'MYSQL_USER'],
+            'contrasena' => ['MYSQLPASSWORD', 'MYSQL_PASSWORD'],
+        ];
+
+        foreach ($variables as $clave => $nombres) {
+            foreach ($nombres as $nombre) {
+                $valor = getenv($nombre);
+                if ($valor === false || $valor === '') {
+                    $valor = $_ENV[$nombre] ?? false;
+                }
+                if ($valor === false || $valor === '') {
+                    $valor = $_SERVER[$nombre] ?? false;
+                }
+                if (is_scalar($valor) && (string)$valor !== '') {
+                    $config[$clave] = (string)$valor;
+                    break;
+                }
+            }
+        }
     }
     return $config;
 }
@@ -84,7 +109,7 @@ function config(): array
  *
  * la conexión a la base de datos, que se abre una sola vez y se reutiliza
  *
- * lee los datos de config.php. Si el archivo no existe o la base no responde,
+ * lee la configuración de config.php o del entorno. Si la base no responde,
  * contesta con el error 500 y un mensaje claro. Usa PDO (la forma de PHP de
  * hablar con bases de datos): si una consulta falla lanza un error y las
  * filas llegan como listas con el nombre de cada columna
@@ -99,7 +124,7 @@ function bd(): PDO
 
     $c = config();
     if (!isset($c['host'], $c['base'], $c['usuario'])) {
-        responder(['ok' => false, 'error' => 'Falta configurar la base de datos (api/inc/config.php).'], 500);
+        responder(['ok' => false, 'error' => 'Falta configurar la base de datos (variables MYSQL o api/inc/config.php).'], 500);
     }
     $c += ['puerto' => 3306, 'contrasena' => ''];
 
